@@ -16,8 +16,6 @@
     </div>
 </div>
 
-
-
 <!-- Start Banner Hero -->
 <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
     <ol class="carousel-indicators">
@@ -27,70 +25,14 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./View/assets/img/banner_img_01.jpg" alt="">
-                    </div>
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <div class="text-align-left align-self-center">
-                            <h1 class="h1 text-success"><b>Zay</b> eCommerce</h1>
-                            <h3 class="h2">Tiny and Perfect eCommerce Template</h3>
-                            <p>
-                                Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1).
-                                This template is 100% free provided by <a rel="sponsored" class="text-success"
-                                    href="https://templatemo.com" target="_blank">TemplateMo</a> website.
-                                Image credits go to <a rel="sponsored" class="text-success"
-                                    href="https://stories.freepik.com/" target="_blank">Freepik Stories</a>,
-                                <a rel="sponsored" class="text-success" href="https://unsplash.com/"
-                                    target="_blank">Unsplash</a> and
-                                <a rel="sponsored" class="text-success" href="https://icons8.com/" target="_blank">Icons
-                                    8</a>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img style="height: 500px" class="img-fluid" src="./View/assets/img/upload/slide_2_img.webp" alt="">
         </div>
         <div class="carousel-item">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./View/assets/img/banner_img_02.jpg" alt="">
-                    </div>
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <div class="text-align-left">
-                            <h1 class="h1">Proident occaecat</h1>
-                            <h3 class="h2">Aliquip ex ea commodo consequat</h3>
-                            <p>
-                                You are permitted to use this Zay CSS template for your commercial websites.
-                                You are <strong>not permitted</strong> to re-distribute the template ZIP file in any
-                                kind of template collection websites.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img style="height: 500px" class="img-fluid" src="./View/assets/img/upload/slide_8_img.webp" alt="">
         </div>
         <div class="carousel-item">
-            <div class="container">
-                <div class="row p-5">
-                    <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                        <img class="img-fluid" src="./View/assets/img/banner_img_03.jpg" alt="">
-                    </div>
-                    <div class="col-lg-6 mb-0 d-flex align-items-center">
-                        <div class="text-align-left">
-                            <h1 class="h1">Repr in voluptate</h1>
-                            <h3 class="h2">Ullamco laboris nisi ut </h3>
-                            <p>
-                                We bring you 100% free CSS templates for your websites.
-                                If you wish to support TemplateMo, please make a small contribution via PayPal or tell
-                                your friends about our website. Thank you.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img style="height: 500px; width: 100%" class="img-fluid"
+                src="./View/assets/img/upload/kham-pha-lich-su-cac-logo3.jpg" alt="">
         </div>
     </div>
     <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
@@ -104,35 +46,78 @@
 </div>
 <!-- End Banner Hero -->
 
+<h2  class="chophighlight text-center">Chúng tôi khuyến khích bạn mua hàng bằng tài khoản để có cơ hội trở thành khách hàng thân thuộc của chúng tôi</h2>
 
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-lg-6">
+            <img style="border-radius: 10px; height: 533px" class="w-100" src="View/assets/img/upload/messi.jpg" alt="">
+        </div>
+        <div class="col-lg-6">
+            <img style="border-radius: 10px" class="w-100" src="View/assets/img/upload/neymar.webp" alt="">
+        </div>
+    </div>
+</div>
 <!-- Start Categories of The Month -->
-<section class="container py-5">
-    <div class="row text-center pt-3">
-        <div class="col-lg-6 m-auto">
-            <h1 class="h1">Categories of The Month</h1>
-            <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
+<section class="container-fluid py-5">
+    <div class="d-flex justify-content-between">
+        <div class="col-lg-6">
+            <h2>TẤT CẢ SẢN PHẨM</h2>
+        </div>
+        <div class="col-lg-6">
+            <div class="d-flex justify-content-end">
+                <span class="mt-1 mx-4">Sắp xếp theo:</span>
+                <select id="arrange_select" class="w-50 form-select" aria-label="Default select example">
+                    <option <?php echo ((isset($_GET['act']) && $_GET['act'] == 'home') || (isset($_GET['action']) && $_GET['action'] == 'home')) ? 'selected' : ''; ?> value="0">Tất cả sản phẩm</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'futsal' ? 'selected' : ''; ?> value="1">Giày Futsal</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'football' ? 'selected' : ''; ?> value="2">Giày Cỏ Nhân Tạo</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'decrease' ? 'selected' : ''; ?> value="3">Giá: giảm dần</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'ascending' ? 'selected' : ''; ?> value="4">Giá: tăng dần</option>
+                </select>
+
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./View/assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
-            <h5 class="text-center mt-3 mb-3">Watches</h5>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
+        <?php
+        $product = new Product();
+        if(isset($_GET['act']) && $_GET['act'] == 'futsal') {
+            $result_product = $product->getAll_ShoesFutsal();
+        }else if(isset($_GET['act']) && $_GET['act'] == 'football') {
+            $result_product = $product->getAll_ShoesFootball();
+        }else if(isset($_GET['act']) && $_GET['act'] == 'decrease') {
+            $result_product = $product->getPrice_Decrease();
+        }else if(isset($_GET['act']) && $_GET['act'] == 'ascending') {
+            $result_product = $product->getPrice_Ascending();
+        }else {
+            $result_product = $product->getProduct_ByNamePriceDiscount();
+        }
+        while ($result_set = $result_product->fetch()):
+            ?>
+        <div class="col-lg-3 mb-3">
+            <a href="index.php?action=details_product&id=<?php echo $result_set['id']?>"><img class="mb-3 image" style="width: 16.5rem; border-radius: 30px" src="View/assets/img/upload/<?php echo $result_set['img']?>" alt=""></a>
+            <a href="index.php?action=details_product&id=<?php echo $result_set['id']?>" class="fw-bold text-secondary text-decoration-none fs-6" style="min-height: 55px"><?php echo $result_set['name']?></a>
+            <div class="d-flex mx-5">
+                <?php 
+                    if($result_set['discount'] > 0) {
+                        echo "<span class='fs-6 text-danger fw-bold mx-1'>".number_format($result_set['discount'])."đ</span>";
+                        echo "<span class='fs-6 text-secondary fw-bolder mx-1 text-decoration-line-through'>".number_format($result_set['price'])."đ</span>";
+                    }else {
+                        echo "<span class='fs-6 text-danger fw-bold mx-1'>".number_format($result_set['price'])."đ</span>";
+                    }
+                ?>
+            </div>
         </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./View/assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./View/assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-            <p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-        </div>
+        <?php endwhile ?>
     </div>
+    <!-- Pagination -->
+    <ul id="paginate" class="d-flex justify-content-center list-unstyled">
+        <li class="mx-2 fs-3 fw-bolder"><i class="bi bi-chevron-left"></i></li>
+        <li><span class="mx-2 fs-3 fw-bolder">1</span></li>
+        <li><span class="mx-2 fs-3 fw-bolder">2</span></li>
+        <li><span class="mx-2 fs-3 fw-bolder">3</span></li>
+        <li class="mx-2 fs-3 fw-bolder"><i class="bi bi-chevron-right"></i></li>
+    </ul>
 </section>
 <!-- End Categories of The Month -->
 
@@ -142,90 +127,34 @@
     <div class="container py-5">
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Featured Product</h1>
-                <p>
-                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident.
-                </p>
+                <h1 class="h1">TIN TỨC GIÀY</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./View/assets/img/feature_prod_01.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$240.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia
-                            deserunt.
-                        </p>
-                        <p class="text-muted">Reviews (24)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./View/assets/img/feature_prod_02.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$480.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
-                        <p class="card-text">
-                            Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo
-                            ullamcorper.
-                        </p>
-                        <p class="text-muted">Reviews (48)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./View/assets/img/feature_prod_03.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$360.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
-                        <p class="card-text">
-                            Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque
-                            ipsum lobortis nec.
-                        </p>
-                        <p class="text-muted">Reviews (74)</p>
-                    </div>
-                </div>
-            </div>
+            <!-- Phát triển ở đây -->
         </div>
     </div>
 </section>
 <!-- End Featured Product -->
+
+<style>
+    .image:hover {
+        transform: scale(1.05);
+        transition: 0.2s;
+    }
+
+    @keyframes chophighlight {
+        0% { color: white; text-shadow: 0 0 5px white; }
+        50% { color: black; text-shadow: 0 0 5px black; }
+        100% { color: white; text-shadow: 0 0 5px white; }
+    }
+
+    .chophighlight {
+        animation: chophighlight 2s infinite;
+    }
+
+    .fw-bolder {
+        cursor: pointer;
+    }
+
+</style>

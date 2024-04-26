@@ -6,7 +6,7 @@
             echo "<form id='register' class='form shadow p-3 mb-5 bg-body-tertiary rounded'>";
             echo '<h2 class="form-title">Đăng ký</h2>';
          } else {
-            echo "<form class='form shadow p-3 mb-5 bg-body-tertiary rounded'>";
+            echo "<form id='formLogin_User' class='form shadow p-3 mb-5 bg-body-tertiary rounded'>";
             echo '<h2 class="form-title">Đăng nhập</h2>';
          }
 
@@ -55,16 +55,44 @@
 
 
          <p class="signup-link">
-            Bạn chưa có tài khoản?
+            Bạn đã có tài khoản?
             <?php
             if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'register') {
                ?>
-               <a href="index.php?action=user&act=login">Đăng nhập</a>
+               <a class="text-decoration-none" href="index.php?action=user&act=login">Đăng nhập</a>
             <?php } else { ?>
-               <a href="index.php?action=user&act=register">Đăng ký</a>
+               <a class="text-decoration-none" href="index.php?action=user&act=register">Đăng ký</a>
             <?php } ?>
          </p>
+
+         <?php 
+           if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'login') {
+         ?>
+         <!-- Button trigger modal -->
+         <a type="button" class="text-primary text-decoration-none" style="margin-left: 120px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Quên mật khẩu</a>
+         <?php }?>
          </form>
+      </div>
+   </div>
+   <!-- Modal -->
+   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Lấy lại mật khẩu</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <form id="Form_Mail">
+                     <label for="" class="form-label">Email</label>
+                     <input id="confirm_email" placeholder="Nhập email của bạn" type="text" class="form-control"></input>
+                     <small id="confirm_email_error" class="text-danger"></small> <br>
+                     <button type="submit" class="btn btn-secondary mt-3">Gửi</button>
+                  </form>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </div>

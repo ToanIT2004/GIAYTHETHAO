@@ -8,8 +8,14 @@
                href="mailto:info@company.com">chuongtoan1602@gmail.com</a>
             <i class="fa fa-phone mx-2"></i>
             <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">070-303-8870</a>
+            <?php if(isset($_SESSION['lastname'])):?>
+            <a href="index.php?action=user&act=logout_User">
+               <i class="bi bi-box-arrow-right mx-2"></i>
+            </a>
+            <?php endif?>
          </div>
          <div>
+
             <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
                   class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
             <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
@@ -58,14 +64,19 @@
             </ul>
          </div>
          <div class="navbar align-self-center d-flex">
-            <a class="nav-icon position-relative text-decoration-none" href="#">
+            <a class="nav-icon position-relative text-decoration-none" href="index.php?action=cart">
                <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-               <span
-                  class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+               <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
             </a>
+            <?php 
+               if(isset($_SESSION['lastname'])) {
+                  echo 'Hi ,<span class="text-secondary">'. $_SESSION['lastname'].'!</span>';
+               }else {
+            ?>
             <a class="nav-icon position-relative text-decoration-none" href="index.php?action=user&act=login">
                <i class="fa fa-fw fa-user text-dark mr-3"></i>
             </a>
+            <?php }?>
          </div>
       </div>
 

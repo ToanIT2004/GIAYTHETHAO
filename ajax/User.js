@@ -1,5 +1,5 @@
 $(document).ready(() => {
-   // Register
+   // Register Nguời dùng
    $(document).on('submit', '#register', (event)=> {
       event.preventDefault(); // Ngăn chặn mặc định của thẻ form
       // Xử lý tên trống 
@@ -67,21 +67,6 @@ $(document).ready(() => {
          })
       }
    })
-
-   // // Đổ dữ liệu từ server ra
-   // $.ajax({
-   //    url: 'Controller/Admin/user.php?act=getAll_User',
-   //    method: 'GET',
-   //    dataType: 'json',
-   //    success: (res) => {
-   //       console.log(res);
-   //    }
-   // })
-   // // Tìm kiếm khách hàng bằng email 
-   // $(document).on('input', '#search_User', function() {
-   //    let value_search = $(this).val().toLowerCase();
-   //    console.log(value_search);
-   // }) 
    
    // Sửa khách hàng
    $(document).on('click', '#update_action', function (event) {
@@ -201,6 +186,44 @@ $(document).ready(() => {
                setTimeout(function() {
                   window.location.reload();
                }, 1500);
+            }
+         }
+      })
+   })
+
+   // Đăng nhập người dùng
+   $('#formLogin_User').on('submit', function(e) {
+      e.preventDefault();
+      email = $('#email').val();
+      password = $('#password').val();
+      $.ajax({
+         url: 'Controller/User.php?act=login_action',
+         method: 'post',
+         data: {
+            email: email,
+            password: password,
+         },
+         dataType: 'json',
+         success: (res) => {
+            if(res.status == 200) {
+               Swal.fire({
+                  position: "top-center",
+                  icon: "success",
+                  title: "Đăng nhập thành công",
+                  showConfirmButton: false,
+                  timer: 1500
+               });
+               setTimeout(() => {
+                  window.location.href = 'index.php?action=home';
+               }, 1500);
+            }else {
+               Swal.fire({
+                  position: "top-center",
+                  icon: "error",
+                  title: "Tài khoản hoặc mật khẩu không đúng",
+                  showConfirmButton: false,
+                  timer: 1500
+               });
             }
          }
       })

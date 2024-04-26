@@ -52,16 +52,10 @@
 
                   <div class="form-group mb-3">
                      <label class="form-label">Hình ảnh</label>
-                     <!-- <input type="file" id="img" class="form-control"> -->
-                     <div class="d-flex">
-                       <label for="file"> <img style="width: 200px; height: 200px" value="" id="prevent_img" src="" alt=""> </label>
-                        <span id="img_error" class="text-danger mx-5"></span>
-                     </div>
-                     <!--  -->
-                     <input type="text" id="link_url" value="" hidden name="link_url">
-                     <input type="file" id="file" hidden accept=".png,.jpeg,.jpg,.gif,.webp" name="avatar">
-                     <div id="upload_img" class="btn btn-primary mb-3 ">cập nhật hình</div>
-                     <!--  -->
+
+                     <input class="form-control" accept=".jpeg, .png, .jpg, .webp" type="file" id="img">
+                     <img style="width: 200px; height: 200px;" id="prevent_img" src="" alt="">
+                     <a id="upload_img" class="btn btn-primary">Cập nhật ảnh</a>
                   </div>
 
                   <button class="btn btn-primary">Chỉnh sửa</button>
@@ -88,7 +82,8 @@
       $('#descriptions_product').val(product.descriptions);
       $('#shoes_type').val(product.shoes_type_id);
       $('#brand').val(product.brand_id);
+      $('#img_old').val("./View/assets/img/upload/" + product.img); 
       $('#prevent_img').attr('src', "./View/assets/img/upload/" + product.img); 
-      $('#link_url').attr('value', "./View/assets/img/upload/" + product.img); 
+      // $('#link_url').attr('value', "./View/assets/img/upload/" + product.img); 
    })
 </script>

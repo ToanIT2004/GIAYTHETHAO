@@ -8,6 +8,22 @@
          return $API->get_All("SELECT * FROM product");
       }
 
+      // Lấy sản phẩm theo tên, giá, giảm giá
+      function getProduct_ByNamePriceDiscount() {
+         $API = new API();
+         return $API->get_All("SELECT DISTINCT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, ctsp.price, ctsp.discount
+         FROM product as sp, details_product as ctsp 
+         WHERE sp.id = ctsp.product_id");
+      }
+
+      // Lấy chi tiết sản phẩm bảng product và product_id
+      function getOne_DetailProduct($id) {
+         $API = new API();
+         return $API->get_one("SELECT DISTINCT sp.id, sp.name as tensp, shoes_type.name as tenloai, brand.name_brand, sp.descriptions, sp.img, ctsp.img1, ctsp.img2, ctsp.img3, ctsp.price, ctsp.discount 
+         FROM product as sp, details_product as ctsp , brand, shoes_type 
+         WHERE sp.id = ctsp.product_id AND sp.brand_id = brand.id AND sp.shoes_type_id = shoes_type.id AND sp.id=$id");
+      }
+
       // Lấy sản phẩm bằng ID 
       function getByID_Product($id) {
          $API = new API();
@@ -84,6 +100,66 @@
       function update_ProductDetails($price, $discount, $quantity, $img1, $img2, $img3, $id) {
          $API = new API();
          return $API->add_delete_update("UPDATE details_product SET `price`='$price',`discount`='$discount',`quantity`='$quantity',`img1`='$img1',`img2`='$img2',`img3`='$img3' WHERE id=$id");
+      }
+
+      // Lấy ra tất cả giày futsal
+      function getAll_ShoesFutsal() {
+         $API = new API();
+         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=5 AND sp.id = ctsp.product_id');
+      }
+
+      // Lấy ra tất cả giày cỏ nhân tạo
+      function getAll_ShoesFootball() {
+         $API = new API();
+         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=4 AND sp.id = ctsp.product_id');
+      }
+
+      // Sắp xếp theo giá giảm dần
+      function getPrice_Decrease() {
+         $API = new API();
+         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price DESC');
+      }
+
+      // Sắp xếp theo giá tăng dần
+      function getPrice_Ascending() {
+         $API = new API();
+         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price ASC');
+      }
+
+      // Trừ số lượng tồn trong chi tiết sản phẩm theo tên, size
+      function decrease_quantity($product_name, $size, $quantity) {
+         $API = new API();
+         return $API->add_delete_update("UPDATE details_product AS ctsp
+         JOIN product AS sp ON sp.id = ctsp.product_id
+         JOIN size ON ctsp.size_id = size.id
+         SET ctsp.quantity = ctsp.quantity - $quantity
+         WHERE sp.name = '$product_name' AND size.size = $size;
+         ");
+      }
+
+      // Lấy ra số lượng tồn bằng tên và size 
+      function getQuantity_ByNameSize($product_name, $size) {
+         $API = new API();
+         return $API->get_one("SELECT sp.id, sp.name, ctsp.size_id, size.size, ctsp.quantity 
+         FROM product AS sp JOIN details_product AS ctsp ON sp.id = ctsp.product_id 
+         JOIN size ON ctsp.size_id = size.id 
+         WHERE sp.name = '$product_name' AND size.size = $size"); 
+      }
+
+      // Lấy tổng số lượng tồn của từng sản phẩm
+      function getAll_Quantity($id) {
+         $API = new API();
+         return $API->get_All("SELECT SUM(ctsp.quantity) as count
+         FROM product as sp, details_product as ctsp 
+         WHERE sp.id = ctsp.product_id AND sp.id = $id");
+      }
+
+      // Lấy tổng số lượng tồn của từng size theo sản phẩm
+      function getSize_Quantity($id, $size_id) {
+         $API = new API();
+         return $API->get_All("SELECT SUM(ctsp.quantity) as count 
+         FROM product as sp, details_product as ctsp 
+         WHERE sp.id = ctsp.product_id AND sp.id=$id AND ctsp.size_id=$size_id");
       }
    }
    

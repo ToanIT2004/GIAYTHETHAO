@@ -18,7 +18,13 @@
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="admin.php?action=user">Khách hàng</a>
-                                <a class="dropdown-item" href="#">Nhân viên</a>
+                                <a class="dropdown-item" href="admin.php?action=contact">Liên hệ<span class="rounded-border mx-1">
+                                    <?php 
+                                        $contact = new Contact();
+                                        $result_contact = $contact->count_contact()->fetch();
+                                        echo $result_contact['dem']
+                                    ?>
+                                </span></a>
                                 <a class="dropdown-item" href="admin.php?action=user&act=khoiphuc">Khôi phục</a>
                             </div>
                         </li>
@@ -50,17 +56,25 @@
                         <!-- Báo cáo -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Báo Cáo
+                                Quản trị đơn hàng
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Tháng</a>
-                                <a class="dropdown-item" href="#">Quý</a>
-                                <a class="dropdown-item" href="#">Năm</a>
+                                <a class="dropdown-item" href="admin.php?action=order">Đơn hàng
+                                    <span class="rounded-border mx-1">
+                                        <?php 
+                                            $Order = new Order();
+                                            $result_contact = $Order->getAll_WaitOrder()->fetch();
+                                            echo $result_contact['total_orders'];
+                                        ?>
+                                    </span>
+                                </a>
+                                <a class="dropdown-item" href="admin.php?action=order&act=deliveried">Đã giao</a>
+                                <a class="dropdown-item" href="#">Hủy đơn</a>
                             </div>
                         </li>
                         <!-- Báo cáo Tồn kho -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Tồn Kho</a>
+                            <a class="nav-link" href="admin.php?action=login&act=dangxuat">Đăng xuất</a>
                         </li>
                     </ul>
                 </nav>
@@ -68,7 +82,17 @@
         </div>
 
     </section>
-
-
-
 </header>
+
+<style>
+    .rounded-border {
+        display: inline-block;
+        padding-left: 6px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #666; /* Màu và kích thước của đường viền */
+        background-color: green;
+        color: white;
+        border-radius: 10px; /* Độ cong của đường viền để tạo hình tròn */
+    }
+</style>

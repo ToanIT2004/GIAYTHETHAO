@@ -2,6 +2,15 @@
     include "./Model/User.php";
     include "./Model/API.php";
     include "./Model/DBConfig.php";
+    include "./Model/Shoes_Type.php";
+    include "./Model/Brand.php";
+    include "./Model/Size.php";
+    include "./Model/Product.php";
+    include "./Model/Address_Order.php";
+    include "./Model/Order.php";
+    include "./Model/Contact.php";
+    include "./Model/Status.php";
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +19,9 @@
 <head>
     <title>Zay Shop eCommerce HTML CSS Template</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
@@ -48,6 +59,15 @@
     <script src="./View/assets/js/custom.js"></script>
     <script src="ajax/login.js"></script>
     <script src="ajax/User.js"></script>
+    <script src="ajax/Cart.js"></script>
+    <script src="ajax/Product.js"></script>
+    <script src="ajax/Details_Product.js"></script>
+    <script src="ajax/Address_Order.js"></script>
+    <script src="ajax/Order.js"></script>
+    <script src="ajax/PHPMailer.js"></script>
+    <script src="ajax/home.js"></script>
+    <script src="ajax/Contact.js"></script>
+    <script src="ajax/Pagination.js"></script>
 
     <!-- End Script -->
 

@@ -38,24 +38,26 @@
                      <div class="d-flex justify-content-between mb-3">
                         <div class="form-group mb-3">
                            <label class="form-label">Hình phụ 1</label>
-                           <input style="width: 350px" type="file" id="img1" class="form-control">
+                           <input accept=".jpg, .webp, .jpeg, .png" style="width: 350px" type="file" id="img1" class="form-control">
                            <img id="preview_img1" value="" alt="Preview Image" style="max-width: 100px; max-height: 100px;">
                            <a id="upload_img1" class="btn btn-primary">Cập nhật ảnh</a>
-                        </div>
+                        </div>   
                         <div class="form-group mb-3">
                            <label class="form-label">Hình phụ 2</label>
-                           <input style="width: 350px" type="file" id="img2" class="form-control">
+                           <input accept=".jpg, .webp, .jpeg, .png" style="width: 350px" type="file" id="img2" class="form-control">
                            <img id="preview_img2" value="" alt="Preview Image" style="max-width: 100px; max-height: 100px;">
+                           <a id="upload_img2" class="btn btn-primary">Cập nhật ảnh</a>
                         </div>
                      </div>
 
                      <div class="form-group mb-3">
                         <label class="form-label">Hình phụ 3</label>
-                        <input type="file" id="img3" class="form-control">
+                        <input accept=".jpg, .webp, .jpeg, .png" type="file" id="img3" class="form-control">
                         <img id="preview_img3" value="" alt="Preview Image" style="max-width: 100px; max-height: 100px;">
+                        <a id="upload_img3" class="btn btn-primary">Cập nhật ảnh</a>
                      </div>
                      <small id="img_error" class="text-danger"></small>
-                     <button name="detailsPro_submit" type="submit" class="btn btn-primary w-100">Thêm</button>
+                     <button name="detailsPro_submit" type="submit" class="btn btn-primary w-100">Cập nhật</button>
                </form>
             </div>
          </div>
