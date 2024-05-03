@@ -212,14 +212,12 @@
                 <img class="card-img rounded-0 img-fluid" src="./View/assets/img/upload/${product.img}">
                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                     <ul class="list-unstyled">
-                        <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
                         <li><a id="Product_id" data-product-id="${product.id}" class="btn btn-success text-white mt-2" href="index.php?action=details_product&id=${product.id}"><i class="far fa-eye"></i></a></li>
-                        <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
                     </ul>
                 </div>
             </div>
             <div class="card-body" style="min-height: 180px;">
-                <a href="shop-single.html" class="h3 text-decoration-none">${product.name}</a>
+                <a href="index.php?action=details_product&id=${product.id}" class="h3 text-decoration-none">${product.name}</a>
                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                     <li class="pt-2">
                         <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>

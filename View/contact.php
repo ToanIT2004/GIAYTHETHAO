@@ -16,6 +16,7 @@
                 <div class="form-group col-md-6 mb-3">
                     <label for="inputname">Tên của bạn</label>
                     <input type="text" class="form-control mt-1" id="fullname" name="fullname" placeholder="Nhập họ tên của bạn">
+                    <small id="fullname_error" class="text-danger"></small>
                 </div>
                 <div class="form-group col-md-6 mb-3">
                     <label for="inputemail">Email</label>

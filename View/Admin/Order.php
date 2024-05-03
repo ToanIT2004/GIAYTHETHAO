@@ -34,7 +34,7 @@
                         echo '<th>Đã giao</th>';
                      }
                   ?>
-                  <th>Tình hình</th>
+                  <th>Tình trạng</th>
                </tr>
             </thead>
             <tbody>

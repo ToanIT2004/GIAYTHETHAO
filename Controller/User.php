@@ -37,6 +37,7 @@ switch ($act) {
       if($result) {
          $_SESSION['user_id'] = $result['id'];
          $_SESSION['lastname'] = $result['lastname'];
+         $_SESSION['fullname'] = $result['firstname'] . ' ' . $result['lastname'];
          $res = [
             'status' => 200,
             'message' => 'Đăng nhập thành công',

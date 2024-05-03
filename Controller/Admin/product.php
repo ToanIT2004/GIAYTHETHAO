@@ -91,11 +91,28 @@ switch ($act) {
             $_SESSION['price'] = $price;
          }
 
+         // Giá giảm không được nhập số âm
+         if($discount < 0) {
+            $errors['discount'] = 'Giá giảm không hợp lệ';
+            $_SESSION['discount'] = $discount;
+            $flag = true;
+         }
+
          // Validate giảm giá phải nhỏ hơn đơn giá
          if($discount > $price) {
             $errors['discount'] = "Giá giảm phải nhỏ hơn đơn giá";
+            $_SESSION['discount'] = $discount;
+            $flag = true;
+         };
+
+         // Kiểm tra sản phẩm đã tồn tại chưa = size và tên
+         $check_product = $product->getDetailsProduct_ByNameSizeID($id,$size_id);
+         if($check_product) {
+            $errors['size'] = "Size sản phẩm đã tồn tại";
+            $_SESSION['size'] = $size;
             $flag = true;
          }
+
 
          // Tạo một mảng chứa tên của các trường ảnh 
          $image_fields = ['img1', 'img2', 'img3'];
@@ -236,7 +253,8 @@ switch ($act) {
          // Kiểm tra trùng sản phẩm bằng tên, loại giày, thương hiệu
          $ketqua = $product->get_ProductBy($name, $shoes_type_id, $brand_id);
          if ($ketqua) {
-            echo "<script>alert('Sản phẩm đã có trong database')</scrip>";
+            echo "<script>alert('Sản phẩm đã có trong database')</script>";
+            echo "<meta http-equiv='refresh' content='0;url=admin.php?action=product&act=add_product'>";
             $flag = true;
          }
 
@@ -290,7 +308,7 @@ switch ($act) {
             $_SESSION['error_brand'] = $error_message;
          } else {
             $brand->add_Brand($name_brand);
-            echo "<script>alert('Bạn đã thêm thương hiệu thành công')</scrip>";
+            echo "<script>alert('Bạn đã thêm thương hiệu thành công')</script>";
          }
          echo "<meta http-equiv='refresh' content='0;url=admin.php?action=product&act=product_detailss'>";
       }

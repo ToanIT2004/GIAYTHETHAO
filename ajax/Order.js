@@ -9,7 +9,7 @@ $(document).ready(() => {
       province = $('#province').val();
       district = $('#district').val();
       wards = $('#wards').val();
-      console.log(`${fullname} - ${number_phone} - ${address} - ${province} - ${district} - ${wards}`);
+      // console.log(`${fullname} - ${number_phone} - ${address} - ${province} - ${district} - ${wards}`);
       // Xử lý tên trống 
       var mang = ['#fullname', '#number_phone', '#address', '#province', '#district', '#wards'];
       var flag = false;
@@ -22,6 +22,22 @@ $(document).ready(() => {
             $(arr).removeClass('border border-danger')   
          }
       });
+
+      // Xử lý tên không được nhập số và ký tự đặc biệt
+      var digitPattern = /\d/; // Biểu thức chính quy để kiểm tra xem chuỗi có chứa ít nhất một số không
+      var specialCharPattern = /[~!@#$%^&*()_+`\-={}[\]:;"'<>,.?/\\|]/; // Biểu thức chính quy để kiểm tra xem chuỗi có chứa ký tự đặc biệt hay không
+      var fullname = $(mang[0]).val();
+
+      if (digitPattern.test(fullname)) {
+         $('#fullname_error').text('Họ tên không được chứa số');
+         flag = true;
+      } else if (specialCharPattern.test(fullname)) {
+         $('#fullname_error').text('Họ tên không được chứa ký tự đặc biệt');
+         flag = true;
+      } else {
+         $('#fullname_error').text('');
+      }
+
 
       // Xử lý số điện thoại 
       if (!/^(0\d{9,10})$/.test(number_phone)) {

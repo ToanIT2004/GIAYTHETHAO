@@ -31,7 +31,7 @@
 
       function login_User($email, $password) {
          $API = new API();
-         return $API->get_one("SELECT id, lastname, email, password FROM user WHERE email='$email' AND password='$password' AND delete_at is null");
+         return $API->get_one("SELECT id, lastname,firstname ,email, password FROM user WHERE email='$email' AND password='$password' AND delete_at is null");
       }
 
       function add_User($lastname, $firstname, $email, $password) {

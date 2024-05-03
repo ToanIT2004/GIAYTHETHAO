@@ -56,8 +56,8 @@ $(document).ready(() => {
    $(document).on('submit', '#formProduct_Details', function(event) {
       event.preventDefault();
       let id = $('#id').val();
-      let price = $('#price').val();
-      let discount = $('#discount').val();
+      let price = parseFloat($('#price').val());
+      let discount = parseFloat($('#discount').val());
       let quantity = $('#quantity').val();
       let size = $('#size').val();
       let img1 = $('#img1')[0].files[0];
@@ -77,6 +77,12 @@ $(document).ready(() => {
             $(field + '_error').text(`Giá trị không được để trống`);
          }
       });
+
+      // Giảm giá phải nhỏ hơn đơn giá
+      if(price <= discount) {
+         $('#discount_error').text('Giảm giá phải nhỏ hơn đơn giá');
+         flag = true;
+      }
 
       // tối ưu chỗ này bằng vòng lặp 
       let hinh1; // Khai báo biến hinh1 trước khi sử dụng

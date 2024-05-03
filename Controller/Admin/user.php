@@ -1,7 +1,4 @@
 <?php 
-   // set_include_path(get_include_path().PATH_SEPARATOR.'../../Model/');
-   // spl_autoload_extensions('.php');
-   // spl_autoload_register();
    $act = 'user';
    if(isset($_GET['act'])) {
       $act = $_GET['act'];

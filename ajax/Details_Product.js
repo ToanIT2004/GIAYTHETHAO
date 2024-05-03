@@ -10,15 +10,48 @@ $(document).ready(function (){
 
    // Lấy sản phẩm bỏ vào giỏ hàng
    // Cắm cờ để xác định người ta đã chọn size chưa 
-   flag = false;
    $('.btn-size').click(function() {
+      // Nếu người ta click vào nút thì lấy ra tên và size
+      size_id = $(this).data('size_id');
+      name_product = $('#name_product').text();
+      // Truyền vào ajax 
+      $.ajax({
+         url: 'Controller/cart.php?act=getDetailsProduct_NameSizeID',
+         method: 'POST',
+         data: {
+            size_id: size_id,
+            name_product: name_product,
+         },
+         dataType: 'json',
+         success: (res) => {
+            if(res.status == 200) {
+               $('#discount').text(parseFloat(res.discount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+               $('#price').text(parseFloat(res.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+               $('#discount').attr('data-value', res.discount);
+               $('#price').attr('data-value', res.price);
+            }
+         }
+      })  
+
       // Xóa lớp "active" khỏi tất cả các nút kích thước
       $('.btn-size').removeClass('active');
       // Thêm lớp "active" vào nút kích thước được click
       $(this).addClass('active');
       flag = true;
    })
+   // Khi click vào nút "Mua Ngay"
+   $('#buy').click(function () {
+      // Kiểm tra biến cờ
+      if (!flag) {
+          // Nếu kích thước chưa được chọn, hiển thị thông báo và không mở modal
+          alert("Vui lòng chọn kích thước trước khi mua hàng.");
+          return;
+      }
 
+      $('#exampleModal').modal('show');
+  });
+
+   // Thêm vào giỏ hàng
    $('#addCart').click(function() {
       if (!flag) {
          alert("Vui lòng chọn kích thước trước khi thêm vào giỏ hàng.");
@@ -58,4 +91,8 @@ $(document).ready(function (){
          }
       }) 
    })
+
+
+   // Trường hợp mua hàng ngay 
+   $(document).on('click', '#buy_order', function() {})
 });

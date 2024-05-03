@@ -30,7 +30,7 @@
          }else if($status_id == 3) {
             $result_status = $status->deliveried_status($status_id, $order_id);
          }else if($status_id == 4) {
-            // Chức năng cộng lại số lượng khi hủy đơn bằng order_id
+            // Chức năng cộng lại số lượng tồn khi hủy đơn bằng order_id
             $array = array();
             // Từ order ID lấy ra tên, size, quantity
             $product = $Order->getDetailsProduct_ByOrderID($order_id);
@@ -40,6 +40,11 @@
             // Từ tên và size cộng lại số lượng  bảng details_product
             foreach($array as $arr) {
                $Order->increase_DetailsProduct($arr['name_product'], $arr['size'], $arr['quantity']);
+            }
+
+            // Từ tên và size trừ đi số lượng bảng goods_sold
+            foreach($array as $arr) {
+               $Order->decrease_Goods_Sold($arr['name_product'], $arr['size'], $arr['quantity']);
             }
 
             $Order->delete_Details_Order($order_id);

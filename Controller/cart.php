@@ -166,4 +166,25 @@ switch ($act) {
       }
       echo json_encode($results);
       break;
+   // Lấy sản phẩm bằng tên và id_size
+   case 'getDetailsProduct_NameSizeID':
+      include "../Model/DBConfig.php";
+      include "../Model/API.php";
+      include "../Model/Product.php";
+      $connect = new connect();
+      $API = new API();
+      $Product = new Product();
+
+      $name_product = $_POST['name_product'];
+      $size_id = $_POST['size_id'];
+      $product_result = $Product->getProduct_ByNameSizeID($name_product, $size_id);
+      if($product_result) {
+         $res = [
+            'status' => 200,
+            'price' => $product_result['price'],
+            'discount' => $product_result['discount'],
+         ];
+      }
+      echo json_encode($res);
+      break;
 }

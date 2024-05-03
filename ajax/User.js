@@ -15,6 +15,32 @@ $(document).ready(() => {
          }
       });
 
+      // Xử lý tên không được nhập số và ký tự đặc biệt
+      var digitPattern = /\d/; // Biểu thức chính quy để kiểm tra xem chuỗi có chứa ít nhất một số không
+      var specialCharPattern = /[~!@#$%^&*()_+`\-={}[\]:;"'<>,.?/\\|]/; // Biểu thức chính quy để kiểm tra xem chuỗi có chứa ký tự đặc biệt hay không
+      var firstname = $(mang[0]).val();
+      var lastname = $(mang[1]).val();
+
+      if (digitPattern.test(firstname) || digitPattern.test(lastname)) {
+         $('#firstname_error').text('Họ tên không được chứa số');
+         flag = true;
+      } else if (specialCharPattern.test(firstname) || specialCharPattern.test(lastname)) {
+         $('#firstname_error').text('Họ tên không được chứa ký tự đặc biệt');
+         flag = true;
+      } else {
+         $('#firstname_error').text('');
+      }
+
+
+      specialCharPattern = /[`~!@#$%^&*()_+]/;
+      if (pattern.test($(mang[0]).val()) || pattern.test($(mang[1]).val())) {
+         $('#firstname_error').text('Họ tên không được nhập số');
+         flag = true;
+      } else {
+         $('#firstname_error').text('');
+      }
+      
+
       // Xử lý mật khẩu trùng và phải trên 6 ký tự 
       if ($(mang[3]).val() === $(mang[4]).val()) {
          var password = $(mang[3]).val();

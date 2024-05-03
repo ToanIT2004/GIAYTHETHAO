@@ -1,165 +1,216 @@
-<?php 
-   class Product {
-      // Phần sản phẩm
+<?php
+class Product
+{
+   // Phần sản phẩm
 
-      // Lấy tất cả sản phẩm 
-      function getAll_Product() {
-         $API = new API();
-         return $API->get_All("SELECT * FROM product");
-      }
+   // Lấy tất cả sản phẩm 
+   function getAll_Product()
+   {
+      $API = new API();
+      return $API->get_All("SELECT * FROM product");
+   }
 
-      // Lấy sản phẩm theo tên, giá, giảm giá
-      function getProduct_ByNamePriceDiscount() {
-         $API = new API();
-         return $API->get_All("SELECT DISTINCT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, ctsp.price, ctsp.discount
-         FROM product as sp, details_product as ctsp 
-         WHERE sp.id = ctsp.product_id");
-      }
+   // Lấy sản phẩm theo tên, giá, giảm giá
+   function getProduct_ByNamePriceDiscount()
+   {
+      $API = new API();
+      return $API->get_All("SELECT 
+         sp.id, 
+         sp.shoes_type_id, 
+         sp.brand_id, 
+         sp.img, 
+         sp.name, 
+         MIN(ctsp.price) AS price,
+         MIN(ctsp.discount) AS discount
+     FROM 
+         product AS sp
+     INNER JOIN 
+         details_product AS ctsp ON sp.id = ctsp.product_id
+     GROUP BY 
+         sp.name;
+     ");
+   }
 
-      // Lấy chi tiết sản phẩm bảng product và product_id
-      function getOne_DetailProduct($id) {
-         $API = new API();
-         return $API->get_one("SELECT DISTINCT sp.id, sp.name as tensp, shoes_type.name as tenloai, brand.name_brand, sp.descriptions, sp.img, ctsp.img1, ctsp.img2, ctsp.img3, ctsp.price, ctsp.discount 
+   // Lấy chi tiết sản phẩm bảng product và product_id
+   function getOne_DetailProduct($id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT DISTINCT sp.id, sp.name as tensp, shoes_type.name as tenloai, brand.name_brand, sp.descriptions, sp.img, ctsp.img1, ctsp.img2, ctsp.img3, ctsp.price, ctsp.discount 
          FROM product as sp, details_product as ctsp , brand, shoes_type 
          WHERE sp.id = ctsp.product_id AND sp.brand_id = brand.id AND sp.shoes_type_id = shoes_type.id AND sp.id=$id");
-      }
+   }
 
-      // Lấy sản phẩm bằng ID 
-      function getByID_Product($id) {
-         $API = new API();
-         return $API->get_one("SELECT * FROM product WHERE id=$id");
-      }
-      function add_Product($name_product,$shoes_type_id ,$brand_id, $description, $img) {
-         $API = new API();
-         $API->add_delete_update(
-            "INSERT INTO `product`(`name`, `shoes_type_id`, `brand_id`, `descriptions`, `img`) VALUES ('$name_product','$shoes_type_id','$brand_id','$description','$img')"
-         );
-      }
+   // Lấy sản phẩm bằng ID 
+   function getByID_Product($id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT * FROM product WHERE id=$id");
+   }
+   function add_Product($name_product, $shoes_type_id, $brand_id, $description, $img)
+   {
+      $API = new API();
+      $API->add_delete_update(
+         "INSERT INTO `product`(`name`, `shoes_type_id`, `brand_id`, `descriptions`, `img`) VALUES ('$name_product','$shoes_type_id','$brand_id','$description','$img')"
+      );
+   }
 
-      // Kiểm tra sản phẩm trùng
-      function get_ProductBy($name, $shoes_type_id, $brand_id) {
-         $API = new API();
-         return $API->get_one("SELECT pro.name, pro.shoes_type_id, pro.brand_id FROM product as pro 
+   // Kiểm tra sản phẩm trùng
+   function get_ProductBy($name, $shoes_type_id, $brand_id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT pro.name, pro.shoes_type_id, pro.brand_id FROM product as pro 
          WHERE pro.name='$name' AND pro.shoes_type_id=$shoes_type_id AND pro.brand_id=$brand_id");
-      }
+   }
 
-      // Get product by name, brand's name, shoes's name
-      function get_ProductByNBS() {
-         $API = new API();
-         return $API->get_All("SELECT product.name , product.id AS id,brand.name_brand AS brand_name, shoes_type.name AS shoes_type_name 
+   // Get product by name, brand's name, shoes's name
+   function get_ProductByNBS()
+   {
+      $API = new API();
+      return $API->get_All("SELECT product.name , product.id AS id,brand.name_brand AS brand_name, shoes_type.name AS shoes_type_name 
          FROM product JOIN brand ON product.brand_id = brand.id 
          JOIN shoes_type ON product.shoes_type_id = shoes_type.id");
-      }
+   }
 
-      // Chỉnh sửa sản phẩm bằng ID
-      function update_Product($id, $name, $shoes_type_id, $brand_id, $descriptions, $img) {
-         $API = new API();
-         return $API->add_delete_update("UPDATE `product` 
+   // Chỉnh sửa sản phẩm bằng ID
+   function update_Product($id, $name, $shoes_type_id, $brand_id, $descriptions, $img)
+   {
+      $API = new API();
+      return $API->add_delete_update("UPDATE `product` 
          SET `name` = '$name', `shoes_type_id` = $shoes_type_id, `brand_id` = $brand_id, `descriptions` = '$descriptions', `img` = '$img'
          WHERE `id` = $id;");
-      }
+   }
 
-      function delete_Product($id) {
-         $API = new API();
-         $API->add_delete_update("DELETE FROM `product` WHERE id='$id'");
-      }
+   function delete_Product($id)
+   {
+      $API = new API();
+      $API->add_delete_update("DELETE FROM `product` WHERE id='$id'");
+   }
 
-      // Phần chi tiết sản phẩm
-      // lấy chi tiết sản phẩm theo id
-      function get_ProductDetailsByID($id) {
-         $API = new API();
-         return $API->get_All("SELECT ctsp.id, ctsp.product_id, s.size,ctsp.price, ctsp.discount, ctsp.quantity, ctsp.img1, ctsp.img2, ctsp.img3 FROM details_product as ctsp,size as s WHERE ctsp.size_id = s.id AND ctsp.product_id='$id'");
-      }
+   // Phần chi tiết sản phẩm
+   // lấy chi tiết sản phẩm theo id
+   function get_ProductDetailsByID($id)
+   {
+      $API = new API();
+      return $API->get_All("SELECT ctsp.id, ctsp.product_id, s.size,ctsp.price, ctsp.discount, ctsp.quantity, ctsp.img1, ctsp.img2, ctsp.img3 FROM details_product as ctsp,size as s WHERE ctsp.size_id = s.id AND ctsp.product_id='$id'");
+   }
 
-      // Get product name, brand's name, shoes's name by ID
-      function get_ProductByID($id) {
-         $API = new API();
-         return $API->get_one("SELECT product.name , product.id AS id,brand.name_brand AS brand_name, shoes_type.name AS shoes_type_name 
+   // Get product name, brand's name, shoes's name by ID
+   function get_ProductByID($id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT product.name , product.id AS id,brand.name_brand AS brand_name, shoes_type.name AS shoes_type_name 
          FROM product JOIN brand ON product.brand_id = brand.id JOIN shoes_type ON product.shoes_type_id = shoes_type.id 
          WHERE product.id=$id");
-      }
-      function add_ProductDetails($product_id, $size_id, $price, $discount, $quantity, $img1, $img2, $img3) {
-         $API = new API();
-         $API->add_delete_update(
-            "INSERT INTO `details_product`(`product_id`, `size_id`, `price`, `discount`, `quantity`, `img1`, `img2`, `img3`) VALUES ($product_id,$size_id,$price,$discount,$quantity, '$img1', '$img2', '$img3')"
-         );
-      }
+   }
+   function add_ProductDetails($product_id, $size_id, $price, $discount, $quantity, $img1, $img2, $img3)
+   {
+      $API = new API();
+      $API->add_delete_update(
+         "INSERT INTO `details_product`(`product_id`, `size_id`, `price`, `discount`, `quantity`, `img1`, `img2`, `img3`) VALUES ($product_id,$size_id,$price,$discount,$quantity, '$img1', '$img2', '$img3')"
+      );
+   }
 
-      // Lấy chi tiết sản phẩm với tên size bằng ID
-      function get_ProductDetailsBySize($id) {
-         $API = new API();
-         return $API->get_one("SELECT ctsp.id, ctsp.product_id, ctsp.price, ctsp.discount, ctsp.quantity, ctsp.img1, ctsp.img2, ctsp.img3, s.size FROM details_product as ctsp, size as s WHERE ctsp.size_id = s.id AND ctsp.id=$id");
-      }
+   // Lấy chi tiết sản phẩm với tên size bằng ID
+   function get_ProductDetailsBySize($id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT ctsp.id, ctsp.product_id, ctsp.price, ctsp.discount, ctsp.quantity, ctsp.img1, ctsp.img2, ctsp.img3, s.size FROM details_product as ctsp, size as s WHERE ctsp.size_id = s.id AND ctsp.id=$id");
+   }
 
-      function delete_ProductDetails($id) {
-         $API = new API();
-         $API->add_delete_update("DELETE FROM details_product WHERE id=$id");
-      }
+   function delete_ProductDetails($id)
+   {
+      $API = new API();
+      $API->add_delete_update("DELETE FROM details_product WHERE id=$id");
+   }
 
-      // Chỉnh sửa chi tiết sản phẩm 
-      function update_ProductDetails($price, $discount, $quantity, $img1, $img2, $img3, $id) {
-         $API = new API();
-         return $API->add_delete_update("UPDATE details_product SET `price`='$price',`discount`='$discount',`quantity`='$quantity',`img1`='$img1',`img2`='$img2',`img3`='$img3' WHERE id=$id");
-      }
+   // Chỉnh sửa chi tiết sản phẩm 
+   function update_ProductDetails($price, $discount, $quantity, $img1, $img2, $img3, $id)
+   {
+      $API = new API();
+      return $API->add_delete_update("UPDATE details_product SET `price`='$price',`discount`='$discount',`quantity`='$quantity',`img1`='$img1',`img2`='$img2',`img3`='$img3' WHERE id=$id");
+   }
 
-      // Lấy ra tất cả giày futsal
-      function getAll_ShoesFutsal() {
-         $API = new API();
-         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=5 AND sp.id = ctsp.product_id');
-      }
+   // Lấy ra tất cả giày futsal
+   function getAll_ShoesFutsal()
+   {
+      $API = new API();
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=5 AND sp.id = ctsp.product_id');
+   }
 
-      // Lấy ra tất cả giày cỏ nhân tạo
-      function getAll_ShoesFootball() {
-         $API = new API();
-         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=4 AND sp.id = ctsp.product_id');
-      }
+   // Lấy ra tất cả giày cỏ nhân tạo
+   function getAll_ShoesFootball()
+   {
+      $API = new API();
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=4 AND sp.id = ctsp.product_id');
+   }
 
-      // Sắp xếp theo giá giảm dần
-      function getPrice_Decrease() {
-         $API = new API();
-         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price DESC');
-      }
+   // Sắp xếp theo giá giảm dần
+   function getPrice_Decrease()
+   {
+      $API = new API();
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price DESC');
+   }
 
-      // Sắp xếp theo giá tăng dần
-      function getPrice_Ascending() {
-         $API = new API();
-         return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price ASC');
-      }
+   // Sắp xếp theo giá tăng dần
+   function getPrice_Ascending()
+   {
+      $API = new API();
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price ASC');
+   }
 
-      // Trừ số lượng tồn trong chi tiết sản phẩm theo tên, size
-      function decrease_quantity($product_name, $size, $quantity) {
-         $API = new API();
-         return $API->add_delete_update("UPDATE details_product AS ctsp
+   // Trừ số lượng tồn trong chi tiết sản phẩm theo tên, size
+   function decrease_quantity($product_name, $size, $quantity)
+   {
+      $API = new API();
+      return $API->add_delete_update("UPDATE details_product AS ctsp
          JOIN product AS sp ON sp.id = ctsp.product_id
          JOIN size ON ctsp.size_id = size.id
          SET ctsp.quantity = ctsp.quantity - $quantity
          WHERE sp.name = '$product_name' AND size.size = $size;
          ");
-      }
+   }
 
-      // Lấy ra số lượng tồn bằng tên và size 
-      function getQuantity_ByNameSize($product_name, $size) {
-         $API = new API();
-         return $API->get_one("SELECT sp.id, sp.name, ctsp.size_id, size.size, ctsp.quantity 
+   // Lấy ra số lượng tồn bằng tên và size 
+   function getQuantity_ByNameSize($product_name, $size)
+   {
+      $API = new API();
+      return $API->get_one("SELECT sp.id, sp.name, ctsp.size_id, size.size, ctsp.quantity 
          FROM product AS sp JOIN details_product AS ctsp ON sp.id = ctsp.product_id 
          JOIN size ON ctsp.size_id = size.id 
-         WHERE sp.name = '$product_name' AND size.size = $size"); 
-      }
+         WHERE sp.name = '$product_name' AND size.size = $size");
+   }
 
-      // Lấy tổng số lượng tồn của từng sản phẩm
-      function getAll_Quantity($id) {
-         $API = new API();
-         return $API->get_All("SELECT SUM(ctsp.quantity) as count
+   // Lấy tổng số lượng tồn của từng sản phẩm
+   function getAll_Quantity($id)
+   {
+      $API = new API();
+      return $API->get_All("SELECT SUM(ctsp.quantity) as count
          FROM product as sp, details_product as ctsp 
          WHERE sp.id = ctsp.product_id AND sp.id = $id");
-      }
+   }
 
-      // Lấy tổng số lượng tồn của từng size theo sản phẩm
-      function getSize_Quantity($id, $size_id) {
-         $API = new API();
-         return $API->get_All("SELECT SUM(ctsp.quantity) as count 
+   // Lấy tổng số lượng tồn của từng size theo sản phẩm
+   function getSize_Quantity($id, $size_id)
+   {
+      $API = new API();
+      return $API->get_All("SELECT SUM(ctsp.quantity) as count 
          FROM product as sp, details_product as ctsp 
          WHERE sp.id = ctsp.product_id AND sp.id=$id AND ctsp.size_id=$size_id");
-      }
    }
-   
+
+   // Lấy ra chi tiết sản phẩm bằng id sản phẩm và size_id
+   function getDetailsProduct_ByNameSizeID($id, $size_id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT sp.name, ctsp.size_id FROM product as sp, details_product as ctsp WHERE sp.id = ctsp.product_id AND ctsp.size_id = $size_id AND sp.id=$id");
+   }
+
+   // Lấy ra chi tiết sản phẩm bằng tên sản phẩm và size_id
+   function getProduct_ByNameSizeID($name, $size_id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT sp.name, ctsp.size_id, ctsp.price, ctsp.discount 
+      FROM product as sp, details_product as ctsp 
+      WHERE sp.id = ctsp.product_id AND ctsp.size_id = $size_id AND sp.name= '$name'");
+   }
+}

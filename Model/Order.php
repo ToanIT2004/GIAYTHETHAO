@@ -61,4 +61,11 @@
          JOIN product AS sp ON sp.id = ctsp.product_id JOIN size ON ctsp.size_id = size.id 
          SET ctsp.quantity = ctsp.quantity + $quantity WHERE size.size = '$size' AND sp.name = '$name_product'");
       }
+
+      // Trừ lại số lượng trong bảng goods_sold theo tên và size
+      function decrease_Goods_Sold($name_product, $size, $quantity) {
+         $API = new API();
+         return $API->add_delete_update("UPDATE goods_sold SET quantity_sold = quantity_sold-$quantity
+         WHERE product_name='$name_product' AND size='$size'");
+      }
    }

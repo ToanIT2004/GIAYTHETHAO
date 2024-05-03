@@ -38,19 +38,15 @@
                                 <a class="dropdown-item" href="admin.php?action=product&act=add_product">Thêm sản phẩm</a>
                                 <a class="dropdown-item" href="admin.php?action=product&act=product_detailss">Thêm chi tiết</a>
                                 <a class="dropdown-item" href="admin.php?action=product">Sản Phẩm</a>
-                                <a class="dropdown-item" href="#">Loại menu</a>
                             </div>
                         </li>
-                        <!-- Thống kê -->
+                        <!-- Doanh thu -->  
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                Thống Kê
+                            <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">
+                                Quản trị thống kê
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Sản Phẩm bán được nhiều Nhất</a>
-                                <a class="dropdown-item" href="#">Sản Phẩm chưa được giao</a>
-                                <a class="dropdown-item" href="#">Sản phẩm bán ít nhất</a>
-                                <a class="dropdown-item" href="">Thống kê</a>
+                                <a class="dropdown-item" href="admin.php?action=statistical">Doanh thu</a>
                             </div>
                         </li>
                         <!-- Báo cáo -->
@@ -69,7 +65,6 @@
                                     </span>
                                 </a>
                                 <a class="dropdown-item" href="admin.php?action=order&act=deliveried">Đã giao</a>
-                                <a class="dropdown-item" href="#">Hủy đơn</a>
                             </div>
                         </li>
                         <!-- Báo cáo Tồn kho -->

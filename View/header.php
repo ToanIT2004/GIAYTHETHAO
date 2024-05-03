@@ -53,9 +53,6 @@
                   <a class="nav-link" href="index.php?action=home">Trang chủ</a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="">Liên hệ</a>
-               </li>
-               <li class="nav-item">
                   <a class="nav-link" href="index.php?action=shop">Cửa hàng</a>
                </li>
                <li class="nav-item">

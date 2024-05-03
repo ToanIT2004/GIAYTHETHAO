@@ -87,7 +87,8 @@
                      <input type="hidden" id="user_id" value="<?php echo isset($_SESSION['user_id'])?$_SESSION['user_id']:0?>">
                      <div class="form-group mb-3">
                         <label for="" class="mb-1">Họ tên khách hàng</label>
-                        <input type="text" id="fullname" class="form-control" placeholder="Điền họ tên của bạn">
+                        <input type="text" value="<?php echo isset($_SESSION['fullname'])?$_SESSION['fullname']:''?>" id="fullname" class="form-control" placeholder="Điền họ tên của bạn">
+                        <small id="fullname_error" class="text-danger"></small>
                      </div>
                      <div class="form-group mb-3">
                         <label for="" class="mb-1">Số điện thoại</label>

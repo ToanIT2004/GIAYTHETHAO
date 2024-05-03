@@ -40,7 +40,7 @@
                            </div>
                            <div>
                               <label class="form-label">Giảm giá</label>
-                              <input type="text" name="discount" style="width: 265px" class="form-control" value="0">
+                              <input value="<?php echo isset($_SESSION['errors']) && isset($_SESSION['discount'])?$_SESSION['discount']:0?>"  type="text" name="discount" style="width: 265px" class="form-control" value="0">
                               <?php if (isset($_SESSION['errors']['discount'])): ?>
                                  <small class="text-danger"><?php echo $_SESSION['errors']['discount'] ?></small>
                               <?php endif ?>
@@ -65,6 +65,9 @@
                                     <option value="<?php echo $set['id'] ?>"><?php echo $set['size'] ?></option>
                                  <?php endwhile ?>
                               </select>
+                              <?php if (isset($_SESSION['errors']['size'])): ?>
+                                 <small class="text-danger"><?php echo $_SESSION['errors']['size'] ?></small>
+                              <?php endif ?>
                            </div>
                         </div>
 

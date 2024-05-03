@@ -1,3 +1,3 @@
-$(document).on('click', 'li', function() {
-   alert($(this).text());
-})
+// $(document).on('click', 'li', function() {
+//    alert($(this).text());
+// })

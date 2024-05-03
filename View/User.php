@@ -16,7 +16,7 @@
                <div class="input-container">
                   <label for="">Họ</label>
                   <input id="firstname" name="firstname" style="width: 190px" type="text" placeholder="Nhập họ">
-                  <small id="firstname" class="text-danger"></small>
+                  <small id="firstname_error" class="text-danger"></small>
                </div>
                <div class="input-container">
                   <label for="">Tên</label>

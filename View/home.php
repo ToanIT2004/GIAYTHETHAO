@@ -110,32 +110,7 @@
         </div>
         <?php endwhile ?>
     </div>
-    <!-- Pagination -->
-    <ul id="paginate" class="d-flex justify-content-center list-unstyled">
-        <li class="mx-2 fs-3 fw-bolder"><i class="bi bi-chevron-left"></i></li>
-        <li><span class="mx-2 fs-3 fw-bolder">1</span></li>
-        <li><span class="mx-2 fs-3 fw-bolder">2</span></li>
-        <li><span class="mx-2 fs-3 fw-bolder">3</span></li>
-        <li class="mx-2 fs-3 fw-bolder"><i class="bi bi-chevron-right"></i></li>
-    </ul>
 </section>
-<!-- End Categories of The Month -->
-
-
-<!-- Start Featured Product -->
-<section class="bg-light">
-    <div class="container py-5">
-        <div class="row text-center py-3">
-            <div class="col-lg-6 m-auto">
-                <h1 class="h1">TIN TỨC GIÀY</h1>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Phát triển ở đây -->
-        </div>
-    </div>
-</section>
-<!-- End Featured Product -->
 
 <style>
     .image:hover {
