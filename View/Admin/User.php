@@ -1,90 +1,68 @@
-<div class="container mt-2">
-   <div class="row">
-      <div class="col-lg-12">
-         <?php
-         if (isset($_GET['act']) && $_GET['act'] == 'khoiphuc') {
-            echo '<h3 class="text-center">KHÔI PHỤC KHÁCH HÀNG</h3>';
-         } else {
-            echo '<h3 class="text-center">THÔNG TIN KHÁCH HÀNG</h3>';
-         }
-         ?>
-         <input id="search_User" type="text" placeholder="Tìm kiếm khách hàng" class="form-control">
-         <table class="table ">
-            <thead>
-               <tr class="table-primary">
-                  <th>STT</th>
-                  <th>Họ</th>
-                  <th>Tên</th>
-                  <th>Email</th>
-                  <th>Password</th>
-                  <th></th>
-               </tr>
-            </thead>
-            <tbody id="tbody">
-            </tbody>
-         </table>
+<h1 class="mt-3 mb-3 text-success fw-bolder text-center">Thông Tin Khách Hàng</h1>
+<div class="col-lg-12">
+   <div class="d-flex justify-content-center">
+      <input id="search_user" style="width: 350px;" type="text" class="form-control" placeholder="Tìm kiếm khách hàng">
+   </div>
+   <table class="table table-bordered">
+      <thead class="table-primary">
+         <tr>
+            <th>Mã KH</th>
+            <th>Họ Tên</th>
+            <th>Email</th>
+            <th>Mật khẩu</th>
+            <th>Giới tính</th>
+            <th>Ngày Sinh</th>
+            <th>Số điện thoại</th>
+            <th></th>
+         </tr>
+      </thead>
+
+      <!-- Dữ liệu đổ bên ajax User.js -->
+      <tbody id="table_user" class="table-light"></tbody>
+   </table>
+   <!-- Paginate -->
+
+   <?php
+   $user = new User();
+   $row_user = $user->getAll_User()->rowCount();
+   $per_page = ceil($row_user / 10);
+   ?>
+
+   <div class="d-flex justify-content-center">
+      <nav aria-label="...">
+         <ul class="pagination">
+            <?php for ($i = 1; $i <= $per_page; $i++): ?>
+               <li class="page-item <?php echo ($i == 1) ? 'active' : '' ?>"><a data-page_id="<?php echo $i ?>"
+                     style="cursor: pointer;" class="page-link rounded-circle mx-1"><?php echo $i ?></a></li>
+            <?php endfor ?>
+         </ul>
+      </nav>
+   </div>
+   <!-- Modal Chỉnh Sửa Mật Khẩu -->
+   <div class="modal fade" id="modal_revise_password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title text-success fw-bold fs-5" id="exampleModalLabel">SỬA MẬT KHẨU</h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <input type="hidden" id="user_id">
+               <div class="form-group">
+                  <label class="form-label" for="">Email</label>
+                  <input disabled id="revise_email" type="text" class="form-control">
+               </div>
+
+               <div class="form-group">
+                  <label class="form-label" for="">Mật khẩu</label>
+                  <input id="revise_password1" type="text" class="form-control">
+                  <small class="badge text-danger" id="revise_password1_error"></small>
+               </div>
+               <div class="d-flex justify-content-end">
+                  <button id="revise_password_action" type="button" class="btn btn-outline-success">Lưu</button>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </div>
-
-<!-- Làm chức năng tìm kiếm và đổ dữ liệu -->
-<?php
-$user = new User();
-if (isset($_GET['act']) && $_GET['act'] == 'khoiphuc') {
-   $users = $user->getAllClear_User()->fetchAll();
-} else {
-   $users = $user->getAll_User()->fetchAll();
-}
-;
-?>
-<script>
-   // Tìm kiếm khách hàng bằng email 
-   $(document).on('input', '#search_User', function () {
-      // Chuyển đổi về chữ thường và lấy giá trị
-      let value_search = $(this).val().toLowerCase();
-
-      // chuyển đổi từ dữ liệu PHP về JS
-      const users = <?php echo json_encode($users) ?>;
-
-      let filteredUsers = users;
-
-      if (value_search.length > 0) {
-         filteredUsers = users.filter(user => {
-            return user.email.toLowerCase().includes(value_search);
-         });
-      }
-
-      // Xóa tất cả các dòng trong tbody trước khi thêm dữ liệu mới
-      $('#tbody').empty();
-
-      var stt = 1;
-      filteredUsers.forEach(user => {
-         const row = `
-         <tr class="table-warning">
-            <td>${stt++}</td>
-            <td>${user.firstname}</td>
-            <td>${user.lastname}</td>
-            <td>${user.email}</td>
-            <td>${user.password}</td>
-            <td>
-               <?php if (isset($_GET['act']) && $_GET['act'] == 'khoiphuc') { ?>
-                  <button id="restore_user" value="${user.id}" class="btn btn-primary">KHÔI PHỤC</button>
-                  <button id="clear_user" value="${user.id}" class="btn btn-danger">XÓA</button>
-               <?php } else { ?>
-                  <a id="update_user" data-id="${user.id}" href="admin.php?action=user&act=update_user&id=${user.id}" class="btn btn-primary">SỬA</a>
-                  <button id="delete_user" value="${user.id}" class="btn btn-danger">THÙNG RÁC</button>
-               <?php } ?>
-            </td>
-         </tr>
-         `;
-         // append là một phương thức được sử dụng để thêm nội dung vào cuối phần tử được chọn
-         $('#tbody').append(row);
-      });
-   });
-
-   // Đảm bảo rằng dữ liệu được load lần đầu tiên khi trang được tải
-   $(document).ready(function () {
-      // Hàm trigger tự động kích hoạt input khi load trang
-      $('#search_User').trigger('input');
-   });
-</script>

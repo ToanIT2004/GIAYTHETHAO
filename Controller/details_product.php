@@ -84,4 +84,52 @@ switch ($act) {
       }
       echo json_encode('Thành công');
       break;
+   // Lấy ra số lượng tồn của sản phẩm đó bằng size và id
+   case 'get_quantity_product':
+      $product_id = $_POST['product_id'];
+      $size = $_POST['size'];
+      include "../Model/DBConfig.php";
+      include "../Model/Product.php";
+      include "../Model/API.php";
+      $connect = new connect();
+      $API = new API();
+      $product = new Product();
+      $result = $product->getSize_Quantity($product_id, $size)->fetch(PDO::FETCH_ASSOC);
+      if($result) {
+         $res = [
+            'status' => 200,
+            'message' => $result['count']
+         ];
+      }else {
+         $res = [
+            'status' => 404,
+            'message' => 'Lỗi hệ thống'
+         ];
+      }
+      echo json_encode($res);
+      break;
+   // Đổ sản phẩm khi người dùng đã chọn
+   case 'get_product_sizeid':
+      $product_id = $_POST['product_id'];
+      $size = $_POST['size'];
+      include "../Model/DBConfig.php";
+      include "../Model/Product.php";
+      include "../Model/API.php";
+      $connect = new connect();
+      $API = new API();
+      $product = new Product();
+      $result = $product->getProduct_BySize($size, $product_id);
+      if($result) {
+         $res = [
+            'status' => 200,
+            'message' => $result
+         ];
+      }else {
+         $res = [
+            'status' => 404,
+            'message' => 'Lỗi hệ thống'
+         ];
+      }
+      echo json_encode($res);
+      break;
 }

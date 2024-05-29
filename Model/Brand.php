@@ -16,6 +16,6 @@
 
       function delete_Brand($brand_id) {
          $api = new API();
-         $api->add_delete_update("DELETE FROM brand WHERE id=$brand_id");
+         return $api->add_delete_update("DELETE FROM brand WHERE id=$brand_id");
       }
    }

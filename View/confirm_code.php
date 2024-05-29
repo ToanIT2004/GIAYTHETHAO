@@ -12,7 +12,7 @@
                      <input id="code" placeholder="Nhập mã xác nhận" type="text" class="form-control">
                      <small id="code_error" class="text-danger"></small>
                   </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Gửi</button>
                </form>
             </div>
          </div>

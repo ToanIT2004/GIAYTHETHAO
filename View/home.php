@@ -1,3 +1,6 @@
+
+
+
 <!-- Modal -->
 <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -46,7 +49,8 @@
 </div>
 <!-- End Banner Hero -->
 
-<h2  class="chophighlight text-center">Chúng tôi khuyến khích bạn mua hàng bằng tài khoản để có cơ hội trở thành khách hàng thân thuộc của chúng tôi</h2>
+<h2 class="chophighlight text-center">Chúng tôi khuyến khích bạn mua hàng bằng tài khoản để có cơ hội trở thành khách
+    hàng thân thuộc của chúng tôi</h2>
 
 <div class="container-fluid mt-3">
     <div class="row">
@@ -69,47 +73,128 @@
                 <span class="mt-1 mx-4">Sắp xếp theo:</span>
                 <select id="arrange_select" class="w-50 form-select" aria-label="Default select example">
                     <option <?php echo ((isset($_GET['act']) && $_GET['act'] == 'home') || (isset($_GET['action']) && $_GET['action'] == 'home')) ? 'selected' : ''; ?> value="0">Tất cả sản phẩm</option>
-                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'futsal' ? 'selected' : ''; ?> value="1">Giày Futsal</option>
-                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'football' ? 'selected' : ''; ?> value="2">Giày Cỏ Nhân Tạo</option>
-                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'decrease' ? 'selected' : ''; ?> value="3">Giá: giảm dần</option>
-                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'ascending' ? 'selected' : ''; ?> value="4">Giá: tăng dần</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'futsal' ? 'selected' : ''; ?> value="1">
+                        Giày Futsal</option>    
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'football' ? 'selected' : ''; ?> value="2">
+                        Giày Cỏ Nhân Tạo</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'decrease' ? 'selected' : ''; ?> value="3">
+                        Giá: giảm dần</option>
+                    <option <?php echo isset($_GET['act']) && $_GET['act'] == 'ascending' ? 'selected' : ''; ?> value="4">
+                        Giá: tăng dần</option>
                 </select>
-
             </div>
         </div>
     </div>
     <div class="row">
         <?php
         $product = new Product();
-        if(isset($_GET['act']) && $_GET['act'] == 'futsal') {
+        if (isset($_GET['act']) && $_GET['act'] == 'futsal') {
             $result_product = $product->getAll_ShoesFutsal();
-        }else if(isset($_GET['act']) && $_GET['act'] == 'football') {
+        } else if (isset($_GET['act']) && $_GET['act'] == 'football') {
             $result_product = $product->getAll_ShoesFootball();
-        }else if(isset($_GET['act']) && $_GET['act'] == 'decrease') {
-            $result_product = $product->getPrice_Decrease();
-        }else if(isset($_GET['act']) && $_GET['act'] == 'ascending') {
-            $result_product = $product->getPrice_Ascending();
-        }else {
-            $result_product = $product->getProduct_ByNamePriceDiscount();
+        } else if (isset($_GET['act']) && $_GET['act'] == 'decrease') {
+            // Paginate
+            $count_product = $product->getPrice_Decrease()->rowCount();
+            $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+            $all_page = ceil($count_product / 8);
+            $prevPage = max(1, $page-1);
+            $nextPage = min($page+1, $all_page);
+            $start = ($page - 1) * 8;
+
+            $result_product = $product->getPrice_DecreaseLimit($start, 8);
+        } else if (isset($_GET['act']) && $_GET['act'] == 'ascending') {
+            // Paginate
+            $count_product = $product->getPrice_Ascending()->rowCount();
+            $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+            $all_page = ceil($count_product / 8);
+            $prevPage = max(1, $page-1);
+            $nextPage = min($page+1, $all_page);
+            $start = ($page - 1) * 8;
+
+            $result_product = $product->getPrice_AscendingLimit($start, 8);
+        } else {
+            // Paginate
+            $count_product = $product->getProduct_ByNamePriceDiscount()->rowCount();
+            $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+            $all_page = ceil($count_product / 8);
+            $prevPage = max(1, $page-1);
+            $nextPage = min($page+1, $all_page);
+            $start = ($page - 1) * 8;
+            $result_product = $product->getProduct_ByNamePriceDiscountLimit($start, 8);
         }
         while ($result_set = $result_product->fetch()):
             ?>
-        <div class="col-lg-3 mb-3">
-            <a href="index.php?action=details_product&id=<?php echo $result_set['id']?>"><img class="mb-3 image" style="width: 16.5rem; border-radius: 30px" src="View/assets/img/upload/<?php echo $result_set['img']?>" alt=""></a>
-            <a href="index.php?action=details_product&id=<?php echo $result_set['id']?>" class="fw-bold text-secondary text-decoration-none fs-6" style="min-height: 55px"><?php echo $result_set['name']?></a>
-            <div class="d-flex mx-5">
-                <?php 
-                    if($result_set['discount'] > 0) {
-                        echo "<span class='fs-6 text-danger fw-bold mx-1'>".number_format($result_set['discount'])."đ</span>";
-                        echo "<span class='fs-6 text-secondary fw-bolder mx-1 text-decoration-line-through'>".number_format($result_set['price'])."đ</span>";
-                    }else {
-                        echo "<span class='fs-6 text-danger fw-bold mx-1'>".number_format($result_set['price'])."đ</span>";
+            <div class="col-lg-3 mb-3">
+                <a href="index.php?action=details_product&id=<?php echo $result_set['id'] ?>"><img class="mb-3 image"
+                        style="width: 16.5rem; border-radius: 30px"
+                        src="View/assets/img/upload/<?php echo $result_set['img'] ?>" alt=""></a>
+                <a href="index.php?action=details_product&id=<?php echo $result_set['id'] ?>"
+                    class="fw-bold text-secondary text-decoration-none fs-6"
+                    style="min-height: 55px"><?php echo $result_set['name'] ?></a>
+                <div class="d-flex mx-5">
+                    <?php
+                    if ($result_set['discount'] > 0) {
+                        echo "<span class='fs-6 text-danger fw-bold mx-1'>" . number_format($result_set['discount']) . "đ</span>";
+                        echo "<span class='fs-6 text-secondary fw-bolder mx-1 text-decoration-line-through'>" . number_format($result_set['price']) . "đ</span>";
+                    } else {
+                        echo "<span class='fs-6 text-danger fw-bold mx-1'>" . number_format($result_set['price']) . "đ</span>";
                     }
+                    ?>
+                </div>
+                <?php 
+                    $goods_sold = new Goods_sold();
+                    $count_quantity_sold = $goods_sold->quantity_sold_product($result_set['name'])
                 ?>
+                <div class="d-flex justify-content-center mb-3">
+                    <span class="badge text-bg-success">đã bán: <?php echo ($count_quantity_sold['quantity_sold'] > 0)?$count_quantity_sold['quantity_sold']:0?></span>
+                </div>
             </div>
-        </div>
         <?php endwhile ?>
     </div>
+    <!-- Paginate -->
+    <?php if(isset($_GET['action']) && $_GET['action'] == 'home' && !isset($_GET['act']) || $_GET['act'] == 'home') {?>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+            <?php if($page > 1):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&page=<?php echo $prevPage?>">Trước</a></li>
+            <?php endif;?>
+            <?php for ($i = 1; $i <= $all_page; $i++) { ?>
+                <li class='page-item'><a class='page-link text-dark <?php echo (isset($_GET['page']) && $_GET['page'] == $i) || (!isset($_GET['page']) && $i == 1) ? 'bg-success' : ''?>' href='index.php?action=home&page=<?php echo $i;?>'><?php echo $i?></a></li>
+            <?php }?>
+            <?php if($page < $all_page):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&page=<?php echo $nextPage?>">Sau</a></li>
+            <?php endif?>
+        </ul>
+    </nav>
+    <?php }else if(isset($_GET['action']) && $_GET['action'] == 'home' && $_GET['act'] == 'decrease') {?>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+            <?php if($page > 1):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&act=decrease&page=<?php echo $prevPage?>">Trước</a></li>
+            <?php endif;?>
+            <?php for ($i = 1; $i <= $all_page; $i++) { ?>
+                <li class='page-item'><a class='page-link text-dark <?php echo (isset($_GET['page']) && $_GET['page'] == $i) || (!isset($_GET['page']) && $i == 1) ? 'bg-success' : ''?>' href='index.php?action=home&act=decrease&page=<?php echo $i;?>'><?php echo $i;?></a></li>
+            <?php }?>
+            <?php if($page < $all_page):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&act=decrease&page=<?php echo $nextPage?>">Sau</a></li>
+            <?php endif?>
+        </ul>
+    </nav>    
+    <?php }else if(isset($_GET['action']) && $_GET['action'] == 'home' && $_GET['act'] == 'ascending') {?>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+            <?php if($page > 1):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&act=ascending&page=<?php echo $prevPage?>">Trước</a></li>
+            <?php endif;?>
+            <?php for ($i = 1; $i <= $all_page; $i++) { ?>
+                <li class='page-item'><a class='page-link text-dark <?php echo (isset($_GET['page']) && $_GET['page'] == $i) || (!isset($_GET['page']) && $i == 1) ? 'bg-success' : ''?>' href='index.php?action=home&act=ascending&page=<?php echo $i;?>'><?php echo $i?></a></li>
+            <?php }?>
+            <?php if($page < $all_page):?>
+            <li class="page-item"><a class="page-link text-dark" href="index.php?action=home&act=ascending&page=<?php echo $nextPage?>">Sau</a></li>
+            <?php endif?>
+        </ul>
+    </nav>    
+    <?php }?>
 </section>
 
 <style>
@@ -119,9 +204,20 @@
     }
 
     @keyframes chophighlight {
-        0% { color: white; text-shadow: 0 0 5px white; }
-        50% { color: black; text-shadow: 0 0 5px black; }
-        100% { color: white; text-shadow: 0 0 5px white; }
+        0% {
+            color: white;
+            text-shadow: 0 0 5px white;
+        }
+
+        50% {
+            color: black;
+            text-shadow: 0 0 5px black;
+        }
+
+        100% {
+            color: white;
+            text-shadow: 0 0 5px white;
+        }
     }
 
     .chophighlight {
@@ -131,5 +227,4 @@
     .fw-bolder {
         cursor: pointer;
     }
-
 </style>

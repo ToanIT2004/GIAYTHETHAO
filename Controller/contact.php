@@ -23,7 +23,7 @@
          if($result) {
             $res = [
                'status' => 200,
-               'message' => 'Bạn đã liên hệ thành công, Zay shop sẽ phản hồi lại bạn sớm nhất ^^^'
+               'message' => 'Bạn đã liên hệ thành công'
             ];
          }
          echo json_encode($res);

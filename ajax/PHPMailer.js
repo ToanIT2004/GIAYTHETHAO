@@ -98,7 +98,8 @@ $(document).ready(() => {
                   window.location.href = 'index.php?action=user&act=login';
                 }, 1500);
               }
-            }
+            },
+            error: (error) => {console.log(error)}
          })
       }
    })

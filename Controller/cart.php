@@ -70,7 +70,9 @@ switch ($act) {
          foreach ($_SESSION['cart'] as &$item) {
             if ($item['idsp'] == $sp_id) {
                if ($item['quantity'] == 1) {
-                  echo '';
+                  $response = [
+                     'quantity' => 1
+                  ];
                } else {
                   $item['quantity'] -= 1;
                   $response = array(
@@ -89,6 +91,7 @@ switch ($act) {
       session_start();
       // Nhận dữ liệu mảng từ AJAX
       $productPositions = json_decode($_POST['productPositions']);
+
       include "../Model/DBConfig.php";
       include "../Model/API.php";
       include "../Model/Product.php";
@@ -97,6 +100,7 @@ switch ($act) {
       $Product = new Product();
 
       $results = []; // Tạo một mảng kết quả
+
       foreach ($_SESSION['cart'] as $item) {
          $position = $item['idsp']; // Lấy vị trí của sản phẩm
          if (in_array($position, $productPositions)) { // Kiểm tra xem vị trí có trong mảng productPositions không
@@ -178,7 +182,7 @@ switch ($act) {
       $name_product = $_POST['name_product'];
       $size_id = $_POST['size_id'];
       $product_result = $Product->getProduct_ByNameSizeID($name_product, $size_id);
-      if($product_result) {
+      if ($product_result) {
          $res = [
             'status' => 200,
             'price' => $product_result['price'],
@@ -187,4 +191,33 @@ switch ($act) {
       }
       echo json_encode($res);
       break;
+   // Lấy ra tổng tiền trong giỏ hàng
+   case 'get_totalPrice_cart':
+      session_start();
+      $sum = 0;
+      foreach ($_SESSION['cart'] as $cart) {
+         $sum += $cart['price'] * $cart['quantity'];
+      }
+      echo json_encode($sum);
+      break;
+   case 'get_totalPrice_item':
+      session_start();
+      $result = [];
+      foreach ($_SESSION['cart'] as $cart) {
+         $result[] = [
+            'idsp' => $cart['idsp'],
+            'total_price' => $cart['price'] * $cart['quantity']
+         ];
+      }
+      echo json_encode($result);
+      break;
+   case 'get_totalCart':
+      session_start();
+      $sum = 0;
+      foreach ($_SESSION['cart'] as $cart) {
+         $sum += $cart['quantity'];
+      }
+      echo json_encode($sum);
+      break;
+
 }

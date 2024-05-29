@@ -19,8 +19,8 @@ switch ($act) {
       include_once './View/confirm_code.php';
       break;
    // link đến trang thay đổi mật khẩu
-   case 'changePass':
-      include_once './View/changePass.php';
+   case 'reset_pass':
+      include_once './View/reset_pass.php';
       break;
    // Thực hiện việc đăng nhập user
    case 'login_action':
@@ -37,7 +37,7 @@ switch ($act) {
       if($result) {
          $_SESSION['user_id'] = $result['id'];
          $_SESSION['lastname'] = $result['lastname'];
-         $_SESSION['fullname'] = $result['firstname'] . ' ' . $result['lastname'];
+         // $_SESSION['fullname'] = $result['firstname'] . ' ' . $result['lastname'];
          $res = [
             'status' => 200,
             'message' => 'Đăng nhập thành công',
@@ -81,7 +81,18 @@ switch ($act) {
       break;
    // thực hiện việc đăng xuất
    case 'logout_User':
-      session_unset();
+      unset($_SESSION['user_id']);
+      unset($_SESSION['lastname']);
+      unset($_SESSION['fullname']);
+      unset($_SESSION['number_phone']);
+      unset($_SESSION['address']);
+      unset($_SESSION['wards']);
+      unset($_SESSION['district']);
+      unset($_SESSION['province']);
+      unset($_SESSION['province_id']);
+      unset($_SESSION['district_id']);
+      unset($_SESSION['wards_id']);
+
       echo '<meta http-equiv="refresh" content="0;url=index.php?action=user"/>';
       break;
 }

@@ -16,6 +16,6 @@
 
       function delete_Shoes_Type($shoes_type_id) {
          $api = new API();
-         $api->add_delete_update("DELETE FROM shoes_type WHERE id=$shoes_type_id");
+         return $api->add_delete_update("DELETE FROM shoes_type WHERE id=$shoes_type_id");
       }
    }

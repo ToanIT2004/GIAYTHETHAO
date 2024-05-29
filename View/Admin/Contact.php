@@ -1,35 +1,32 @@
 <div class="container mt-3">
-   <h3 class="text-center">KHÁCH HÀNG LIÊN HỆ</h3>
+   <h1 class="fw-bold mb-3 text-success text-center">KHÁCH HÀNG LIÊN HỆ</h1>
    <div class="row">
       <div class="col-lg-12">
          <table class="table table-bordered">
             <thead class="table-success">
-               <tr>
-                  <td>Họ tên</td>
-                  <td>Số điện thoại</td>
-                  <td>Email</td>
-                  <td>Nội dung</td>
-                  <td>Thời gian</td>
-                  <td>Trạng thái</td>
+               <tr class="text-center">
+                  <th>Họ tên</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Nội dung</th>
+                  <th>Thời gian</th>
+                  <th>Đã đọc</th>
                </tr>
             </thead>
-            <tbody class="">
+            <tbody>
                <?php 
                   $contact = new Contact();
                   $Result_contact = $contact->getAll_Contact();
                   while($Result_set = $Result_contact->fetch()):
                ?>
-               <tr>
+               <tr class="text-center" height="70px">
                   <input id="contact_id" type="hidden" value="<?php echo $Result_set['id']?>">
-                  <td><?php echo $Result_set['fullname']?></td>
-                  <td><?php echo $Result_set['email']?></td>
-                  <td><?php echo $Result_set['number_phone']?></td>
-                  <td><?php echo $Result_set['content']?></td>
-                  <td><?php echo $Result_set['create_at']?></td>
-                  <td>
-                     <button data-contact_id="<?php echo $Result_set['id']?>" type="button" class="btn btn-outline-success update_status"><?php echo $Result_set['status']?></button> <bR>
-                     <button data-contact_id="<?php echo $Result_set['id']?>" type="button" class="btn btn-outline-danger delete_contact"><i class="bi bi-trash3-fill"></i></button>
-                  </td>
+                  <td style="line-height: 40px;"><?php echo $Result_set['fullname']?></td>
+                  <td style="line-height: 40px;"><?php echo $Result_set['email']?></td>
+                  <td style="line-height: 40px;"><?php echo $Result_set['number_phone']?></td>
+                  <td style="line-height: 40px;"><?php echo $Result_set['content']?></td>
+                  <td style="line-height: 40px;"><?php echo $Result_set['create_at']?></td>
+                  <td style="line-height: 40px;"><input <?php echo ($Result_set['status'] == 'Đã xử lý'?'checked disabled':'')?> value="<?php echo $Result_set['id']?>" id="read_contact" type="checkbox" style="cursor: pointer;"></td>
                </tr>
                <?php endwhile?>
             </tbody>

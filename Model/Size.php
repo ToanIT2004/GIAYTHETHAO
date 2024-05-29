@@ -16,7 +16,7 @@
 
       function delete_size($size_id) {
          $api = new API();
-         $api->add_delete_update("DELETE FROM size WHERE id=$size_id");
+         return $api->add_delete_update("DELETE FROM size WHERE id=$size_id");
       }
 
       // Lấy ra tất cả size mỗi sản phẩm trong trang ctsp

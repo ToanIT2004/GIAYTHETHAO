@@ -26,9 +26,31 @@ class Product
          product AS sp
      INNER JOIN 
          details_product AS ctsp ON sp.id = ctsp.product_id
+      WHERE 
+         sp.hidden = 0
      GROUP BY 
          sp.name;
      ");
+   }
+
+   // Lấy ra img, name, price, discount bằng size
+   function getProduct_BySize($size_id, $id)
+   {
+      $API = new API();
+      return $API->get_one("SELECT p.id, p.name, p.img, ctsp.price, ctsp.discount
+      FROM product AS p JOIN details_product AS ctsp ON p.id = ctsp.product_id 
+      WHERE ctsp.size_id = $size_id AND p.id = $id");
+   }
+
+
+   // Lấy sản phẩm theo LIMIT
+   function getProduct_ByNamePriceDiscountLimit($start, $end)
+   {
+      $API = new API();
+      return $API->get_All("SELECT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, MIN(ctsp.price) AS price, MIN(ctsp.discount) AS discount 
+      FROM product AS sp INNER JOIN details_product AS ctsp ON sp.id = ctsp.product_id WHERE 
+      sp.hidden = 0
+      GROUP BY sp.name LIMIT $start, $end");
    }
 
    // Lấy chi tiết sản phẩm bảng product và product_id
@@ -80,10 +102,17 @@ class Product
          WHERE `id` = $id;");
    }
 
+   // Xóa sản phẩm 
    function delete_Product($id)
    {
       $API = new API();
-      $API->add_delete_update("DELETE FROM `product` WHERE id='$id'");
+      return $API->add_delete_update("DELETE FROM `product` WHERE id='$id'");
+   }
+   // và chi tiêt của sản phẩm đó
+   function delete_DetailsOfProduct($id)
+   {
+      $API = new API();
+      return $API->add_delete_update("DELETE FROM `details_product` WHERE product_id='$id'");
    }
 
    // Phần chi tiết sản phẩm
@@ -120,7 +149,7 @@ class Product
    function delete_ProductDetails($id)
    {
       $API = new API();
-      $API->add_delete_update("DELETE FROM details_product WHERE id=$id");
+      return $API->add_delete_update("DELETE FROM details_product WHERE id=$id");
    }
 
    // Chỉnh sửa chi tiết sản phẩm 
@@ -134,29 +163,75 @@ class Product
    function getAll_ShoesFutsal()
    {
       $API = new API();
-      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=5 AND sp.id = ctsp.product_id');
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount 
+      FROM product as sp, details_product as ctsp 
+      WHERE sp.hidden = 0 AND sp.shoes_type_id=5 AND sp.id = ctsp.product_id');
    }
 
    // Lấy ra tất cả giày cỏ nhân tạo
    function getAll_ShoesFootball()
    {
       $API = new API();
-      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp, details_product as ctsp WHERE sp.shoes_type_id=4 AND sp.id = ctsp.product_id');
+      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount 
+      FROM product as sp, details_product as ctsp 
+      WHERE sp.hidden = 0 AND sp.shoes_type_id=4 AND sp.id = ctsp.product_id');
    }
 
    // Sắp xếp theo giá giảm dần
    function getPrice_Decrease()
    {
       $API = new API();
-      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price DESC');
+      return $API->get_All('SELECT 
+      sp.id, 
+      sp.shoes_type_id, 
+      sp.brand_id, 
+      sp.img, 
+      sp.name, 
+      MIN(ctsp.price) AS price, 
+      MIN(ctsp.discount) AS discount 
+  FROM 
+      product AS sp 
+  INNER JOIN 
+      details_product AS ctsp 
+  ON 
+      sp.id = ctsp.product_id 
+  WHERE 
+      sp.hidden = 0
+  GROUP BY 
+      sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name 
+  ORDER BY 
+      price DESC;
+  ');
    }
+   // Sắp xếp theo giá giảm dần theo Limit()
+   function getPrice_DecreaseLimit($start, $end)
+   {
+      $API = new API();
+      return $API->get_All("SELECT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, MIN(ctsp.price) AS price, MIN(ctsp.discount) AS discount 
+      FROM product AS sp INNER JOIN details_product AS ctsp ON sp.id = ctsp.product_id WHERE 
+      sp.hidden = 0 GROUP BY sp.name ORDER BY price DESC LIMIT $start,$end");
+   }
+
 
    // Sắp xếp theo giá tăng dần
    function getPrice_Ascending()
    {
       $API = new API();
-      return $API->get_All('SELECT DISTINCT sp.id, sp.img, sp.name, ctsp.price, ctsp.discount FROM product as sp JOIN details_product as ctsp ON sp.id = ctsp.product_id ORDER BY ctsp.price ASC');
+      return $API->get_All('SELECT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, MIN(ctsp.price) AS price, MIN(ctsp.discount) AS discount 
+      FROM product AS sp INNER JOIN details_product AS ctsp ON sp.id = ctsp.product_id WHERE 
+      sp.hidden = 0 GROUP BY sp.name ORDER BY price ASC');
    }
+
+   // Sắp xếp theo giá tăng dần theo limit
+   function getPrice_AscendingLimit($start, $end)
+   {
+      $API = new API();
+      return $API->get_All("SELECT sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name, MIN(ctsp.price) AS price, MIN(ctsp.discount) AS discount 
+      FROM product AS sp INNER JOIN details_product AS ctsp ON sp.id = ctsp.product_id WHERE 
+      sp.hidden = 0 GROUP BY sp.name ORDER BY price ASC LIMIT $start, $end");
+   }
+
+
 
    // Trừ số lượng tồn trong chi tiết sản phẩm theo tên, size
    function decrease_quantity($product_name, $size, $quantity)
@@ -212,5 +287,19 @@ class Product
       return $API->get_one("SELECT sp.name, ctsp.size_id, ctsp.price, ctsp.discount 
       FROM product as sp, details_product as ctsp 
       WHERE sp.id = ctsp.product_id AND ctsp.size_id = $size_id AND sp.name= '$name'");
+   }
+
+   // ẩn sản phẩm
+   function hidden_product($product_id)
+   {
+      $API = new API();
+      return $API->add_delete_update("UPDATE `product` SET hidden = 1 WHERE id='$product_id'");
+   }
+
+   // Hiện sản phẩm
+   function show_product($product_id)
+   {
+      $API = new API();
+      return $API->add_delete_update("UPDATE `product` SET hidden = 0 WHERE id='$product_id'");
    }
 }

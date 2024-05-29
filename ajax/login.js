@@ -4,7 +4,7 @@ $(document).ready(function (){
        var username = $('#username').val();
        var password = $('#password').val();
        if(username.trim() == '' || password.trim() == '') {
-           Swal.fire("Hãy điền tài khoản và mật khẩu!!!");return;
+           Swal.fire("Hãy điền tài khoản và mật khẩu");return;
        } 
 
        $.ajax({
@@ -33,4 +33,5 @@ $(document).ready(function (){
          }
        })
    })
+
 });

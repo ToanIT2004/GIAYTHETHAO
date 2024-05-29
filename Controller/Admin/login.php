@@ -6,10 +6,9 @@
 
    switch($act) {
       case 'login':
-         include_once "./View/admin/login.php";
+         include './View/admin/login.php';
          break;
       case 'login_action':
-         $kq = "hello";
          $username = $_POST['username'];
          $password = $_POST['password'];
          include_once('../../Model/DBConfig.php');
@@ -37,7 +36,6 @@
          break;
       case 'dangxuat':
          session_unset();
-         echo "<script>alert('Đăng xuất thành công')</script>";
          echo '<meta http-equiv="refresh" content="0;url=./admin.php?action=login"/>';
          break;
    }

@@ -26,11 +26,7 @@
       // Liệt kê số lượng đơn hàng theo tháng
       function getOrder_ByMonth() {
          $API = new API();
-         return $API->get_All("SELECT DATE_FORMAT(delivered_time, '%Y-%m') AS month, COUNT(*) AS total_orders 
-         FROM orders 
-         WHERE delivered_time IS NOT NULL
-         GROUP BY month;
-         ");
+         return $API->get_All("SELECT DATE_FORMAT(delivered_time, '%Y-%m') AS month, COUNT(*) AS total_orders FROM orders WHERE delivered_time IS NOT NULL and status= 3 GROUP BY month");
       }
 
       // Liệt kê số lượng đơn hàng theo ngày

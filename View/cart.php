@@ -47,19 +47,13 @@
                            </div>
                         </td>
                         <td>
-                           <?php echo number_format($cart['price'] * $cart['quantity']) ?>đ</td>
+                           <span id="total_price_<?php echo $cart['idsp']?>"></span>
                      </tr>
                   <?php endforeach ?>
                   <tr>
                      <td colspan='3'>Tổng tiền</td>
-                     <?php
-                     $sum = 0;
-                     foreach ($_SESSION['cart'] as $cart) {
-                        $sum += $cart['price'] * $cart['quantity'];
-                     }
-                     ?>
                      <td class="text-danger">
-                        <h6 class="total_price"><?php echo number_format($sum); ?>đ</h6>
+                        <h6 class="total_price"></h6>
                      </td>
                   </tr>
                <?php } else {
@@ -70,13 +64,13 @@
 
          <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) { ?>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-dark w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
-               Thanh Toán
+            <button  class="btn btn-outline-dark w-100" id="btn_show_modal">
+               Thanh Toán 
             </button>
          <?php } ?>
 
          <!-- Modal -->
-         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal fade" id="modal_pay" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                <div class="modal-content">
                   <div class="modal-header">
@@ -88,16 +82,17 @@
                      <div class="form-group mb-3">
                         <label for="" class="mb-1">Họ tên khách hàng</label>
                         <input type="text" value="<?php echo isset($_SESSION['fullname'])?$_SESSION['fullname']:''?>" id="fullname" class="form-control" placeholder="Điền họ tên của bạn">
-                        <small id="fullname_error" class="text-danger"></small>
+                        <small id="fullname_error" class="text-danger badge"></small>
                      </div>
                      <div class="form-group mb-3">
                         <label for="" class="mb-1">Số điện thoại</label>
-                        <input type="text" id="number_phone" class="form-control" placeholder="Điền số điện của bạn">
-                        <small id="numberphone_error" class="text-danger"></small>
+                        <input type="text" value="<?php echo isset($_SESSION['number_phone'])?'0'.$_SESSION['number_phone']:''?>" id="number_phone" class="form-control" placeholder="Điền số điện của bạn">
+                        <small id="number_phone_error" class="text-danger badge"></small>
                      </div>
                      <div class="form-group mb-3">
                         <label for="" class="mb-1">Địa chỉ</label>
-                        <input type="text" id="address" class="form-control" placeholder="Điền địa chỉ của bạn">
+                        <input value="<?php echo isset($_SESSION['address'])?$_SESSION['address']:''?>" type="text" id="address" class="form-control" placeholder="Điền địa chỉ của bạn">
+                        <small id="address_error" class="text-danger badge"></small>
                      </div>
 
                      <div class="d-flex justify-content-between">
@@ -110,26 +105,30 @@
                                  $Address_Result = $Address->getAll_Province();
                                  while($Address_set = $Address_Result->fetch()):
                               ?>
-                              <option value="<?php echo $Address_set['province_id']?>"><?php echo $Address_set['name']?></option>
+                              <option <?php echo (isset($_SESSION['province']) && $_SESSION['province'] == $Address_set['name'])?'selected':''?> value="<?php echo $Address_set['province_id']?>"><?php echo $Address_set['name']?></option>
                               <?php endwhile?>
                            </select>
+                           <small id="province_error" class="text-danger badge" style="font-size: 11px;"></small>
+
                         </div>
                         <div class="form-group">
                            <label for="wards">Quận/Huyện</label>
                            <select style="width: 140px" class="form-control" name="district" id="district">
-                              <option value=>Chọn quận/huyện</option>
+                              <option value="<?php echo isset($_SESSION['district_id'])?$_SESSION['district_id']:''?>"><?php echo (isset($_SESSION['district']))?$_SESSION['district']:'Chọn Quận/Huyện'?></option>
                            </select>
+                           <small id="district_error" class="text-danger badge" style="font-size: 11px;"></small>
                         </div>
                         <div class="form-group">
                            <label for="wards">Phường/Xã</label>
                            <select style="width: 140px" class="form-control" name="wards" id="wards">
-                              <option value=>Chọn phường/xã</option> 
+                              <option value="<?php echo isset($_SESSION['wards_id'])?$_SESSION['wards_id']:''?>"><?php echo (isset($_SESSION['wards']))?$_SESSION['wards']:'Chọn Phường/Xã'?></option> 
                            </select>
+                           <small id="wards_error" class="text-danger badge" style="font-size: 11px;"></small>
                         </div>
                      </div>
                      <div class="d-flex justify-content-between mt-4">
                         <span class="h3 fs-4">Tổng tiền</span>
-                        <span class="h3 text-danger fs-4"><?php echo number_format($sum); ?>đ</span>
+                        <span class="h3 text-danger total_price fs-4"></span>
                      </div>
                   </div>
                   <div class="modal-footer">

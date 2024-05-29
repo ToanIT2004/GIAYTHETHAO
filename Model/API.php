@@ -20,9 +20,4 @@
          $result = $db->exec($select);
          return $result;
       }
-
-      // function delete() {}
-
-      // function update() {}
-
    }

@@ -1,12 +1,12 @@
 <div class="container mt-5">
    <div class="row">
       <!-- Thêm sản phẩm -->
-      <div class="col-lg-10 offset-md-1">
+      <div class="col-lg-8 offset-md-2">
          <div class="card">
-            <div class="card-header text-center">
-               <b class="text-info">CHỈNH SỬA SẢN PHẨM</b>
+            <div class="card-header text-center bg-success">
+               <h3 class="text-dark fw-bolder">CHỈNH SỬA SẢN PHẨM</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-success-subtle">
                <form id="form_Product">
                   <input type="hidden" id="id_product">
                   <div class="form-group mb-3">
@@ -18,7 +18,7 @@
                   <div class="d-flex justify-content-between">
                      <div class="form-group">
                         <label class="form-label">Tên loại giày</label>
-                        <select id="shoes_type" style="width: 350px" class="form-select form-select-lg mb-3"
+                        <select id="shoes_type" style="width: 330px" class="form-select mb-3"
                            aria-label="Large select example">
                            <?php 
                               $shoes_type_id = new Shoes_Type();
@@ -31,7 +31,7 @@
                      </div>
                      <div class="form-group">
                         <label class="form-label">Tên thương hiệu</label>
-                        <select id="brand" style="width: 350px" class="form-select form-select-lg mb-3"
+                        <select id="brand" style="width: 330px" class="form-select mb-3"
                            aria-label="Large select example">
                            <?php 
                               $brand = new Brand();
@@ -52,13 +52,13 @@
 
                   <div class="form-group mb-3">
                      <label class="form-label">Hình ảnh</label>
-
                      <input class="form-control" accept=".jpeg, .png, .jpg, .webp" type="file" id="img">
-                     <img style="width: 200px; height: 200px;" id="prevent_img" src="" alt="">
-                     <a id="upload_img" class="btn btn-primary">Cập nhật ảnh</a>
+                     <img style="width: 200px; height: 200px;" id="preview_img" src="" alt="">
                   </div>
 
-                  <button class="btn btn-primary">Chỉnh sửa</button>
+                  <div class="d-flex justify-content-end">
+                     <button class="btn btn-outline-success"><i class="bi bi-floppy"></i></button>
+                  </div>
                </form>
             </div>
          </div>
@@ -83,7 +83,6 @@
       $('#shoes_type').val(product.shoes_type_id);
       $('#brand').val(product.brand_id);
       $('#img_old').val("./View/assets/img/upload/" + product.img); 
-      $('#prevent_img').attr('src', "./View/assets/img/upload/" + product.img); 
-      // $('#link_url').attr('value', "./View/assets/img/upload/" + product.img); 
+      $('#preview_img').attr('src', "./View/assets/img/upload/" + product.img); 
    })
 </script>

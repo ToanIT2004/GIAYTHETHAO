@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 03, 2024 at 06:44 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: May 29, 2024 at 12:01 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,35 @@ SET time_zone = "+00:00";
 --
 -- Database: `doancuoiki`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `admin_id` int(11) NOT NULL,
+  `fullname` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `number_phone` int(11) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `address` varchar(150) NOT NULL,
+  `start_date` varchar(100) NOT NULL DEFAULT current_timestamp(),
+  `date_of_birth` date NOT NULL DEFAULT current_timestamp(),
+  `gender` varchar(10) NOT NULL,
+  `profile_picture` varchar(150) NOT NULL,
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `fullname`, `username`, `password`, `number_phone`, `email`, `address`, `start_date`, `date_of_birth`, `gender`, `profile_picture`, `role_id`) VALUES
+(1, 'Nhân viên', 'admin', '123123', 0, '', '', '2024-05-29', '2024-05-29', '', '', 0),
+(2, 'Chương Toàn', 'chuongtoan123', '123123', 0, '', '', '2024-05-29', '2024-05-29', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -45,6 +74,46 @@ INSERT INTO `brand` (`id`, `name_brand`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `img` varchar(150) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `content`, `img`, `created_at`, `user_id`, `product_id`) VALUES
+(1, 'Sản phẩm oke', NULL, '2024-05-20 11:50:21', 83, 30),
+(12, 'Giày đẹp bền , giá cả hợp lý , mang rất êm chân !!!\n', NULL, '2024-05-20 14:16:38', 54, 36),
+(13, 'Mẫu mã rất ok ....\n', NULL, '2024-05-20 14:18:40', 54, 36),
+(14, 'Giày màu đen này mang không dơ chân', NULL, '2024-05-20 14:19:35', 83, 30),
+(15, 'Sản phẩm hơi mắc', NULL, '2024-05-20 14:20:24', 83, 36),
+(16, 'Nhưng mang rất đẹp ', NULL, '2024-05-20 14:20:33', 83, 36),
+(17, 'Sản phẩm đẹp ghê', NULL, '2024-05-20 15:08:38', 83, 40),
+(18, 'chất lượng ', NULL, '2024-05-20 15:09:03', 83, 40),
+(31, 'Màu sắc rực rỡ', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-2_5a25e5d42a764891848c0ab47b8d4195_master.webp', '2024-05-20 16:20:57', 83, 18),
+(32, 'Mang rất êm chấn nhé shop ơi . ', 'images.jpg', '2024-05-20 16:21:23', 83, 18),
+(33, 'Chất lượng ', '', '2024-05-20 16:22:57', 83, 18),
+(34, 'Sản phẩm đẹp !!', '', '2024-05-21 09:40:20', 91, 18),
+(35, 'Sản phẩm đẹp', '', '2024-05-21 09:40:46', 91, 18),
+(38, 'Sản phẩm chất lượng, mang rất êm chân', '', '2024-05-21 10:01:47', 53, 18),
+(39, 'Sản phẩm chất lượng tốt ', '', '2024-05-21 10:06:37', 54, 36),
+(40, 'bbb', '', '2024-05-21 10:09:40', 80, 36),
+(41, 'Giày không đẹp', '', '2024-05-21 10:13:38', 80, 18),
+(42, 'Chất lương lắm shop', NULL, '2024-05-21 10:14:31', 80, 18),
+(50, 'Đẹp', '', '2024-05-21 16:28:51', 81, 36);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `contact`
 --
 
@@ -54,7 +123,7 @@ CREATE TABLE `contact` (
   `number_phone` varchar(150) NOT NULL,
   `email` varchar(150) NOT NULL,
   `content` text NOT NULL,
-  `status` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'Chưa xử lý',
   `create_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -63,7 +132,13 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `fullname`, `number_phone`, `email`, `content`, `status`, `create_at`) VALUES
-(7, 'Lê Trọng Nhân', '0902115113', 'letrongnhan@gmail.com', 'Giày cực kí bền', 'Đã xử lý', '2024-04-24 04:00:43');
+(8, 'Trần Mạnh Tường', '01205789851', 'manhtuong@gmail.com', 'Trang web rất dễ dàng sử dụng, đẹp, tiện lợi', 'Chờ xử lý', '2024-05-03 07:13:29'),
+(9, 'Dương Phương Chương Toàn', '0703038870', 'chuongtoan1602@gmail.com', 'San pham dep', 'Chờ xử lý', '2024-05-13 08:21:31'),
+(14, 'Trần Văn A', '0774162631', 'tranvana@gmail.com', 'Trang web dễ dàng sử dụng', 'Chờ xử lý', '2024-05-25 02:27:51'),
+(15, 'Lê Quốc Anh', '0922212388', 'quocanh@gmail.com', 'giày không đẹp nhưng rất mắc', 'Chờ xử lý', '2024-05-25 02:30:39'),
+(16, 'Lê Đình Qúy', '0908070605', 'dinhquy@gmail.com', 'Giày rất chất lượng', 'Chờ xử lý', '2024-05-25 02:31:18'),
+(17, 'Nguyễn Thị Tú', '0708118181', 'tutran@gmail.com', 'Trang web đẹp , dễ dàng sử dụng !', 'Đã xử lý', '2024-05-25 02:52:37'),
+(18, 'Văn Thoại', '0902554123', 'vanthoai@gmail.com', 'Giày chất lượng', 'Đã xử lý', '2024-05-25 02:54:13');
 
 -- --------------------------------------------------------
 
@@ -88,14 +163,50 @@ CREATE TABLE `details_order` (
 --
 
 INSERT INTO `details_order` (`id`, `name_product`, `size`, `quantity`, `img`, `price`, `total_price`, `order_id`, `deleted_at`) VALUES
-(40, 'ADIDAS TOP SALA COMPETITION - ĐỎ BẠC ĐÔ1', 39, 2, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-1_654909908641442898c5f6367229dc9d_master.webp', 1950000, 3900000, '662c5e976e352_1714183831', NULL),
-(41, 'NIKE PHANTOM GX 2 ACADEMY LV8 TF - XANH NGỌC', 39, 2, 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-1_693fbb1c976b495da90c85ffb5f249cf_master.webp', 2050000, 4100000, '662c6bedca70f_1714187245', NULL),
-(49, 'ADIDAS X CRAZYFAST LEAGUE TF - ĐỎ/TRẮNG', 40, 1, 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-1_c079dfaac40844fa9df9117a58a5b728_master.webp', 1950000, 1950000, '663353b8bf360_1714639800', NULL),
-(50, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 42, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '663355088a5e9_1714640136', NULL),
-(51, 'PUMA ULTRA MATCH TT - HỒNG/ĐEN', 41, 1, 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-1_f4cb78d11d6e4a00b6cd10ae58c10144_master.webp', 2033000, 2033000, '66335520b1f74_1714640160', NULL),
-(52, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 42, 1, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 2490000, '66335992b93ed_1714641298', NULL),
-(54, 'NIKE TIEMPO LEGEND 10 ACADEMY - XANH MINT', 41, 1, 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-1_8f98a5465caf4757b37d90cd409d6985_master.webp', 1990000, 1990000, '66335b79a359a_1714641785', NULL),
-(55, 'ADIDAS TOP SALA COMPETITION - TRẮNG/XANH', 42, 2, 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-1_8b6255d5229a4d9385b1385c17eb3be5_master.webp', 1690000, 3380000, '66335c7ad9c3d_1714642042', NULL);
+(133, 'ADIDAS TOP SALA COMPETITION - XÁM/XANH', 42, 3, 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-1_90be0e83fcba4053846902e94e217fdc_master.webp', 1950000, 5850000, '66555087a5e0d_1716867207', NULL),
+(134, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 40, 2, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-1_e9a54bcbec654aa789bb8aeb012a022c_master.webp', 1950000, 3900000, '665550ca308dc_1716867274', NULL),
+(135, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 5, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 14000000, '665555382526f_1716868408', NULL),
+(136, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 39, 2, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 5600000, '665555501807c_1716868432', NULL),
+(137, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 39, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '665555738d48d_1716868467', NULL),
+(138, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 42, 1, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 2490000, '665555c1d904f_1716868545', NULL),
+(139, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 42, 2, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 4980000, '665556a767979_1716868775', NULL),
+(140, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 42, 2, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 4980000, '665556c55e8b7_1716868805', NULL),
+(141, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 41, 2, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 4980000, '665556d950283_1716868825', NULL),
+(142, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 42, 3, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 8400000, '665556f83ca6b_1716868856', NULL),
+(143, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '665557012b19f_1716868865', NULL),
+(144, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 37, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '665557319d94e_1716868913', NULL),
+(145, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '66555e36f2266_1716870710', NULL),
+(146, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '66555e901e65a_1716870800', NULL),
+(147, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '66555fac5ba59_1716871084', NULL),
+(148, 'MIZUNO MORELIA NEO III PRO IN LẠC VIỆT LIMITED EDITION - ĐỎ VÀNG', 39, 1, 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-1_3f5c9f9ebcd040d7a9a3aa5dbe399f7c_master.webp', 2670000, 2670000, '66556025be1da_1716871205', NULL),
+(149, 'ADIDAS TOP SALA COMPETITION - ĐEN/ĐỎ', 39, 1, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-1_ce7daaa1522a4a45aea4e9c601b8c972_master.webp', 1690000, 1690000, '66556096ed63c_1716871318', NULL),
+(150, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '665564508895f_1716872272', NULL),
+(151, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '66559007f3769_1716883463', NULL),
+(152, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '66559080b4184_1716883584', NULL),
+(153, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '66559206f2376_1716883974', NULL),
+(154, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 41, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '6655929229ace_1716884114', NULL),
+(155, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '6655953328a62_1716884787', NULL),
+(156, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '66559ac686e7e_1716886214', NULL),
+(157, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', 2800000, 2800000, '66559b3899c8b_1716886328', NULL),
+(158, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '66559fa99cd40_1716887465', NULL),
+(159, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a636362b0_1716889142', NULL),
+(160, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a66eed3d9_1716889198', NULL),
+(161, 'NIKE LUNAR GATO II - XANH MẠ NON', 42, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a66eed3d9_1716889198', NULL),
+(162, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a7b1c0134_1716889521', NULL),
+(163, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a7cf23488_1716889551', NULL),
+(164, 'NIKE LUNAR GATO II - XANH MẠ NON', 42, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a7cf23488_1716889551', NULL),
+(165, 'NIKE LUNAR GATO II - XANH MẠ NON', 42, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a8766238a_1716889718', NULL),
+(166, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a8804b915_1716889728', NULL),
+(167, 'NIKE LUNAR GATO II - XANH MẠ NON', 42, 1, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', 2250000, 2250000, '6655a8804b915_1716889728', NULL),
+(168, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 2, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 3500000, '6656a90cb9f4d_1716955404', NULL),
+(169, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 41, 1, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', 1750000, 1750000, '6656a90cb9f4d_1716955404', NULL),
+(170, 'NIKE TIEMPO LEGEND 10 ACADEMY - XANH MINT', 39, 1, 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-1_8f98a5465caf4757b37d90cd409d6985_master.webp', 1990000, 1990000, '6656cdfa959a3_1716964858', NULL),
+(171, 'ADIDAS TOP SALA COMPETITION - ĐEN/ĐỎ', 39, 1, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-1_ce7daaa1522a4a45aea4e9c601b8c972_master.webp', 1690000, 1690000, '6656ce24ca774_1716964900', NULL),
+(172, 'NIKE STREET GATO - VÀNG/TRẮNG', 41, 1, 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-1_828546d6342f4b999ee9b0f47cc9c70c_master.webp', 1940000, 1940000, '6656ce24ca774_1716964900', NULL),
+(173, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 40, 1, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-1_e9a54bcbec654aa789bb8aeb012a022c_master.webp', 1950000, 1950000, '6656ce5bafc01_1716964955', NULL),
+(174, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 42, 1, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-1_e9a54bcbec654aa789bb8aeb012a022c_master.webp', 1950000, 1950000, '6656ce5bafc01_1716964955', NULL),
+(175, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 41, 1, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', 2490000, 2490000, '6656ce5bafc01_1716964955', NULL),
+(176, 'PUMA TOP FLEX REBOUND - TRẮNG/HỒNG/XANH', 38, 1, 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-1_c27247a2a4a341a999d5a898fed8e99e_master.webp', 1750000, 1750000, '6656ce5bafc01_1716964955', NULL);
 
 -- --------------------------------------------------------
 
@@ -120,18 +231,12 @@ CREATE TABLE `details_product` (
 --
 
 INSERT INTO `details_product` (`id`, `product_id`, `size_id`, `price`, `discount`, `quantity`, `img1`, `img2`, `img3`) VALUES
-(1, 0, 2, 55, 0, 1, 'apadmini.png', 'apadmini.png', 'apadmini.png'),
-(3, 8, 2, 123, 0, 1, 'apadmini.png', 'apadmini-3.png', 'apadmini.png'),
-(6, 8, 2, 123, 0, 1, 'apadmini.png', 'apadmini.png', 'apadmini.png'),
-(8, 11, 3, 300, 200, 1, 'apadmini.png', 'apadmini.png', 'apadmini.png'),
 (14, 15, 2, 2350000, 2190000, 3, 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-2_63fea2f77a7544d2afa4f3c567a1c847_master.webp', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-3_b41cf075771d4892af72f06490a5386e_master.webp', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-4_0ae2c0155ae84556aac0c52131524a7b_master.webp'),
-(15, 16, 4, 2050000, 0, 1, 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-2_c09d15cc18ba459e9e699391b6c4bc97_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-3_f591847cf18d41d099ddde438ef19349_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-4_765cc2e39bbe4f04829be73346f3be9b_master.webp'),
+(15, 16, 4, 2050000, 0, 3, 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-2_c09d15cc18ba459e9e699391b6c4bc97_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-3_f591847cf18d41d099ddde438ef19349_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-4_765cc2e39bbe4f04829be73346f3be9b_master.webp'),
 (16, 16, 6, 2050000, 0, 4, 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-2_c09d15cc18ba459e9e699391b6c4bc97_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-3_f591847cf18d41d099ddde438ef19349_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-4_765cc2e39bbe4f04829be73346f3be9b_master.webp'),
 (17, 16, 7, 2050000, 0, 1, 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-2_c09d15cc18ba459e9e699391b6c4bc97_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-3_f591847cf18d41d099ddde438ef19349_master.webp', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-4_765cc2e39bbe4f04829be73346f3be9b_master.webp'),
 (18, 17, 4, 3500000, 280000000, 1, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
 (19, 17, 5, 200000, 2800000, 4, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
-(21, 18, 5, 2400000, 1950000, 3, 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-2_5a25e5d42a764891848c0ab47b8d4195_master.webp', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-3_4714760530984b409e38b5744177c608_master.webp', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-4_befd484d7e6d4cd7a93e390bc28facad_master.webp'),
-(22, 18, 7, 2400000, 1950000, 4, 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-2_5a25e5d42a764891848c0ab47b8d4195_master.webp', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-3_4714760530984b409e38b5744177c608_master.webp', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-4_befd484d7e6d4cd7a93e390bc28facad_master.webp'),
 (23, 19, 3, 2259000, 2033000, 2, 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-2_a2269f7f32c94cd29448c6a5c8f6a3d1_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-3_f933f886d3044c40b1a2ac51c26895f7_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-4_af02a2d7a1794a7e837669f9e057d1d2_master.webp'),
 (24, 19, 6, 2259000, 2033000, 0, 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-2_a2269f7f32c94cd29448c6a5c8f6a3d1_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-3_f933f886d3044c40b1a2ac51c26895f7_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-4_af02a2d7a1794a7e837669f9e057d1d2_master.webp'),
 (25, 20, 6, 3099000, 2490000, 6, 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-2_51323b66ccdd46f596727b1b78ba8493_master.webp', 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-3_95226aa2206943049bdfabb81a9bd7b6_master.webp', 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-4_6ee2f83e88474a02bf19f521f5e40593_master.webp'),
@@ -139,28 +244,28 @@ INSERT INTO `details_product` (`id`, `product_id`, `size_id`, `price`, `discount
 (27, 21, 4, 1950000, 0, 3, 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-2_5bcbf1531d1c4d8399038777bf7d866f_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-3_ce5dac1d12fc4c6a8dfcafda9e842012_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-4_6a6ecfa4503a4a52b8c1907a1542de2b_master.webp'),
 (28, 21, 5, 1950000, 0, 3, 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-2_5bcbf1531d1c4d8399038777bf7d866f_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-3_ce5dac1d12fc4c6a8dfcafda9e842012_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-4_6a6ecfa4503a4a52b8c1907a1542de2b_master.webp'),
 (29, 21, 6, 1950000, 0, 3, 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-2_5bcbf1531d1c4d8399038777bf7d866f_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-3_ce5dac1d12fc4c6a8dfcafda9e842012_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-4_6a6ecfa4503a4a52b8c1907a1542de2b_master.webp'),
-(30, 22, 5, 1790000, 0, 2, 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-2_6c537e409a844887b3dc8a9868a284da_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-3_03c621fc08a74f7f84dd55f7898bb1b4_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-4_c2461756bf3541428fd05b6fddd08581_master.webp'),
+(30, 22, 5, 1790000, 0, 1, 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-2_6c537e409a844887b3dc8a9868a284da_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-3_03c621fc08a74f7f84dd55f7898bb1b4_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-4_c2461756bf3541428fd05b6fddd08581_master.webp'),
 (31, 22, 7, 1790000, 0, 2, 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-2_6c537e409a844887b3dc8a9868a284da_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-3_03c621fc08a74f7f84dd55f7898bb1b4_master.webp', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-4_c2461756bf3541428fd05b6fddd08581_master.webp'),
-(32, 23, 5, 2250000, 0, 5, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-2_10753c4a8ad54f9ab5edb71623b85079_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-3_63f940bac7d8418b97cc6f1ba359f562_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-4_6b92dc1940a647a3b4c541105235643c_master.webp'),
-(33, 23, 7, 2250000, 0, -3, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-2_10753c4a8ad54f9ab5edb71623b85079_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-3_63f940bac7d8418b97cc6f1ba359f562_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-4_6b92dc1940a647a3b4c541105235643c_master.webp'),
+(32, 23, 5, 2250000, 0, 7, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-2_10753c4a8ad54f9ab5edb71623b85079_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-3_63f940bac7d8418b97cc6f1ba359f562_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-4_6b92dc1940a647a3b4c541105235643c_master.webp'),
+(33, 23, 7, 2250000, 0, 7, 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-2_10753c4a8ad54f9ab5edb71623b85079_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-3_63f940bac7d8418b97cc6f1ba359f562_master.webp', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-4_6b92dc1940a647a3b4c541105235643c_master.webp'),
 (34, 24, 4, 2434000, 1990000, 2, 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-2_9d8613939b3846ec9428eb728923c3bf_master.webp', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-3_212d9777b4fb48d7bae3df9551dd75e8_master.jpg', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-4_0c185fe680a64cebb725f42dc11548dc_small.webp'),
 (35, 24, 5, 2434000, 1990000, 4, 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-2_9d8613939b3846ec9428eb728923c3bf_master.webp', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-3_212d9777b4fb48d7bae3df9551dd75e8_master.jpg', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-4_0c185fe680a64cebb725f42dc11548dc_small.webp'),
 (36, 24, 6, 2434000, 1990000, 7, 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-2_9d8613939b3846ec9428eb728923c3bf_master.webp', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-3_212d9777b4fb48d7bae3df9551dd75e8_master.jpg', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-4_0c185fe680a64cebb725f42dc11548dc_small.webp'),
 (37, 25, 3, 2000000, 1950000, 4, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
-(38, 25, 4, 2000000, 1950000, 1, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
+(38, 25, 4, 2000000, 1950000, 0, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
 (39, 25, 5, 2000000, 1950000, 3, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
-(40, 25, 6, 2000000, 1950000, 10, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
+(40, 25, 6, 2000000, 1950000, 7, 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-2_717bf6478f114c8d8081fca8de8ade5b_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-3_1a2de10b9472409ea93b3f6ad33d645f_master.webp', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-4_abc35c39611f455f98cf7beb8f191de8_master.webp'),
 (42, 26, 5, 1950000, 0, 4, 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-2_b6203f700903455f807cb1166b6f16fe_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-3_bdae6a3d6b194099ace6ca8030d78fcf_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-4_80aaf3eb728d4030ae1d00614e3a753d_master.webp'),
 (43, 26, 6, 1950000, 0, 3, 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-2_b6203f700903455f807cb1166b6f16fe_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-3_bdae6a3d6b194099ace6ca8030d78fcf_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-4_80aaf3eb728d4030ae1d00614e3a753d_master.webp'),
 (44, 26, 7, 1950000, 0, 5, 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-2_b6203f700903455f807cb1166b6f16fe_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-3_bdae6a3d6b194099ace6ca8030d78fcf_master.webp', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-4_80aaf3eb728d4030ae1d00614e3a753d_master.webp'),
 (45, 27, 3, 2259000, 2030000, 4, 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-2_f9c1da51b5ab40889df284e2d0304abe_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-3_bb68b63f1dc041f485e9eabe9bfdb436_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-4_70f5d595faf14bb5ad77e12629068797_master.webp'),
 (46, 27, 7, 2259000, 2030000, 4, 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-2_f9c1da51b5ab40889df284e2d0304abe_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-3_bb68b63f1dc041f485e9eabe9bfdb436_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-4_70f5d595faf14bb5ad77e12629068797_master.webp'),
-(47, 28, 4, 1990000, 1690000, 3, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-2_2cbd7120e66745ca8980ce9590c88a17_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-3_69de851e98d2427c96dd7d3030237193_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-4_674cc22cb1b848cf83aa080f78066e57_master.webp'),
+(47, 28, 4, 1990000, 1690000, 2, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-2_2cbd7120e66745ca8980ce9590c88a17_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-3_69de851e98d2427c96dd7d3030237193_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-4_674cc22cb1b848cf83aa080f78066e57_master.webp'),
 (48, 28, 5, 1990000, 1690000, 3, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-2_2cbd7120e66745ca8980ce9590c88a17_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-3_69de851e98d2427c96dd7d3030237193_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-4_674cc22cb1b848cf83aa080f78066e57_master.webp'),
 (49, 28, 6, 1990000, 1690000, 4, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-2_2cbd7120e66745ca8980ce9590c88a17_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-3_69de851e98d2427c96dd7d3030237193_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-4_674cc22cb1b848cf83aa080f78066e57_master.webp'),
 (50, 28, 7, 1990000, 1690000, 3, 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-2_2cbd7120e66745ca8980ce9590c88a17_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-3_69de851e98d2427c96dd7d3030237193_master.webp', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-4_674cc22cb1b848cf83aa080f78066e57_master.webp'),
 (51, 29, 7, 1990000, 1690000, 5, 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-2_70f814896cd74f99a694b5d3b63f7b8d_master.webp', 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-3_ee55cacfe92d4f6cb58c2a22fb28de14_master.webp', 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-4_08a7096311384831abebb9ce11d4c7f3_master.webp'),
-(52, 30, 5, 2250000, 1950000, 6, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-2_0246a129031d48e29f4e04de062c0493_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-3_dcfd5f03d34948129f5b77b1b1afeeb0_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-4_04d843d7aff3499bb6c767cd94a510dd_master.webp'),
+(52, 30, 5, 2250000, 1950000, 2, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-2_0246a129031d48e29f4e04de062c0493_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-3_dcfd5f03d34948129f5b77b1b1afeeb0_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-4_04d843d7aff3499bb6c767cd94a510dd_master.webp'),
 (53, 30, 7, 2250000, 1950000, 4, 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-2_0246a129031d48e29f4e04de062c0493_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-3_dcfd5f03d34948129f5b77b1b1afeeb0_master.webp', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-4_04d843d7aff3499bb6c767cd94a510dd_master.webp'),
 (54, 31, 3, 3399000, 2720000, 5, 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-2_e6d87a6bff694676aea45559f8289d6b_master.webp', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-3_4a6ad4b283ae4b23bd7f200c9c8cbdd0_master.webp', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-4_a9405ed98cff46edb7804b0c16b4831a_master.webp'),
 (55, 31, 4, 3399000, 2720000, 5, 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-2_e6d87a6bff694676aea45559f8289d6b_master.webp', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-3_4a6ad4b283ae4b23bd7f200c9c8cbdd0_master.webp', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-4_a9405ed98cff46edb7804b0c16b4831a_master.webp'),
@@ -170,15 +275,31 @@ INSERT INTO `details_product` (`id`, `product_id`, `size_id`, `price`, `discount
 (59, 32, 6, 3590000, 2870000, 3, 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-2_1fcae17526c64b4fbdbdbfdc5eb40d30_master.webp', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-3_fbb25db5e6104a81a1f1a67f2098716b_master.webp', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-4_73969564819443d2a2c34fabe7cdb152_master.webp'),
 (60, 32, 7, 3590000, 2870000, 6, 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-2_1fcae17526c64b4fbdbdbfdc5eb40d30_master.webp', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-3_fbb25db5e6104a81a1f1a67f2098716b_master.webp', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-4_73969564819443d2a2c34fabe7cdb152_master.webp'),
 (61, 33, 4, 3339000, 2670000, 11, 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-2_9f5ef69084ee4b32a0cf44736365a6a8_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-3_36ee07f4935e4f42862abd8cc75cce2a_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-4_f4d7de4d8ed345aabd893da72aaa4638_master.webp'),
-(62, 33, 5, 3339000, 2670000, -10, 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-2_9f5ef69084ee4b32a0cf44736365a6a8_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-3_36ee07f4935e4f42862abd8cc75cce2a_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-4_f4d7de4d8ed345aabd893da72aaa4638_master.webp'),
+(62, 33, 5, 3339000, 2670000, 7, 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-2_9f5ef69084ee4b32a0cf44736365a6a8_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-3_36ee07f4935e4f42862abd8cc75cce2a_master.webp', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-4_f4d7de4d8ed345aabd893da72aaa4638_master.webp'),
 (63, 34, 2, 400, -1, 0, 'Ảnh chụp màn hình 2024-04-19 184816.png', 'Ảnh chụp màn hình 2024-04-01 233451.png', 'Ảnh chụp màn hình 2024-04-15 153550.png'),
 (64, 35, 2, 111, 0, 1, 'Ảnh chụp màn hình 2024-04-15 153550.png', 'Ảnh chụp màn hình 2024-04-15 153836.png', 'Ảnh chụp màn hình 2024-04-19 184816.png'),
 (69, 17, 2, 400, 300, 1, 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-1_95a9a099a4bf4c15a4fa7a00bc7aeea3_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-2_5bcbf1531d1c4d8399038777bf7d866f_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-3_ce5dac1d12fc4c6a8dfcafda9e842012_master.webp'),
-(70, 15, 8, 1950000, 0, 1, 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-1_95a9a099a4bf4c15a4fa7a00bc7aeea3_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-2_5bcbf1531d1c4d8399038777bf7d866f_master.webp', 'al-giay-da-bong-mizuno-morelia-sala-classic-tf-q1gb240290-xanh-trang-3_ce5dac1d12fc4c6a8dfcafda9e842012_master.webp'),
-(71, 36, 5, 3500000, 2800000, 5, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
+(70, 15, 8, 2350000, 2190000, 1, 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-2_63fea2f77a7544d2afa4f3c567a1c847_master.webp', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-3_b41cf075771d4892af72f06490a5386e_master.webp', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-4_0ae2c0155ae84556aac0c52131524a7b_master.webp'),
+(71, 36, 5, 3500000, 2800000, 102, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
 (72, 36, 4, 3500000, 2800000, 7, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
 (73, 36, 7, 3500000, 2800000, 4, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
-(79, 36, 3, 3500000, 2800000, 3, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp');
+(83, 38, 3, 1750000, 0, 3, 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-2_69228da2ffcc4309a95d07ef4a6107d1_master.webp', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-3_a210bfe222c347cfb3790b96d2444eec_master.jpg', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-4_23e86f42c8e749f7ab90c3c6cc84497d_master.webp'),
+(85, 38, 4, 1800000, 0, 3, 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-2_69228da2ffcc4309a95d07ef4a6107d1_master.webp', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-3_a210bfe222c347cfb3790b96d2444eec_master.jpg', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-4_23e86f42c8e749f7ab90c3c6cc84497d_master.webp'),
+(86, 38, 5, 1850000, 0, 4, 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-2_69228da2ffcc4309a95d07ef4a6107d1_master.webp', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-3_a210bfe222c347cfb3790b96d2444eec_master.jpg', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-4_23e86f42c8e749f7ab90c3c6cc84497d_master.webp'),
+(87, 40, 5, 2400000, 1750000, 6, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-2_d904a678854145a49e97535471d5927e_master.webp', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-3_add3ec44c8964b00af07c04e6f5c7f78_master.jpg', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-4_c0c00428c0c744178917d9466d85d134_master.webp'),
+(88, 40, 6, 2400000, 1750000, 8, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-2_d904a678854145a49e97535471d5927e_master.webp', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-3_add3ec44c8964b00af07c04e6f5c7f78_master.jpg', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-4_c0c00428c0c744178917d9466d85d134_master.webp'),
+(89, 40, 7, 2400000, 1750000, 4, 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-2_d904a678854145a49e97535471d5927e_master.webp', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-3_add3ec44c8964b00af07c04e6f5c7f78_master.jpg', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-4_c0c00428c0c744178917d9466d85d134_master.webp'),
+(90, 36, 2, 3500000, 2800000, 10, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
+(94, 36, 3, 3500000, 2800000, 6, 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-2_0674b40af8844e18855de78bb8785929_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-3_1e3bbc456edc4811aad9db8c241f038c_master.webp', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-4_7ded887aab82472b990f594af90d3e60_master.webp'),
+(95, 41, 5, 2609000, 1940000, 5, 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-2_a96151a4de2140af93d5eeb0f72a3612_master.webp', 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-3_13e14da94f4046279e0e059ec8133a5d_master.jpg', 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-4_59a2223bd6944236affc0db46f3577af_master.jpg'),
+(96, 41, 6, 2609000, 1940000, 5, 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-2_a96151a4de2140af93d5eeb0f72a3612_master.webp', 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-3_13e14da94f4046279e0e059ec8133a5d_master.jpg', 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-4_59a2223bd6944236affc0db46f3577af_master.jpg'),
+(97, 42, 3, 2434000, 1990000, 4, 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-2_8daad4e215874e058db8634ddae214b7_master.webp', 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-3_5e3654ecbbc14659818601248516c58e_master.jpg', 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-4_5f951ce809b74d1798c78b5e849f2e86_master.webp'),
+(98, 42, 7, 2434000, 1990000, 9, 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-2_8daad4e215874e058db8634ddae214b7_master.webp', 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-3_5e3654ecbbc14659818601248516c58e_master.jpg', 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-4_5f951ce809b74d1798c78b5e849f2e86_master.webp'),
+(99, 43, 4, 2885600, 2150000, 4, 'giay-da-bong-nike-phantom-gx-academy-df-tf-dd9476-600-do-den-2_53de566674244925ab33b1b2f1ae0446_master.webp', 'giay-da-bong-nike-phantom-gx-academy-df-tf-dd9476-600-do-den-3_4e2a9f1e6c2c4c77a135c3a0918decbf_master.webp', 'giay-da-bong-nike-phantom-gx-academy-df-tf-dd9476-600-do-den-4_064dcbd89f694d5b8424d8b15ce4be67_master.webp'),
+(100, 44, 5, 2250000, 1490000, 5, 'giay-da-banh-puma-ultra-match-tf-106903-03-do-cam-2_c6225c4ced6b439e9b85ec214eb16044_master.webp', 'giay-da-banh-puma-ultra-match-tf-106903-03-do-cam-3_769623aed8354fca9e50ff0e62aa0a5b_master.webp', 'giay-da-banh-puma-ultra-match-tf-106903-03-do-cam-4_116afc9230534cc090350dd943cf7057_master.jpg'),
+(101, 45, 5, 32233, 2, 1, 'futsal-giay-da-bong-kamito-futsal-velocidad-ic-kmic240120-xanh-trang-1_6d1872fafbd8456cad84bc5ae64c4bb7_master.webp', 'futsal-giay-da-bong-kamito-futsal-velocidad-ic-kmic240120-xanh-trang-3_738d697d02644a42b04602e4dc1036d2_master.webp', 'futsal-giay-da-bong-kamito-futsal-velocidad-ic-kmic240120-xanh-trang-2_5454ddee325942bbb4f32772e75d5510_master.webp'),
+(118, 70, 3, 2259000, 1790000, 4, 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-2_20338ff3995f49eabb4c0179189c8e00_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-3_b1dd5fd1cf9b42c4b754de306793c210_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-4_0155f2e480364c379e2c689e5024da72_master.webp'),
+(119, 70, 2, 2259000, 1790000, 4, 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-2_20338ff3995f49eabb4c0179189c8e00_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-3_b1dd5fd1cf9b42c4b754de306793c210_master.webp', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-4_0155f2e480364c379e2c689e5024da72_master.webp');
 
 -- --------------------------------------------------------
 
@@ -923,45 +1044,11 @@ CREATE TABLE `goods_sold` (
 --
 
 INSERT INTO `goods_sold` (`id`, `product_name`, `size`, `quantity_sold`, `price`, `total_Price`) VALUES
-(3, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 40, 29, 2800000, 33600000),
-(4, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 39, 7, 2800000, 28000000),
-(5, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 42, 3, 2800000, 11200000),
-(6, 'NIKE ZOOM MICURI SUPERFLY 9 - XANH LÁ', 37, 5, 2190000, 10950000),
-(7, 'NIKE LUNAR GATO II - XANH MẠ NON', 42, 6, 2250000, 13500000),
-(8, 'MIZUNO MORELIA NEO III PRO IN LẠC VIỆT LIMITED EDITION - ĐỎ VÀNG', 40, 15, 2670000, 40050000),
-(9, 'MIZUNO MORELIA NEO III PRO IN LẠC VIỆT LIMITED EDITION - ĐỎ VÀNG', 39, 3, 2670000, 8010000),
-(10, 'ADIDAS X CRAZYFAST LEAGUE TF - ĐỎ/TRẮNG', 42, 3, 1950000, 5850000),
-(11, 'ADIDAS X CRAZYFAST LEAGUE TF - ĐỎ/TRẮNG', 40, 6, 1950000, 11700000),
-(12, 'PUMA ULTRA MATCH TT - HỒNG/ĐEN', 38, 3, 2033000, 6099000),
-(13, 'ADIDAS TOP SALA COMPETITION - ĐỎ BẠC ĐÔ1', 39, 2, 1950000, 3900000),
-(14, 'NIKE PHANTOM GX 2 ACADEMY LV8 TF - XANH NGỌC', 39, 2, 2050000, 4100000),
-(15, 'NIKE PHANTOM GX 2 ACADEMY LV8 TF - XANH NGỌC', 41, 2, 2050000, 4100000),
-(17, 'PUMA ULTRA MATCH TT - HỒNG/ĐEN', 41, 1, 2033000, 2033000),
-(18, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 42, 1, 2490000, 2490000),
-(19, 'NIKE LUNAR GATO II - XANH MẠ NON', 40, 0, 2250000, 2250000),
-(20, 'NIKE TIEMPO LEGEND 10 ACADEMY - XANH MINT', 41, 1, 1990000, 1990000),
-(21, 'ADIDAS TOP SALA COMPETITION - TRẮNG/XANH', 42, 2, 1690000, 3380000);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `news`
---
-
-CREATE TABLE `news` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `img` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `news`
---
-
-INSERT INTO `news` (`id`, `title`, `content`, `img`) VALUES
-(13, 'sad', '<p>sad</p>', 'Array'),
-(14, '', '', '');
+(34, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 40, 2, 1950000, 5850000),
+(40, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 37, 1, 2800000, 2800000),
+(42, 'ADIDAS TOP SALA COMPETITION - ĐEN/ĐỎ', 39, 1, 1690000, 3380000),
+(43, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 40, 3, 1750000, 14000000),
+(44, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 41, 1, 1750000, 3500000);
 
 -- --------------------------------------------------------
 
@@ -991,14 +1078,43 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `fullname`, `number_phone`, `address`, `province`, `district`, `wards`, `user_id`, `status`, `order_id`, `create_at`, `delivery_time`, `delivered_time`, `deleted_at`) VALUES
-(30, 'b', 123123123, '5/47 Phùng Tá Chu', '17', '189', '3217', 81, '3', '662c5e976e352_1714183831', '2024-04-27 02:10:31', '2024-04-27 03:09:50', '2024-04-27 03:11:39', NULL),
-(31, 'adad@ ww', 123123123, 'ZCZXCZCZCXZ', '17', '187', '3172', 82, '3', '662c6bedca70f_1714187245', '2024-04-27 03:07:25', NULL, '2024-04-27 03:09:59', NULL),
-(37, 'Lìu Hỉn Phát', 123123123, 'Lạc Long Quân', '50', '560', '8829', 0, '3', '663353b8bf360_1714639800', '2024-05-02 08:50:00', NULL, '2024-05-02 08:50:16', NULL),
-(38, 'Trần Văn A', 123123123, '5/47 Phùng Tá Chu', '19', '208', '3561', 0, '3', '663355088a5e9_1714640136', '2024-05-02 08:55:36', NULL, '2024-05-02 09:19:24', NULL),
-(39, 'Trần Cảnh Minh', 123123123, '5/47 Phùng Tá Chu', '21', '234', '3957', 0, '3', '66335520b1f74_1714640160', '2024-05-02 08:56:00', NULL, '2024-06-02 09:19:21', NULL),
-(40, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '18', '192', '3267', 0, '3', '66335992b93ed_1714641298', '2024-05-02 09:14:58', NULL, '2024-05-02 09:19:18', NULL),
-(42, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '17', '188', '3192', 0, '3', '66335b79a359a_1714641785', '2024-05-02 09:23:05', '2024-05-02 09:23:36', '2024-05-02 09:23:39', NULL),
-(43, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '17', '189', '3216', 0, '3', '66335c7ad9c3d_1714642042', '2024-05-02 09:27:22', '2024-05-02 09:27:43', '2024-05-02 09:27:47', NULL);
+(120, 'Lê Trọng Nhân', 394384684, '12 trịnh đình thảo', '50', '555', '8750', 0, '1', '66555087a5e0d_1716867207', '2024-05-28 03:33:27', NULL, NULL, '2024-05-28 04:29:18'),
+(121, 'Lê Trọng Nhân', 394384684, '12 trịnh đình thảo', '50', '555', '8750', 0, '3', '665550ca308dc_1716867274', '2024-05-28 03:34:34', NULL, '2024-05-28 04:28:35', NULL),
+(122, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665555382526f_1716868408', '2024-05-28 03:53:28', NULL, NULL, '2024-05-28 03:56:55'),
+(123, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665555501807c_1716868432', '2024-05-28 03:53:52', NULL, NULL, '2024-05-28 03:58:16'),
+(124, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665555738d48d_1716868467', '2024-05-28 03:54:27', NULL, NULL, '2024-05-28 03:58:31'),
+(125, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665555c1d904f_1716868545', '2024-05-28 03:55:45', NULL, NULL, '2024-05-28 03:59:13'),
+(126, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665556a767979_1716868775', '2024-05-28 03:59:35', NULL, NULL, '2024-05-28 03:59:49'),
+(127, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665556c55e8b7_1716868805', '2024-05-28 04:00:05', NULL, NULL, '2024-05-28 04:00:35'),
+(128, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665556d950283_1716868825', '2024-05-28 04:00:25', NULL, NULL, '2024-05-28 04:00:38'),
+(129, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '3', '665556da5e839_1716868826', '2024-05-28 04:00:26', NULL, '2024-05-28 04:27:08', NULL),
+(130, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '1', '665556f83ca6b_1716868856', '2024-05-28 04:00:56', NULL, NULL, '2024-05-28 04:01:17'),
+(131, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '3', '665557012b19f_1716868865', '2024-05-28 04:01:05', '2024-05-28 04:26:14', '2024-05-28 04:28:20', NULL),
+(132, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '50', '555', '8750', 100, '3', '665557319d94e_1716868913', '2024-05-28 04:01:53', '2024-05-28 04:23:33', '2024-05-28 04:23:47', NULL),
+(133, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '66555e36f2266_1716870710', '2024-05-28 04:31:51', NULL, '2024-05-28 04:32:15', '2024-05-29 06:57:25'),
+(134, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '66555e901e65a_1716870800', '2024-05-28 04:33:20', '2024-05-28 04:33:43', NULL, '2024-05-29 07:00:01'),
+(135, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '14', '155', '2622', 83, '1', '66555fac5ba59_1716871084', '2024-05-28 04:38:04', NULL, NULL, '2024-05-29 07:00:12'),
+(136, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '66556025be1da_1716871205', '2024-05-28 04:40:05', NULL, NULL, NULL),
+(137, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '66556096ed63c_1716871318', '2024-05-28 04:41:59', NULL, '2024-05-28 04:43:41', NULL),
+(138, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '665564508895f_1716872272', '2024-05-28 04:57:52', '2024-05-28 04:58:00', '2024-05-28 04:58:06', NULL),
+(139, 'sdasd', 703038870, '', '18', '192', '3269', 0, '1', '66559007f3769_1716883463', '2024-05-28 08:04:24', NULL, NULL, '2024-05-28 08:05:42'),
+(140, 'Dương Phương Chương Toàn', 703038870, '', '20', '223', '3794', 0, '1', '66559080b4184_1716883584', '2024-05-28 08:06:24', NULL, NULL, NULL),
+(141, '', 703038870, '', '17', '189', '3216', 0, '1', '66559206f2376_1716883974', '2024-05-28 08:12:55', NULL, NULL, NULL),
+(142, 'Dương Phương Chương Toàn', 703038870, '', '18', '196', '3328', 0, '1', '6655929229ace_1716884114', '2024-05-28 08:15:14', NULL, NULL, NULL),
+(143, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '18', '196', '3328', 68, '1', '6655953328a62_1716884787', '2024-05-28 08:26:27', NULL, NULL, '2024-05-29 02:44:04'),
+(144, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '8', '89', '1501', 101, '1', '66559ac686e7e_1716886214', '2024-05-28 08:50:14', NULL, NULL, '2024-05-28 09:44:24'),
+(145, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '66559b3899c8b_1716886328', '2024-05-28 08:52:08', NULL, NULL, '2024-05-28 09:44:52'),
+(146, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '66559fa99cd40_1716887465', '2024-05-28 09:11:05', NULL, NULL, '2024-05-28 09:11:23'),
+(147, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a636362b0_1716889142', '2024-05-28 09:39:02', NULL, NULL, '2024-05-28 09:43:26'),
+(148, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a66eed3d9_1716889198', '2024-05-28 09:39:59', NULL, NULL, '2024-05-28 09:43:15'),
+(149, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a7b1c0134_1716889521', '2024-05-28 09:45:21', NULL, NULL, '2024-05-28 09:45:35'),
+(150, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a7cf23488_1716889551', '2024-05-28 09:45:51', NULL, NULL, '2024-05-28 09:48:09'),
+(151, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a8766238a_1716889718', '2024-05-28 09:48:38', NULL, NULL, '2024-05-28 09:49:25'),
+(152, 'Tạ Công Tuấn', 708113115, '28 Nguyễn Kim', '27', '311', '5647', 101, '1', '6655a8804b915_1716889728', '2024-05-28 09:48:48', NULL, NULL, '2024-05-28 09:49:06'),
+(153, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '6656a90cb9f4d_1716955404', '2024-05-29 04:03:24', NULL, NULL, NULL),
+(154, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '6656cdfa959a3_1716964858', '2024-05-29 06:40:58', NULL, NULL, NULL),
+(155, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '1', '6656ce24ca774_1716964900', '2024-05-29 06:41:40', NULL, NULL, NULL),
+(156, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '16', '179', '3063', 83, '2', '6656ce5bafc01_1716964955', '2024-05-29 06:42:36', '2024-05-29 07:00:44', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1013,6 +1129,7 @@ CREATE TABLE `product` (
   `brand_id` int(11) NOT NULL,
   `descriptions` text NOT NULL,
   `img` varchar(255) NOT NULL,
+  `hidden` bit(1) NOT NULL DEFAULT b'0',
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1020,25 +1137,31 @@ CREATE TABLE `product` (
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `name`, `shoes_type_id`, `brand_id`, `descriptions`, `img`, `date_created`) VALUES
-(15, 'NIKE ZOOM MICURI SUPERFLY 9 - XANH LÁ', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-1_cc72cca360ce431aaf6e3d39291a8e3f_master.webp', '2024-04-11 09:48:29'),
-(16, 'NIKE PHANTOM GX 2 ACADEMY LV8 TF - XANH NGỌC', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-1_693fbb1c976b495da90c85ffb5f249cf_master.webp', '2024-04-12 01:43:29'),
-(18, 'ADIDAS X CRAZYFAST LEAGUE TF - ĐỎ/TRẮNG', 4, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-adidas-x-crazyfast-league-tf-if0699-do-trang-1_c079dfaac40844fa9df9117a58a5b728_master.webp', '2024-04-12 02:27:58'),
-(19, 'PUMA ULTRA MATCH TT - HỒNG/ĐEN', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-1_f4cb78d11d6e4a00b6cd10ae58c10144_master.webp', '2024-04-12 02:35:24'),
-(20, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', '2024-04-12 02:38:01'),
-(22, 'MIZUNO MORELIA II CLUB AS - VÀNG/ĐỎ', 4, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-1_d7b5b37488fa45f282242400d14ced97_master.webp', '2024-04-12 02:44:50'),
-(23, 'NIKE LUNAR GATO II - XANH MẠ NON', 5, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', '2024-04-18 10:16:50'),
-(24, 'NIKE TIEMPO LEGEND 10 ACADEMY - XANH MINT', 5, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-1_8f98a5465caf4757b37d90cd409d6985_master.webp', '2024-04-18 10:20:58'),
-(25, 'ADIDAS TOP SALA COMPETITION - ĐỎ BẠC ĐÔ1', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-1_654909908641442898c5f6367229dc9d_master.webp', '2024-04-24 04:50:44'),
-(26, 'ADIDAS TOP SALA COMPETITION - XÁM/XANH', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-1_90be0e83fcba4053846902e94e217fdc_master.webp', '2024-04-24 04:55:45'),
-(27, 'ADIDAS TOP SALA COMPETITION - ĐỎ/TRẮNG', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-1_fe32cc7d035b43c99c6df7cdd68ef593_master.webp', '2024-04-24 06:48:19'),
-(28, 'ADIDAS TOP SALA COMPETITION - ĐEN/ĐỎ', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-1_ce7daaa1522a4a45aea4e9c601b8c972_master.webp', '2024-04-24 06:51:01'),
-(29, 'ADIDAS TOP SALA COMPETITION - TRẮNG/XANH', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-1_8b6255d5229a4d9385b1385c17eb3be5_master.webp', '2024-04-24 06:58:01'),
-(30, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-1_e9a54bcbec654aa789bb8aeb012a022c_master.webp', '2024-04-24 07:02:23'),
-(31, 'MIZUNO MORELIA SALA ELITE IN - TRẮNG/ĐỎ', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-1_1fc77d568cbc4e1dbf78092d5d8f7f91_master.webp', '2024-04-24 07:10:23'),
-(32, 'MIZUNO MORELIA SALA ELITE IN - XANH/TRẮNG', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-1_875bfcc771d34b47890e86657add1d06_master.webp', '2024-04-24 07:14:04'),
-(33, 'MIZUNO MORELIA NEO III PRO IN LẠC VIỆT LIMITED EDITION - ĐỎ VÀNG', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-1_3f5c9f9ebcd040d7a9a3aa5dbe399f7c_master.webp', '2024-04-24 07:19:06'),
-(36, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 4, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', '2024-04-27 07:22:04');
+INSERT INTO `product` (`id`, `name`, `shoes_type_id`, `brand_id`, `descriptions`, `img`, `hidden`, `date_created`) VALUES
+(15, 'NIKE ZOOM MICURI SUPERFLY 9 - XANH LÁ', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ong-nike-zoom-mercurial-superfly-9-academy-mds-tf-fj7199-300-xanh-la-1_cc72cca360ce431aaf6e3d39291a8e3f_master.webp', b'0', '2024-04-11 09:48:29'),
+(16, 'NIKE PHANTOM GX 2 ACADEMY LV8 TF - XANH NGỌC', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'iay-da-bong-nike-zoom-mercurial-vapor-15-pro-tf-dj5606-700-trang-kem-1_693fbb1c976b495da90c85ffb5f249cf_master.webp', b'0', '2024-04-12 01:43:29'),
+(19, 'PUMA ULTRA MATCH TT - HỒNG/ĐEN', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-01-hong-den-1_f4cb78d11d6e4a00b6cd10ae58c10144_master.webp', b'0', '2024-04-12 02:35:24'),
+(20, 'PUMA FUTURE ULTIMATE CAGE - VÀNG/XÁM', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-puma-future-ultimate-cage-107364-04-vang-xam-1_f1f48335c2604078b735db602b26de89_master.webp', b'0', '2024-04-12 02:38:01'),
+(22, 'MIZUNO MORELIA II CLUB AS - VÀNG/ĐỎ', 4, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-mizuno-morelia-ii-club-as-p1gd241645-vang-do-1_d7b5b37488fa45f282242400d14ced97_master.webp', b'0', '2024-04-12 02:44:50'),
+(23, 'NIKE LUNAR GATO II - XANH MẠ NON', 5, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'h-hung-futsal-giay-da-bong-nike-lunar-gato-ii-580456-300-xanh-ma-non-1_afcbe4ddc4a24abc995c495a6f2cde82_master.webp', b'0', '2024-04-18 10:16:50'),
+(24, 'NIKE TIEMPO LEGEND 10 ACADEMY - XANH MINT', 5, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'al-giay-da-bong-nike-tiempo-legend-9-academy-ic-dv4341-300-xanh-mint-1_8f98a5465caf4757b37d90cd409d6985_master.webp', b'0', '2024-04-18 10:20:58'),
+(25, 'ADIDAS TOP SALA COMPETITION - ĐỎ BẠC ĐÔ1', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ung-futsal-giay-da-bong-adidas-top-sala-competition-ie7549-do-bac-do-1_654909908641442898c5f6367229dc9d_master.webp', b'0', '2024-04-24 04:50:44'),
+(26, 'ADIDAS TOP SALA COMPETITION - XÁM/XANH', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hung-futsal-giay-da-bong-adidas-top-sala-competition-ie7551-xam-xanh-1_90be0e83fcba4053846902e94e217fdc_master.webp', b'0', '2024-04-24 04:55:45'),
+(27, 'ADIDAS TOP SALA COMPETITION - ĐỎ/TRẮNG', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-adidas-top-sala-competition-ie1546-do-trang-1_fe32cc7d035b43c99c6df7cdd68ef593_master.webp', b'0', '2024-04-24 06:48:19'),
+(28, 'ADIDAS TOP SALA COMPETITION - ĐEN/ĐỎ', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-adidas-top-sala-competition-ie1546-den-do-1_ce7daaa1522a4a45aea4e9c601b8c972_master.webp', b'0', '2024-04-24 06:51:01'),
+(29, 'ADIDAS TOP SALA COMPETITION - TRẮNG/XANH', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-adidas-top-sala-competition-fz6124-trang-xanh-1_8b6255d5229a4d9385b1385c17eb3be5_master.webp', b'0', '2024-04-24 06:58:01'),
+(30, 'ADIDAS COPA GLORO IN - XÁM/TRẮNG', 5, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-adidas-copa-gloro-in-hq1032-xam-trang-1_e9a54bcbec654aa789bb8aeb012a022c_master.webp', b'0', '2024-04-24 07:02:23'),
+(31, 'MIZUNO MORELIA SALA ELITE IN - TRẮNG/ĐỎ', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'futsal-giay-da-bong-mizuno-morelia-sala-elite-in-q1ga230164-trang-do-1_1fc77d568cbc4e1dbf78092d5d8f7f91_master.webp', b'0', '2024-04-24 07:10:23'),
+(32, 'MIZUNO MORELIA SALA ELITE IN - XANH/TRẮNG', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-mizuno-morelia-sala-elite-in-q1ga230125-xanh-trang-1_875bfcc771d34b47890e86657add1d06_master.webp', b'0', '2024-04-24 07:14:04'),
+(33, 'MIZUNO MORELIA NEO III PRO IN LẠC VIỆT LIMITED EDITION - ĐỎ VÀNG', 5, 19, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'o-morelia-neo-iii-pro-in-lac-viet-limited-edition-q1gb228444-do-vang-1_3f5c9f9ebcd040d7a9a3aa5dbe399f7c_master.webp', b'0', '2024-04-24 07:19:06'),
+(36, 'ADIDAS PREDATOR 24 ELITE TF - VÀNG/ĐEN', 4, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hung-futsal-giay-da-bong-adidas-predator-24-elite-tf-ig7730-vang-den-1_1d3d12bc7cad42ba80fd01edfa72d058_master.webp', b'0', '2024-04-27 07:22:04'),
+(38, 'PUMA TOP FLEX REBOUND - TRẮNG/HỒNG/XANH', 5, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'ng-futsal-giay-da-bong-joma-top-flex-rebound-in-2332-trang-hong-xanh-1_c27247a2a4a341a999d5a898fed8e99e_master.webp', b'0', '2024-05-03 07:18:00'),
+(40, 'ADIDAS PREDATOR ACCURACY INJ.3 - ĐEN/VÀNG CHANH', 4, 2, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-adidas-predator-accuracy-inj-3-tf-ig0768-den-vang-chanh-1_e789ac9af7f64a4aabed70c3ecfc3e9c_master.webp', b'0', '2024-05-08 07:01:33'),
+(41, 'NIKE STREET GATO - VÀNG/TRẮNG', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hanh-hung-futsal-giay-da-bong-nike-street-gato-dc8466-700-vang-trang-1_828546d6342f4b999ee9b0f47cc9c70c_master.webp', b'0', '2024-05-09 02:46:29'),
+(42, 'NIKE TIEMPO LEGEND 10 ACADEMY IC - TRẮNG/ĐEN/ĐỎ', 5, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'iay-da-bong-nike-tiempo-legend-10-academy-ic-dv4341-100-trang-den-do-1_54b39d166f814728b6ca526f318e68ff_master.webp', b'0', '2024-05-09 02:57:40'),
+(43, 'NIKE PHANTOM GX ACADEMY DF TF - ĐỎ ĐEN', 4, 14, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-bong-nike-phantom-gx-academy-df-tf-dd9476-600-do-den-1_25eb77b6ec5247beb0ccca0fde9c8a50_master.webp', b'0', '2024-05-09 03:02:48'),
+(44, 'PUMA ULTRA MATCH TT - WORLD CUP', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'giay-da-banh-puma-ultra-match-tf-106903-03-do-cam-1_bf20b313c0624535bc8d8189b672acbb_master.webp', b'0', '2024-05-09 04:02:52'),
+(70, 'PUMA ULTRA MATCH TT - VÀNG CAM', 4, 18, 'CAM KẾT SẢN PHẨM CHÍNH HÃNG 100%. ĐƯỢC BỒI HOÀN GẤP 10 LẦN NẾU KHÔNG PHẢI CHÍNH HÃNG', 'hanh-hung-futsal-giay-da-bong-puma-ultra-match-tt-107757-03-vang-cam-1_48aa919afd8b462992265bd42264c0ee_master.webp', b'0', '2024-05-27 09:34:12');
 
 -- --------------------------------------------------------
 
@@ -1123,6 +1246,27 @@ INSERT INTO `province` (`province_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `role`
+--
+
+CREATE TABLE `role` (
+  `role_id` int(11) NOT NULL,
+  `role_name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`role_id`, `role_name`) VALUES
+(1, 'Kế toán'),
+(2, 'Quản trị viên'),
+(3, 'Kho'),
+(4, 'Chăm sóc khách hàng');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shoes_type`
 --
 
@@ -1195,7 +1339,9 @@ CREATE TABLE `user` (
   `firstname` varchar(50) NOT NULL,
   `email` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
-  `position` bit(1) NOT NULL DEFAULT b'0',
+  `gender` varchar(10) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `number_phone` int(11) DEFAULT NULL,
   `delete_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1203,26 +1349,119 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `lastname`, `firstname`, `email`, `password`, `position`, `delete_at`) VALUES
-(51, 'Anh', 'Quốc ', 'quocanh@gmail.com', '123123', b'0', NULL),
-(53, 'Lâm', 'Hoài', 'hoailam@gmail.com', '123123123', b'0', NULL),
-(54, 'Ngân', 'Thiên', 'thienngan@gmail.com', '123123', b'0', NULL),
-(55, 'Tiến', 'Văn', 'vantien@gmail.com', '123123', b'0', NULL),
-(56, 'Thành', 'Trần', 'tranthanh@gmail.com', '123456', b'0', NULL),
-(57, 'Mạnh', 'Đức ', 'ducmanh@gmail.com', '123123', b'0', NULL),
-(58, 'Đức', 'Trần', 'tranduc@gmail.com', '123123', b'0', NULL),
-(60, 'sadsa', 'Basd', 'a@gmail.com', '123123', b'0', NULL),
-(61, 'A', 'Trần ', 'trana@gmail.com', '123123', b'0', NULL),
-(62, 'B', 'Trần ', 'tranb@gmail.com', '123123', b'0', NULL),
-(63, 'C', 'Trần ', 'tranc@gmail.com', '123123', b'0', NULL),
-(66, 'Toàn', 'Chương ', 'asd@gmail.com', '123123', b'0', NULL),
-(68, 'Huy', 'Đức', 'duchuy@gmail.com', '123123', b'0', NULL),
-(76, 'Toàn', 'Chương ', 'admi@gmail.com', '123123', b'0', NULL),
-(77, 'Viên', 'Nhân', 'admin', '123123', b'1', '0000-00-00 00:00:00'),
-(78, 'Nhân', 'Lê Trọng ', 'firstunio@gmail.com', '123123123', b'0', NULL),
-(79, 'Toàn', 'Chương', 'chuongtoan1602@gmail.com', '123123', b'0', NULL),
-(80, 'Minh', 'Trần Cảnh', 'trancanhminh@gmail.com', '123123', b'0', NULL),
-(81, 'B', 'A', 'aaa@gmail.com', '123123', b'0', NULL);
+INSERT INTO `user` (`id`, `lastname`, `firstname`, `email`, `password`, `gender`, `birthday`, `number_phone`, `delete_at`) VALUES
+(53, 'Lâm', 'Hoài', 'hoailam@gmail.com', '123', 'Nam', '2004-11-13', 909191222, NULL),
+(54, 'Ngân', 'Thiên', 'thienngan@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(55, 'Tiến', 'Văn', 'vantien@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(56, 'Thành', 'Trần', 'tranthanh@gmail.com', '123456', NULL, NULL, NULL, NULL),
+(57, 'Mạnh', 'Đức ', 'ducmanh@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(58, 'Đức', 'Trần', 'tranduc@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(61, 'A', 'Trần ', 'trana@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(62, 'B', 'Trần ', 'tranb@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(63, 'C', 'Trần ', 'tranc@gmail.com', '123123', NULL, NULL, NULL, '2024-05-24 09:08:48'),
+(66, 'Toàn', 'Chương ', 'asd@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(68, 'Huy', 'Đức', 'duchuy@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(76, 'Toàn', 'Chương ', 'admi@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(78, 'Nhân', 'Lê Trọng ', 'firstunio@gmail.com', '123123123', NULL, NULL, NULL, NULL),
+(79, 'Toàn', 'Chương', 'chuongtoan1602@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(80, 'Minh', 'Trần Cảnh', 'trancanhminh@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(81, 'B', 'A', 'aaa@gmail.com', '123123', NULL, NULL, NULL, '2024-05-24 09:07:29'),
+(83, 'Toàn', 'Chương ', 'chuongtoan@gmail.com', '123123', 'Nam', '2005-12-11', 703038870, NULL),
+(84, 'Tường', 'Trần Mạnh', 'manhtuong@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(85, 'Toàn', 'Chương ', 'chuongtoan1602@gmail.com', '1231231', NULL, NULL, NULL, NULL),
+(86, 'Toàn', 'Chương ', 'chuongtoan1602@gmail.com', '1231231', NULL, NULL, NULL, NULL),
+(87, 'Toàn', 'Chương ', 'chuongtoan1602@gmail.com', '1231231', NULL, NULL, NULL, NULL),
+(88, 'Toàn', 'Chương ', 'chuongtoan1602@gmail.com', '1231231', NULL, NULL, NULL, NULL),
+(89, 'Toàn', 'Chương ', 'chuongtoan1602@gmail.com', '1231231', NULL, NULL, NULL, NULL),
+(90, 'Toàn', 'Chương ', 'ctoan121@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(91, 'Nhân', 'Lê Trọng', 'letrongnhan@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(92, 'Toàn', 'Chương ', 'chuongtoan112@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(93, 'Minh', 'Sau', 'sauminh@gmail.com', '123123123', NULL, NULL, NULL, NULL),
+(94, 'Nhân', 'Lê Trọng ', 'letrongnhan722@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(95, 'Kiên', 'Nguyễn Trung ', 'trungkien@gmail.com', '123', NULL, NULL, NULL, NULL),
+(96, 'eeee', 'eee', 'admine2_sdee@gmail.com', '1234fff', NULL, NULL, NULL, NULL),
+(97, 'Giai', 'Đàm Hòa', 'hoagiai@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(98, 'Hào', 'Lai Chí', 'chihao@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(99, 'Qúy', 'Lê Đình ', 'dinhquy@gmail.com', '123123', NULL, NULL, NULL, NULL),
+(100, 'Nhân', 'Trọng ', 'admin@gmail.com', '1231230', 'Nam', '2022-02-20', 394384684, NULL),
+(101, 'Tuấn', 'Tạ Công', 'congtuan@gmail.com', '123456', 'Nam', '2005-10-11', 708113115, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_address`
+--
+
+CREATE TABLE `user_address` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `fullname` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `number_phone` int(11) NOT NULL,
+  `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `wards` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `district` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` bit(1) NOT NULL DEFAULT b'0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_address`
+--
+
+INSERT INTO `user_address` (`id`, `user_id`, `fullname`, `number_phone`, `address`, `wards`, `district`, `province`, `role`) VALUES
+(6, 91, 'Lê Trọng Nhân', 391374868, '14 Trịnh Đình Thảo', '8750', '555', '50', b'0'),
+(7, 0, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '2792', '164', '15', b'0'),
+(8, 79, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '8908', '565', '50', b'0'),
+(9, 54, 'Nguyễn Thị Thiên Ngân', 703038870, '5/47 Phùng Tá Chu', '3269', '192', '18', b'0'),
+(10, 61, 'Trần Văn B', 703989218, '112 Hàm Tử', '8675', '550', '50', b'0'),
+(11, 62, 'Trần Văn B', 1205789851, '5/47 Phùng Tá Chu', '2812', '165', '15', b'0'),
+(12, 53, 'Phan Thanh Hoài Lâm', 1205789851, '5/47 Phùng Tá Chu', '3536', '207', '19', b'0'),
+(13, 55, 'Trần Văn Tiến', 902115113, 'sdsad', '3268', '192', '18', b'0'),
+(14, 95, 'Nguyễn Trung Kiênn', 2147483647, '12 Lạc Long Quân', '3045', '178', '16', b'0'),
+(15, 76, 'Lê Trọng Nhân', 703038870, '5/47 Phùng Tá Chu', '3048', '178', '16', b'0'),
+(16, 96, 'xxxx', 987654321, 'xxxxx', '2158', '128', '12', b'0'),
+(17, 95, 'Lìu Hỉn Phát', 1205769651, '12 Tân Sơn Nhì', '2809', '165', '15', b'0'),
+(18, 91, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '8908', '565', '50', b'0'),
+(19, 93, 'Lý Sau Minh', 906209482, '5/47 Phùng Tá Chu', '8908', '565', '50', b'0'),
+(20, 93, 'Dương Long Phát', 903059238, '5/47 Phùng Tá Chu', '8908', '565', '50', b'0'),
+(21, 83, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '8908', '565', '50', b'0'),
+(32, 96, 'Lê Văn', 909115115, '28 Tăng Bạt Hổ', '8709', '553', '50', b'0'),
+(33, 96, 'Lê Văn', 902115113, '28 Tăng Bạt Hổ', '8718', '553', '50', b'1'),
+(34, 97, 'Đàm Hòa Giai', 774162631, 'AAA', '8690', '551', '50', b'0'),
+(37, 98, 'Lai Chí Hào', 972698782, '10 Lạc Long Quân', '8831', '560', '50', b'1'),
+(38, 98, 'Lai Chí Hào', 972698782, '11 Lạc Long Quân', '2809', '165', '15', b'0'),
+(46, 81, 'Dương Phương Chương Toàn', 703038870, '5/47 Phùng Tá Chu', '8908', '565', '50', b'1'),
+(50, 83, 'Lìu Hỉn Phát', 123123123, 'ZCZXCZCZCXZ', '2642', '156', '14', b'0'),
+(53, 83, 'Dương Phương Chương Toàn', 702021121, '5/47 Phùng Tá Chu', '3063', '179', '16', b'1'),
+(54, 100, 'Trần Văn A', 2147483647, '28 Tăng Bạt Hổ', '8752', '555', '50', b'0'),
+(57, 100, 'Lê Trọng Nhân', 394374868, '28 Tăng Bạt Hổ', '8750', '555', '50', b'1'),
+(70, 68, 'Lìu Hỉn Phát', 703038870, '5/47 Phùng Tá Chu', '3063', '179', '16', b'1'),
+(78, 101, 'Tạ Công Tuấn', 908081121, '28 Nguyễn Kim', '3793', '223', '20', b'1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_avatar`
+--
+
+CREATE TABLE `user_avatar` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `avatar` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_avatar`
+--
+
+INSERT INTO `user_avatar` (`id`, `user_id`, `avatar`) VALUES
+(6, 83, 'a076984d817dbd445bda21ec231c41b9.jpg'),
+(7, 54, '9904d94f07ce581f1efd69afea6facc8.jpg'),
+(8, 91, 'images.jpg'),
+(9, 96, 'avatar-tet.jpg'),
+(10, 81, 'a076984d817dbd445bda21ec231c41b9.jpg'),
+(11, 0, ''),
+(12, 100, 'a076984d817dbd445bda21ec231c41b9.jpg');
 
 -- --------------------------------------------------------
 
@@ -11836,9 +12075,21 @@ INSERT INTO `wards` (`wards_id`, `district_id`, `name`) VALUES
 --
 
 --
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`admin_id`);
+
+--
 -- Indexes for table `brand`
 --
 ALTER TABLE `brand`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -11874,12 +12125,6 @@ ALTER TABLE `goods_sold`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `news`
---
-ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -11899,6 +12144,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `province`
   ADD PRIMARY KEY (`province_id`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`role_id`);
 
 --
 -- Indexes for table `shoes_type`
@@ -11925,6 +12176,18 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_address`
+--
+ALTER TABLE `user_address`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_avatar`
+--
+ALTER TABLE `user_avatar`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `wards`
 --
 ALTER TABLE `wards`
@@ -11935,28 +12198,40 @@ ALTER TABLE `wards`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `details_order`
 --
 ALTER TABLE `details_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT for table `details_product`
 --
 ALTER TABLE `details_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `district`
@@ -11968,25 +12243,19 @@ ALTER TABLE `district`
 -- AUTO_INCREMENT for table `goods_sold`
 --
 ALTER TABLE `goods_sold`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT for table `news`
---
-ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `province`
@@ -11995,16 +12264,22 @@ ALTER TABLE `province`
   MODIFY `province_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `shoes_type`
 --
 ALTER TABLE `shoes_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `size`
 --
 ALTER TABLE `size`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `status`
@@ -12016,7 +12291,19 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+
+--
+-- AUTO_INCREMENT for table `user_address`
+--
+ALTER TABLE `user_address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+
+--
+-- AUTO_INCREMENT for table `user_avatar`
+--
+ALTER TABLE `user_avatar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `wards`
