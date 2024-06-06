@@ -67,13 +67,13 @@ switch ($act) {
       break;  
    case 'changepass':
       session_start();
-      $newpass = $_POST['newpass'];
       include "../Model/DBConfig.php";
       include "../Model/User.php";
       include "../Model/API.php";
       $connect = new connect();
       $API = new API();
       $user = new User();
+      $newpass = $_POST['newpass'];
       $result_user = $user->update_Password($_SESSION['mail'],$newpass);
       if ($result_user) {
          $res = [

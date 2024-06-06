@@ -1,11 +1,11 @@
 // Chỗ để bấm submit
 // var arrayImg = ['#upload_img1', '#upload_img2', '#upload_img3'];
 // Lấy ID file input
-var fileImg = ['#avatar', '#comment_image'];
+var fileImg = ['#avatar', '#comment_image', '#file-input'];
 // Phần gán hiển thị cho ảnh 
-var showImg = ['#preview_avatar', '#preview_comment_image'];
+var showImg = ['#preview_avatar', '#preview_comment_image' , '#preview_avatar_admin'];
 // Thẻ small báo lỗi    
-var showError = ['#avatar_error', '#preview_comment_error'];
+var showError = ['#avatar_error', '#preview_comment_error', '#avatar_admin_error'];
 // Kiểm tra đúng sai để cho vào submit
 var isValid = [false, false, false];
 

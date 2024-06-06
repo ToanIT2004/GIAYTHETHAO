@@ -56,10 +56,10 @@
       </div>
 
       <?php
-      if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'login') {
-         echo '<button name="login_submit" type="submit" class="submit">Đăng nhập</button>';
-      } else {
+      if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'register') {
          echo '<button type="submit" class="submit">Đăng ký</button>';
+      } else {
+         echo '<button name="login_submit" type="submit" class="submit">Đăng nhập</button>';
       }
       ?>
 
@@ -78,7 +78,8 @@
       if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'login') {
          ?>
          <!-- Button trigger modal -->
-         <a type="button" style="margin-left: 150px;" class="text-dark fw-bolder" data-bs-toggle="modal" data-bs-target="#exampleModal">Quên mật khẩu?</a>
+         <a type="button" style="margin-left: 150px;" class="text-dark fw-bolder" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Quên mật khẩu?</a>
       <?php } ?>
       </form>
    </div>
@@ -97,9 +98,12 @@
                <div class="mb-3">
                   <label for="confirm_email" class="form-label">Email</label>
                   <input id="confirm_email" type="text" class="form-control" placeholder="Nhập email của bạn">
-                  <small id="confirm_email_error" class="text-danger"></small>
+                  <small id="confirm_email_error" class="badge text-danger"></small>
+                  <small id="confirm_email_success" class="badge text-success"></small>
                </div>
-               <button type="submit" class="btn btn-secondary">Gửi</button>
+               <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-outline-success">Gửi</button>
+               </div>
             </form>
          </div>
       </div>

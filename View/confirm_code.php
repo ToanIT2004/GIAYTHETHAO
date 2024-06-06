@@ -1,9 +1,9 @@
 <div class="container mt-5 mb-5">
    <div class="row">
-      <div class="col-lg-5">
+      <div class="col-lg-6 offset-md-3">
          <div class="card">
             <div class="card-header">
-               <h4>Nhập mã xác nhận</h4>
+               <h3 class="text-center fw-bolder text-success">Nhập mã xác nhận</h3>
             </div>
             <div class="card-body">
                <form id="Form_ConfirmCode">
@@ -12,7 +12,9 @@
                      <input id="code" placeholder="Nhập mã xác nhận" type="text" class="form-control">
                      <small id="code_error" class="text-danger"></small>
                   </div>
-                  <button type="submit" class="btn btn-primary">Gửi</button>
+                  <div class="d-flex justify-content-end">
+                     <button type="submit" class="btn btn-outline-success">Gửi</button>
+                  </div>
                </form>
             </div>
          </div>

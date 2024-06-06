@@ -1,4 +1,5 @@
 $(document).ready(function (){
+   // Đăng nhập
    $(document).on('submit','#formLogin',function(event) {
        event.preventDefault();
        var username = $('#username').val();
@@ -34,4 +35,18 @@ $(document).ready(function (){
        })
    })
 
+   // Đăng xuất
+   $(document).on('click', '#log_out', function() {
+      $.ajax({
+         url: 'Controller/Admin/login.php?act=log_out',
+         method: 'GET',
+         dataType: 'json',
+         success: (res) => {
+            console.log(res);
+            if(res.status == 200) {
+               window.location.href = "admin.php?action=login";
+            }
+         }
+      })
+   })
 });

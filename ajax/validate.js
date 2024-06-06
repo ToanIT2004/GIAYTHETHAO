@@ -48,7 +48,7 @@ function check_name(...args) {
          $(selector + '_error').text('Họ tên không chứa ký tự đặc biệt');
          flag = true;
       } else if(value.trim() == '') {
-         $(selector + '_error').text('Bạn chưa nhập thông tin này');
+         $(selector + '_error').text('Bạn chưa nhập thông tin này!');
       } 
       else {
          $(selector + '_error').text('');

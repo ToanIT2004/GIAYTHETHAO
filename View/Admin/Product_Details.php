@@ -13,8 +13,7 @@
             <span>Tên món hàng: <b class="text-danger"><?php echo $kq['name'] ?></b></span>
             <span>Loại giày: <b class="text-danger"><?php echo $kq['shoes_type_name'] ?></b></span>
             <span>Thương hiệu: <b class="text-danger"><?php echo strtoupper($kq['brand_name']) ?></span>
-            <button data-bs-toggle="modal" data-bs-target="#modal_add_product_details"
-               class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i></button>
+            <button id="add_product_details" class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i></button>
          </div>
       </div>
    </div>
@@ -65,7 +64,7 @@
                      <td>
                         <div class="d-flex justify-content-around pt-2">
                            <a href="admin.php?action=product&act=update_product_details&idct=<?php echo $set['id'] ?>"
-                              class="btn btn-outline-warning"><i class="bi bi-pencil"></i></a> <br>
+                              class="btn btn-outline-warning repo-link"><i class="bi bi-pencil"></i></a> <br>
                            <a id="delete_product_details" data-product_details_id="<?php echo $set['id'] ?>"
                               class="btn btn-outline-danger bi bi-trash3-fill"></a>
                         </div>
@@ -79,8 +78,7 @@
 </div>
 
 <!-- Modal Thêm Chi Tiết Sản Phẩm -->
-<div class="modal fade" id="modal_add_product_details" tabindex="-1" aria-labelledby="exampleModalLabel"
-   aria-hidden="true">
+<div class="modal fade" id="modal_add_product_details" tabindex="-1">
    <div class="modal-dialog modal-lg">
       <div class="modal-content">
          <div class="modal-header">
@@ -155,7 +153,7 @@
                      </div>
                      <div class="form-group mb-3">
                         <label class="form-label">Hình 3</label>
-                        <input accept=".jpg, .webp, .jpeg, .png" style="width: 250px" type="file" name="img3" id="img3" 
+                        <input accept=".jpg, .webp, .jpeg, .png" style="width: 250px" type="file" name="img3" id="img3"
                            class="form-control">
                         <img id="preview_img3" class="d-none" alt="Preview Image"
                            style="max-width: 100px; max-height: 100px;border-radius: 10px;">

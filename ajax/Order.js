@@ -6,6 +6,7 @@ $(document).ready(() => {
          method: 'GET',
          dataType: 'json',
          success: (res) => {
+            kind = res;
             $('#count_order_wating').text(res);
             $('#count_order_wating1').text(res);
          }
@@ -34,7 +35,7 @@ $(document).ready(() => {
                   <td class="pt-2">${order.create_at}</td>
                   <td class="pt-2">${(order.delivery_time == null) ? '' : order.delivery_time}</td>
                   <td>
-                     <select  data-order_id="${order.order_id}" id="status_id" style="width: 110px;cursor: pointer;" class="form-control" id="">
+                     <select data-order_id="${order.order_id}" id="status_id" style="width: 110px;cursor: pointer;" class="form-control" id="">
                         <option ${selectedStatus(1)} disabled value="1">Chờ xử lý</option>
                         <option ${selectedStatus(2)} value="2">Đang giao</option>
                         <option value="3">Đã giao</option>
@@ -49,30 +50,38 @@ $(document).ready(() => {
       })
    }
    get_order_delivery();
-
+   
    // Chuyển đổi trạng thái cho đơn hàng
    $(document).on('change', '#status_id', function () {
       status_id = $(this).val();
       order_id = $(this).data('order_id');
-      $.ajax({
-         url: 'Controller/Admin/order.php?act=delivery_status',
-         method: 'POST',
-         data: { order_id, status_id },
-         dataType: 'json',
-         success: (res) => {
-            if (res.status == 200) {
-               Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: res.message,
-                  showConfirmButton: false,
-                  timer: 1500
-               });
-               get_order_delivery();
-               count_order_waiting()
-            }
-         }, error: (error) => console.log(error)
-      })
+      if (checkFeature('Cập nhật tình trạng đơn hàng', (result) => {
+         if (result) {
+            $.ajax({
+               url: 'Controller/Admin/order.php?act=delivery_status',
+               method: 'POST',
+               data: { order_id, status_id },
+               dataType: 'json',
+               success: (res) => {
+                  if (res.status == 200) {
+                     Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                     });
+                     get_order_delivery();
+                     count_order_waiting()
+                  }
+               }, error: (error) => console.log(error)
+            })
+         } else {
+            Swal.fire("Bạn không thể sử dụng chức năng này!").then(function() {
+               window.location.reload();
+            });
+         }
+      }));
    })
 
    // Lấy đơn hàng đã hủy
@@ -400,7 +409,7 @@ $(document).ready(() => {
          data: { user_id },
          dataType: 'json',
          success: (res) => {
-            console.log(res);
+            // console.log(res);
             $('#table_order_history').empty();
             res.forEach(order => {
                const row = `
@@ -437,12 +446,12 @@ $(document).ready(() => {
    }
    get_all_order(user_id);
 
-   $(document).on('click', '.order_details', function() {
+   $(document).on('click', '.order_details', function () {
       order_id = $(this).data('order_id');
       $.ajax({
          url: 'Controller/order_history.php?act=get_order_details',
          method: 'POST',
-         data: {order_id},
+         data: { order_id },
          dataType: 'json',
          success: (res) => {
             $('.table_order_details1').empty();

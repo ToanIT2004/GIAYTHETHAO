@@ -22,6 +22,7 @@
             session_start();
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $password;
+            $_SESSION['admin_id'] = $user_result['admin_id'];
             $res = [
                'status' => 200,
                'message' => 'Đăng nhập thành công',
@@ -34,8 +35,13 @@
          }
          echo json_encode($res);
          break;
-      case 'dangxuat':
+      case 'log_out':
+         session_start();
          session_unset();
-         echo '<meta http-equiv="refresh" content="0;url=./admin.php?action=login"/>';
+         $res = [
+            'status' => 200, 
+            'message' => 'Đăng xuất thành công',
+         ];
+         echo json_encode($res);
          break;
    }

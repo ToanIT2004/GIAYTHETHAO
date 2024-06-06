@@ -3,7 +3,7 @@
       <div class="col-lg-5">
          <div class="card">
             <div class="card-header">
-               <h4>Nhập mã xác nhận</h4>
+               <h4>Nhập mật khẩu mới</h4>
             </div>
             <div class="card-body">
                <form id="Form_ChangePass">

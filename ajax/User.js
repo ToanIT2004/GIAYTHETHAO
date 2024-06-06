@@ -20,10 +20,10 @@ $(document).ready(() => {
 
       flag = false;
       // Xử lý mật khẩu phải trùng nhau
-      if($('#password').val().trim() === '') {
+      if ($('#password').val().trim() === '') {
          $('#password_error').text('Mật khẩu không được để trống')
          flag = true;
-      }else {
+      } else {
          result_password = check_password('#password', '#confirm_password')
       }
 
@@ -64,7 +64,18 @@ $(document).ready(() => {
       }
    })
 
-   // Sửa khách hàng
+   $(document).on('click', '#revise_password', async function () {
+      checkFeature('Chỉnh sửa mật khẩu', function (result) {
+         if (result) {
+            $('#modal_revise_password').modal('show');
+         } else {
+            Swal.fire("Bạn không có quyền sử dụng tính năng này");
+         }
+      });
+   });
+
+
+   // Sửa mật khẩu khách hàng
    $(document).on('click', '#update_action', function (event) {
       event.preventDefault();
       var flag = false;
@@ -124,9 +135,7 @@ $(document).ready(() => {
                         <button id="restore_user" data-user_id="${user.id}" class="btn btn-outline-primary"><i class="bi bi-arrow-clockwise"></i></button>
                         <button id="clear_user" data-user_id="${user.id}" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
                      </td>
-                  </tr>
-               `
-
+                  </tr>`
                $('#table_restore_user').append(row);
             });
 
@@ -139,50 +148,17 @@ $(document).ready(() => {
    // Khôi phục khách hàng
    $(document).on('click', '#restore_user', function () {
       let user_id = $(this).data('user_id');
-      $.ajax({
-         url: "Controller/Admin/user.php?act=restore_user",
-         method: 'POST',
-         data: {
-            user_id
-         },
-         dataType: 'json',
-         success: (res) => {
-            console.log(res);
-            if (res.status == 200) {
-               Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: res.message,
-                  showConfirmButton: false,
-                  timer: 1500
-               });
-               get_restore_user();
-            }
-         }
-      })
-   })
-
-   // Xóa khách hàng vĩnh viễn
-   $(document).on('click', '#clear_user', function () {
-      let user_id = $(this).data("user_id");
-
-      Swal.fire({
-         title: "Bạn có chắc chắn?",
-         text: "Dữ liệu sẽ không thể khôi phục!",
-         icon: "warning",
-         showCancelButton: true,
-         confirmButtonColor: "#3085d6",
-         cancelButtonColor: "#d33",
-         confirmButtonText: "Xóa!",
-         cancelButtonText: "Hủy!"
-      }).then((result) => {
-         if (result.isConfirmed) {
+      if (checkFeature('Khôi phục khách hàng', (result) => {
+         if (result) {
             $.ajax({
-               url: "Controller/Admin/user.php?act=clear_user",
+               url: "Controller/Admin/user.php?act=restore_user",
                method: 'POST',
-               data: { user_id },
+               data: {
+                  user_id
+               },
                dataType: 'json',
                success: (res) => {
+                  console.log(res);
                   if (res.status == 200) {
                      Swal.fire({
                         position: "top-center",
@@ -195,8 +171,53 @@ $(document).ready(() => {
                   }
                }
             })
+         } else {
+            Swal.fire("Bạn không có quyền sử dụng chức năng này!");
          }
-      });
+      }));
+   })
+
+   // Xóa khách hàng vĩnh viễn
+   $(document).on('click', '#clear_user', function () {
+      let user_id = $(this).data("user_id");
+
+      if (checkFeature('Xóa khách hàng', (result) => {
+         if (result) {
+            Swal.fire({
+               title: "Bạn có chắc chắn?",
+               text: "Dữ liệu sẽ không thể khôi phục!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Xóa!",
+               cancelButtonText: "Hủy!"
+            }).then((result) => {
+               if (result.isConfirmed) {
+                  $.ajax({
+                     url: "Controller/Admin/user.php?act=clear_user",
+                     method: 'POST',
+                     data: { user_id },
+                     dataType: 'json',
+                     success: (res) => {
+                        if (res.status == 200) {
+                           Swal.fire({
+                              position: "top-center",
+                              icon: "success",
+                              title: res.message,
+                              showConfirmButton: false,
+                              timer: 1500
+                           });
+                           get_restore_user();
+                        }
+                     }
+                  })
+               }
+            });
+         } else {
+            Swal.fire("Bạn không có quyền sử dụng chức năng này!");
+         }
+      }));
    })
 
    // Đăng nhập người dùng
@@ -273,7 +294,7 @@ $(document).ready(() => {
                      <td style="line-height: 50px;">${user.email}</td>
                      <td class="d-flex justify-content-between" style="line-height: 50px;">
                         <span>${user.password}</span> 
-                        <button id="revise_password" data-user_id="${user.id}" data-bs-toggle="modal" data-bs-target="#modal_revise_password" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i></button>
+                        <button id="revise_password" data-user_id="${user.id}" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i></button>
                      </td>
                      <td style="line-height: 50px;">${(user.gender == null) ? '' : user.gender}</td>
                      <td style="line-height: 50px;">${(user.birthday == null) ? '' : user.birthday}</td>
@@ -344,28 +365,35 @@ $(document).ready(() => {
    // Đưa khách hàng vào thùng rác
    $(document).on('click', '#delete_user', function () {
       let user_id = $(this).data('user_id');
-      $.ajax({
-         url: "Controller/Admin/user.php?act=delete_user",
-         method: 'POST',
-         data: {
-            user_id
-         },
-         dataType: 'json',
-         success: (res) => {
-            console.log(res);
-            if (res.status == 200) {
-               Swal.fire({
-                  position: "top-center",
-                  icon: "success",
-                  title: res.message,
-                  showConfirmButton: false,
-                  timer: 1500
-               }).then(() => {
-                  window.location.reload();
-               });
-            }
+      // alert(user_id)
+      checkFeature('Ẩn khách hàng', function (result) {
+         if (result) {
+            $.ajax({
+               url: "Controller/Admin/user.php?act=delete_user",
+               method: 'POST',
+               data: {
+                  user_id
+               },
+               dataType: 'json',
+               success: (res) => {
+                  console.log(res);
+                  if (res.status == 200) {
+                     Swal.fire({
+                        position: "top-center",
+                        icon: "success",
+                        title: res.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                     }).then(() => {
+                        window.location.reload();
+                     });
+                  }
+               }
+            })
+         } else {
+            Swal.fire("Bạn không có quyền sử dụng tính năng này");
          }
-      })
+      });
    })
 
    // Chức năng paginate user trang admin 

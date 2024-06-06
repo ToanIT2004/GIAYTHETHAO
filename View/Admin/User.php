@@ -39,7 +39,7 @@
       </nav>
    </div>
    <!-- Modal Chỉnh Sửa Mật Khẩu -->
-   <div class="modal fade" id="modal_revise_password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal fade" id="modal_revise_password" tabindex="-1">
       <div class="modal-dialog">
          <div class="modal-content">
             <div class="modal-header">

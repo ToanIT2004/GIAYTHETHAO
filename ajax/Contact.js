@@ -49,6 +49,7 @@ $(document).ready(() => {
 
    // Chức năng đánh dấu đã đọc
    $(document).on('click', '#read_contact', function () {
+      if(checkFeature(''))
       contact_id = $(this).val();
       var $checkbox = $(this); // Lưu lại context của `this` để sử dụng sau
       Swal.fire({

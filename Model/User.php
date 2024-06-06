@@ -165,9 +165,21 @@
          return $API->get_one("SELECT password FROM user WHERE id=$user_id");
       }
 
-      // Thực hiện việc thay đổi mật khẩu
+      // Lấy ra mật khẩu của admin
+      function get_password_admin($admin_id) {
+         $API = new API();
+         return $API->get_one("SELECT password FROM admin WHERE admin_id=$admin_id");
+      }
+
+      // Thực hiện việc thay đổi mật khẩu user
       function update_password_user($user_id, $password_new) {
          $API = new API();
          return $API->add_delete_update("UPDATE user SET password='$password_new' WHERE id='$user_id'");
+      }
+
+      // Thực hiện việc thay đổi mật khẩu admin
+      function update_password_admin($admin_id, $password_new) {
+         $API = new API();
+         return $API->add_delete_update("UPDATE admin SET password='$password_new' WHERE admin_id='$admin_id'");
       }
    }
