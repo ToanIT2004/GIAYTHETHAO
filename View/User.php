@@ -71,16 +71,14 @@
             <a class="fw-bolder text-dark" href="index.php?action=user&act=login">Đăng nhập</a>
          <?php } else { ?>
             <a class="fw-bolder text-dark" href="index.php?action=user&act=register">Đăng ký</a>
-         <?php } ?>
+         <div class="d-flex justify-content-center">
+            <a type="button" class="text-dark fw-bolder" data-bs-toggle="modal"
+               data-bs-target="#exampleModal">Quên mật khẩu?</a>
+         </div>
+      <?php } ?>
       </p>
 
-      <?php
-      if (isset($_GET['action']) && isset($_GET['act']) && $_GET['act'] == 'login') {
-         ?>
-         <!-- Button trigger modal -->
-         <a type="button" style="margin-left: 150px;" class="text-dark fw-bolder" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Quên mật khẩu?</a>
-      <?php } ?>
+
       </form>
    </div>
 </div>

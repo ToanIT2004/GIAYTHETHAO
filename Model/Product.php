@@ -199,7 +199,7 @@ class Product
       sp.hidden = 0
   GROUP BY 
       sp.id, sp.shoes_type_id, sp.brand_id, sp.img, sp.name 
-  ORDER BY 
+  ORDER BY  
       price DESC;
   ');
    }

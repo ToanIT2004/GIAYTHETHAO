@@ -36,37 +36,9 @@ $(document).ready(() => {
 
                                   ${item.user_id == user_id ? `
                                   <div class='d-flex justify-content-end'>
-                                      <span data-bs-toggle="modal" data-bs-target="#model_update_comment" data-comment_id='${item.id}' id='update_comment' style="cursor: pointer; font-size: 17px;" class="text-secondary">chỉnh sửa</span>
+                                      <span data-comment_id='${item.id}' id='update_comment' style="cursor: pointer; font-size: 17px;" class="text-secondary">chỉnh sửa</span>
                                       <div class="mx-3" style="border-left: 1px solid #666"></div>
                                       <span data-comment_id='${item.id}' id='delete_comment' style="cursor: pointer; font-size: 17px;" class="text-secondary">xóa</span>
-
-                                      <!-- Modal -->
-                                       <div class="modal fade" id="model_update_comment" tabindex="-1" aria-labelledby="model_update_commentLabel" aria-hidden="true">
-                                          <div class="modal-dialog">
-                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h1 class="modal-title fs-5 text-success" id="exampleModalLabel">Chỉnh sửa bình luận</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                          
-                                                <div class="modal-body">
-                                                   <div class='form-group mb-3'>
-                                                      <label>Nội dung</label>
-                                                      <input id="update_content_comment" type="text" class="form-control">
-                                                   </div
-                                                   <div class='form-group'>
-                                                      <div class="d-flex justify-content-end">
-                                                         <button data-comment_id="${item.id}" id="delete_img_comment" class="btn btn-dark d-none position-absolute"><i class="bi bi-x-lg"></i></button>
-                                                      </div>
-                                                      <img id="update_img_comment" class="d-none" style="width: 100%; height: 300px" src="" alt="">
-                                                   </div
-                                                </div>
-                                                <div class="modal-footer">
-                                                   <button data-comment_id="${item.id}" type="button" id="update_comment_action" class="btn btn-primary">Cập nhật</button>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
                                   </div>
                                   ` : ''}
 
@@ -80,6 +52,14 @@ $(document).ready(() => {
          }
       });
    }
+
+   // Hiển thị modal chỉnh sửa bình luận
+   $(document).on('click', '#update_comment', function() {
+      comment_id = $(this).data('comment_id')
+      $('#model_update_comment_id').val(comment_id)
+      $('#delete_img_comment').data('comment_id', comment_id);
+      $('#model_update_comment').modal('show');
+   })
 
    get_comment();
 
@@ -137,7 +117,7 @@ $(document).ready(() => {
 
    // thực hiện việc update
    $(document).on('click', '#update_comment_action', function () {
-      comment_id = $(this).data('comment_id');
+      comment_id = $('#model_update_comment_id').val();
       content = $('#update_content_comment').val();
       $.ajax({
          url: 'Controller/comment.php?act=update_comment',
@@ -152,15 +132,18 @@ $(document).ready(() => {
                   title: res.message,
                   showConfirmButton: false,
                   timer: 1500
-               }).then(function(){
-                  window.location.reload();
-               });
-               
-            }else {
+               })
+               get_comment();
+               $('#model_update_comment').modal('hide')
+            } else {
                Swal.fire({
-                  icon: "error",
-                  text: res.message,
-                });
+                  position: "top-center",
+                  icon: "success",
+                  title: res.message,
+                  showConfirmButton: false,
+                  timer: 1500
+               })
+               $('#model_update_comment').modal('hide')
             }
          }
       })

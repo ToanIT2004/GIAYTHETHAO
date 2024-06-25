@@ -36,7 +36,7 @@ fileImg.forEach((fileInput, index) => {
                         console.log(showImg[index]);
                        $(showImg[index]).attr('src', data.data);
                     //    $('#prevent_img').removeClass('hide');
-                    //    $('#preview_comment_image').removeClass('d-none');
+                       $('#preview_comment_image').removeClass('d-none');
                        $(showError[index]).text('');
                        isValid[index] = true;
                    } else {

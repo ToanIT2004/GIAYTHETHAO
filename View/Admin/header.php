@@ -5,7 +5,8 @@
     <!-- Links -->
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-bs-toggle="dropdown">Quản Trị Người
+            <a class="nav-link dropdown-toggle <?php echo (isset($_GET['action']) && $_GET['action'] == 'user' || $_GET['action'] == 'admin' || $_GET['action'] == 'contact')?"text-success":''?>" 
+            href="#" id="navbardrop1" data-bs-toggle="dropdown">Quản Trị Người
                 Dùng</a>
             <div class="dropdown-menu" style="width: 100px;">
                 <a class="dropdown-item fs-14 admin-link" href="admin.php?action=admin">Nhân Viên</a>
@@ -24,7 +25,8 @@
 
         <!-- Quản trị Doanh Mục -->
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle <?php echo (isset($_GET['action']) && $_GET['action'] == 'product')?"text-success":''?>" 
+            href="#" id="navbardrop2" data-bs-toggle="dropdown">
                 Quản Trị Doanh Mục
             </a>
             <div class="dropdown-menu">
@@ -37,7 +39,8 @@
         </li>
         <!-- Doanh thu -->
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle <?php echo (isset($_GET['action']) && $_GET['action'] == 'statistical')?"text-success":''?>" 
+            href="#" id="navbardrop3" data-bs-toggle="dropdown">
                 Quản trị thống kê
             </a>
             <div class="dropdown-menu">
@@ -46,7 +49,8 @@
         </li>
         <!-- Báo cáo -->
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop4" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle <?php echo (isset($_GET['action']) && $_GET['action'] == 'order' || $_GET['action'] == 'order_cancel' || $_GET['action'] == 'order_deliveried')?"text-success":''?>" 
+            href="#" id="navbardrop4" data-bs-toggle="dropdown">
                 Quản trị đơn hàng
             </a>
             <div class="dropdown-menu">
@@ -133,15 +137,6 @@
                             <div class="mb-3">
                                 <label for="username" class="form-label">Giới tính:</label> <br>
                                 <div class="d-flex justify-content-around">
-                                    <!-- <div>
-                                        <input type="radio" class="form-check-label" name="gender" value="nam">
-                                        <span>Nam</span>
-                                    </div>
-                                    <div>
-                                        <input type="radio" class="form-check-label" name="gender" value="nữ">
-                                        <span>Nữ</span>
-                                    </div> -->
-
                                     <label class="gender-label">
                                         <input type="radio" name="gender" value="nam"> Nam
                                     </label>

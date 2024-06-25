@@ -20,7 +20,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin SanPham</title>
+    <title>Admin shop giày</title>
 
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/8tibevqzcyx0osfvfv6bxnzs7jmyqxoccp7ylzezhp6388fj/tinymce/7/tinymce.min.js"

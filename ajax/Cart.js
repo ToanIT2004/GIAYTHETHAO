@@ -169,7 +169,7 @@ $(document).ready(() => {
          method: 'GET',
          dataType: 'json',
          success: (res) => {
-            
+
             res.forEach(item => {
                // Cập nhật giá thành tiền của từng sản phẩm
                $(`#total_price_${item.idsp}`).text(formatCurrency(item.total_price) + 'đ');
@@ -238,6 +238,7 @@ $(document).ready(() => {
          data: { productPositions: JSON.stringify(productPositions) },
          dataType: 'json',
          success: (res) => {
+            console.log(res);
             // Đặt lại trạng thái ban đầu của các phần tử
             $('.idsp').text('');
             let cart_bigger_repo = false;
@@ -268,7 +269,7 @@ $(document).ready(() => {
       } else {
          Swal.fire({
             icon: "error",
-            text: "Sản phẩm trong giỏ không đủ hàng",
+            text: "Sản phẩm không đủ hàng",
          });
       }
    }

@@ -19,7 +19,7 @@ session_start();
 <html lang="en">
 
 <head>
-    <title>Shop giày bóng đá</title>
+    <title>Shop giày</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

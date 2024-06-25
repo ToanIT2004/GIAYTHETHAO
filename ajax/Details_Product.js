@@ -85,7 +85,10 @@ $(document).ready(function () {
                });
                get_totalCart()
             } else if (res.status == 201) {
-               Swal.fire(res.message);
+               Swal.fire({
+                  icon: "error",
+                  text: "Sản phẩm không đủ hàng",
+               });
             }
 
          }
@@ -108,20 +111,15 @@ $(document).ready(function () {
          return; // Dừng lại nếu kích thước chưa được chọn
       }
 
-      // MUA HÀNG NGAY
-      // Lấy ra số lượng tồn bằng id và size 
-      // Sau khi kiểm tra đầy đủ mới hiện ra modal
-      // function formatCurrencyVND(number) {
-      //    return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-      // }
       $.ajax({
          url: 'Controller/details_product.php?act=get_quantity_product',
          method: 'post',
          data: { product_id, size },
          dataType: 'json',
          success: (res) => {
+            // console.log(parseInt(res.message));
             if (res.status == 200) {
-               if (res.message < quantity) {
+               if (parseInt(res.message) < quantity) {
                   flag1 = false;
                   Swal.fire({
                      icon: "error",
@@ -133,13 +131,13 @@ $(document).ready(function () {
                   $.ajax({
                      url: 'Controller/details_product.php?act=get_product_sizeid',
                      method: 'POST',
-                     data: {product_id, size},
+                     data: { product_id, size },
                      dataType: 'json',
                      success: (res) => {
-                        console.log(res);
-                        if(res.status == 200) {
-                           var product_price = (res.message.discount == 0)?res.message.price:res.message.discount
-                           
+                        // console.log(res);
+                        if (res.status == 200) {
+                           var product_price = (res.message.discount == 0) ? res.message.price : res.message.discount
+
                            $('#product_img').attr('src', `./View/assets/img/upload/${res.message.img}`);
                            $('#product_name').text(res.message.name)
                            $('#product_price').text(formatCurrency(product_price))

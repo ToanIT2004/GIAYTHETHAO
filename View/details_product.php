@@ -64,7 +64,8 @@
                                 <h6>Loại giày:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p id="shoes_type" value="<?php echo $product_result['tenloai']; ?>" class="text-secondary">
+                                <p id="shoes_type" value="<?php echo $product_result['tenloai']; ?>"
+                                    class="text-secondary">
                                     <strong><?php echo strtoupper($product_result['tenloai']) ?></strong>
                                 </p>
                             </li>
@@ -72,7 +73,8 @@
                                 <h6>Thương hiệu:</h6>
                             </li>
                             <li class="list-inline-item">
-                                <p id="brand" value="<?php echo $product_result['name_brand']; ?>" class="text-secondary">
+                                <p id="brand" value="<?php echo $product_result['name_brand']; ?>"
+                                    class="text-secondary">
                                     <strong><?php echo strtoupper($product_result['name_brand']) ?></strong>
                                 </p>
                             </li>
@@ -84,7 +86,8 @@
                         <div class="row">
                             <div class="col-auto">
                                 <ul class="list-inline pb-3">
-                                    <li class="list-inline-item fw-bolder" style="font-size: 16px!important;">Kích thước:</li>
+                                    <li class="list-inline-item fw-bolder" style="font-size: 16px!important;">Kích
+                                        thước:</li>
                                     <?php
                                     $size = new size();
                                     $size_result = $size->getSize_ByDetails($id);
@@ -98,15 +101,18 @@
                             </div>
                             <div class="col-auto">
                                 <ul class="list-inline pb-3">
-                                    <li style="font-size: 16px!important;" class="list-inline-item text-right fw-bolder">
+                                    <li style="font-size: 16px!important;"
+                                        class="list-inline-item text-right fw-bolder">
                                         Số lượng
                                         <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                     </li>
-                                    <li class="list-inline-item"><span class="btn btn-success rounded-circle" id="btn-minus">-</span>
+                                    <li class="list-inline-item"><span class="btn btn-success rounded-circle"
+                                            id="btn-minus">-</span>
                                     </li>
                                     <li class="list-inline-item"><span class="badge bg-secondary"
                                             id="var-value">1</span></li>
-                                    <li class="list-inline-item"><span class="btn btn-success rounded-circle" id="btn-plus">+</span>
+                                    <li class="list-inline-item"><span class="btn btn-success rounded-circle"
+                                            id="btn-plus">+</span>
                                     </li>
                                 </ul>
                             </div>
@@ -118,7 +124,8 @@
                         <div class="row pb-3">
                             <div class="col d-grid">
                                 <!-- Button trigger modal -->
-                                <button id="buy_now" type="button" class="btn btn-success" data-bs-toggle="modal">Mua hàng ngay</button>
+                                <button id="buy_now" type="button" class="btn btn-success" data-bs-toggle="modal">Mua
+                                    hàng ngay</button>
                                 <input id="product_id" type="hidden" value="<?php echo $_GET['id'] ?>">
                                 <!-- Modal -->
                                 <div class="modal fade" id="ModalBuy_Now" tabindex="-1"
@@ -126,7 +133,8 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận mua hàng</h1>
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Xác nhận mua hàng
+                                                </h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
@@ -271,15 +279,50 @@
                             <input type="file" id="comment_image" class="form-control d-none" accept="image/*">
                             <small class="preview_comment_error"></small>
                         </div>
-                        <button id="send_comment" style="border-radius: 10px;margin-right: 15px" class="mt-3 mb-3 btn btn-outline-dark">Gửi</button>
+                        <button id="send_comment" style="border-radius: 10px;margin-right: 15px"
+                            class="mt-3 mb-3 btn btn-outline-dark">Gửi</button>
                     </div>
-                    <img class="mb-3 d-none" style="width: 200px; height: 200px; margin-left: 100px;" id="preview_comment_image" src="" alt="">
+                    <img class="mb-3 d-none" style="width: 200px; height: 200px; margin-left: 100px;"
+                        id="preview_comment_image" src="" alt="">
 
                 </div>
             </div>
         <?php } ?>
         <!-- Table comment -->
         <div class="row table_comment"></div>
+
+        <!-- Modal Chỉnh Sửa Bình Luận -->
+        <div class="modal fade" id="model_update_comment" tabindex="-1" aria-labelledby="model_update_commentLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 text-success" id="exampleModalLabel">Chỉnh sửa bình luận</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class='form-group mb-3'>
+                            <input type="hidden" id="model_update_comment_id" value="" class="form-control">
+                            <label>Nội dung</label>
+                            <input id="update_content_comment" type="text" class="form-control">
+                        </div>
+                        <div class='form-group'>
+                            <div class="d-flex justify-content-end">
+                                <button data-comment_id="" id="delete_img_comment"
+                                    class="btn btn-dark d-none position-absolute"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                            <img id="update_img_comment" class="d-none" style="width: 100%; height: 300px" src=""
+                                alt="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-comment_id="${item.id}" type="button" id="update_comment_action"
+                            class="btn btn-outline-success">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </section>

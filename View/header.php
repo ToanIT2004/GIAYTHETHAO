@@ -90,7 +90,7 @@ if (isset($_SESSION['user_id'])) {
                </li>
                <li class="nav-item">
                   <a class="nav-link fw-bolder <?php echo (isset($_GET['action']) && $_GET['action'] == 'shop') ? 'text-success' : '' ?>"
-                     href="index.php?action=shop">Cửa hàng</a>
+                     href="index.php?action=shop">Sản phẩm</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link fw-bolder <?php echo (isset($_GET['action']) && $_GET['action'] == 'contact') ? 'text-success' : '' ?>"
