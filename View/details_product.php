@@ -111,6 +111,7 @@
                                     </li>
                                     <li class="list-inline-item"><span class="badge bg-secondary"
                                             id="var-value">1</span></li>
+                                    <!-- <input style="width: 10px; height: 10px;" id="var-value" class="form-control" type="number"> -->
                                     <li class="list-inline-item"><span class="btn btn-success rounded-circle"
                                             id="btn-plus">+</span>
                                     </li>
